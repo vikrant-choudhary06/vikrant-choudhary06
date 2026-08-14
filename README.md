@@ -486,8 +486,8 @@
 
 ---
 
-### 🔝 Top Contributed Repo
+## 📈 My GitHub Contributions
 
-![](https://github-contributor-stats.vercel.app/api?username=vikrant-choudhary06&limit=5&theme=gruvbox&combine_all_yearly_contributions=true)
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=vikrant-choudhary06&theme=github-compact&hide_border=true" width="100%"/>
 
 ---

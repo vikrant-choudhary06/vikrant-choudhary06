@@ -484,12 +484,9 @@
 
 ![](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=gruvbox)
 
----
 ## 📈 My GitHub Contributions
 
 <p align="center">
-  <img
-    src="https://github-readme-stats.vercel.app/api?username=vikrant-choudhary06&show_icons=true&hide_border=true&theme=github_dark"
-    width="100%"
-  />
+  <img src="./github-metrics.svg" alt="GitHub Contribution Calendar" width="100%">
 </p>
+---

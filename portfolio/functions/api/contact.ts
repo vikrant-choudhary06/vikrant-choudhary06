@@ -46,7 +46,7 @@ export const onRequestPost = async (context: PagesContext): Promise<Response> =>
       },
       body: JSON.stringify({
         from: "Portfolio Briefing <onboarding@resend.dev>",
-        to: ["vikrantchoudhary06@gmail.com"],
+        to: ["vikrantchoudhary1203@gmail.com"],
         reply_to: body.email,
         subject: `⚡ New Project Briefing from ${body.name} [${body.scope || "General"}]`,
         html: `

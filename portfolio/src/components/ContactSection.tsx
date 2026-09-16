@@ -5,11 +5,65 @@ import { ArrowRight, Bot, Cpu, CheckCircle2, ShieldCheck, Sparkles, Rocket } fro
 
 export function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [formData, setFormData] = useState({
+    authorityContact: "",
+    protocolEmail: "",
+    automationScope: "",
+    systemBrief: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
+    setLoading(true);
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.authorityContact,
+          email: formData.protocolEmail,
+          scope: formData.automationScope,
+          brief: formData.systemBrief,
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        // Fallback for local development when Cloudflare Functions are not running
+        if (response.status === 404 && process.env.NODE_ENV === "development") {
+          console.warn("Notice: /api/contact function runs via Cloudflare Pages in production. Simulating success in dev mode.");
+          setSubmitted(true);
+          return;
+        }
+        throw new Error(data.error || "Failed to dispatch briefing.");
+      }
+
+      setSubmitted(true);
+      setFormData({
+        authorityContact: "",
+        protocolEmail: "",
+        automationScope: "",
+        systemBrief: "",
+      });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Transmission failed. Please check network.";
+      setErrorMessage(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -102,25 +156,39 @@ export function ContactSection() {
         {/* B. RIGHT SIDE (Briefing Input Form - md:col-span-7) */}
         <div className="md:col-span-7 flex flex-col justify-center">
           {submitted ? (
-            <div className="p-8 rounded-xl bg-[#D1FAE5] border-2 border-black text-emerald-950 space-y-3 text-center shadow-[4px_4px_0px_#000]">
+            <div className="p-8 rounded-xl bg-[#D1FAE5] border-2 border-black text-emerald-950 space-y-4 text-center shadow-[4px_4px_0px_#000]">
               <CheckCircle2 className="w-10 h-10 text-emerald-700 mx-auto" />
-              <h4 className="font-bold text-lg font-sans">Briefing Transmitted to Agent Swarm!</h4>
+              <h4 className="font-bold text-lg font-sans">Briefing Transmitted Successfully!</h4>
               <p className="text-xs font-mono text-emerald-900 font-semibold">
-                Protocol updates will be dispatched to your email shortly. Latency target: &lt;18ms.
+                Your briefing has been sent directly to Vikrant via Resend. Protocol updates will be dispatched to your email shortly.
               </p>
+              <button
+                type="button"
+                onClick={() => setSubmitted(false)}
+                className="inline-flex items-center gap-2 bg-white border-2 border-black px-4 py-2 rounded-full font-mono text-xs font-bold text-black shadow-[2px_2px_0px_#000] hover:bg-emerald-100 transition-colors cursor-pointer"
+              >
+                <span>[ SEND ANOTHER BRIEFING ]</span>
+              </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
-              
+              {errorMessage && (
+                <div className="p-3 rounded-lg bg-rose-50 border-2 border-rose-500 text-rose-900 text-xs font-mono">
+                  <strong>⚠️ Transmission Error:</strong> {errorMessage}
+                </div>
+              )}
+
               {/* Field 1: Authority Contact */}
               <div className="space-y-1.5">
-                <label htmlFor="authority-contact" className="font-mono text-xs font-bold text-black uppercase tracking-wider block">
+                <label htmlFor="authorityContact" className="font-mono text-xs font-bold text-black uppercase tracking-wider block">
                   AUTHORITY CONTACT
                 </label>
                 <input
-                  id="authority-contact"
+                  id="authorityContact"
                   type="text"
                   required
+                  value={formData.authorityContact}
+                  onChange={handleChange}
                   placeholder="Your Name // Organization Name"
                   className="h-11 w-full rounded-lg bg-white border-2 border-black px-4 text-xs font-mono text-black shadow-[2px_2px_0px_#000] focus:bg-amber-50 transition-colors outline-none"
                 />
@@ -128,13 +196,15 @@ export function ContactSection() {
 
               {/* Field 2: Protocol Email */}
               <div className="space-y-1.5">
-                <label htmlFor="protocol-email" className="font-mono text-xs font-bold text-black uppercase tracking-wider block">
+                <label htmlFor="protocolEmail" className="font-mono text-xs font-bold text-black uppercase tracking-wider block">
                   PROTOCOL EMAIL
                 </label>
                 <input
-                  id="protocol-email"
+                  id="protocolEmail"
                   type="email"
                   required
+                  value={formData.protocolEmail}
+                  onChange={handleChange}
                   placeholder="Where agents send updates (e.g. name@domain.com)"
                   className="h-11 w-full rounded-lg bg-white border-2 border-black px-4 text-xs font-mono text-black shadow-[2px_2px_0px_#000] focus:bg-amber-50 transition-colors outline-none"
                 />
@@ -142,12 +212,14 @@ export function ContactSection() {
 
               {/* Field 3: Automation Scope */}
               <div className="space-y-1.5">
-                <label htmlFor="automation-scope" className="font-mono text-xs font-bold text-black uppercase tracking-wider block">
+                <label htmlFor="automationScope" className="font-mono text-xs font-bold text-black uppercase tracking-wider block">
                   AUTOMATION SCOPE
                 </label>
                 <input
-                  id="automation-scope"
+                  id="automationScope"
                   type="text"
+                  value={formData.automationScope}
+                  onChange={handleChange}
                   placeholder="e.g., RAG search, multi-agent workflows, autonomous scrapers"
                   className="h-11 w-full rounded-lg bg-white border-2 border-black px-4 text-xs font-mono text-black shadow-[2px_2px_0px_#000] focus:bg-amber-50 transition-colors outline-none"
                 />
@@ -155,12 +227,14 @@ export function ContactSection() {
 
               {/* Field 4: System Brief */}
               <div className="space-y-1.5">
-                <label htmlFor="system-brief" className="font-mono text-xs font-bold text-black uppercase tracking-wider block">
+                <label htmlFor="systemBrief" className="font-mono text-xs font-bold text-black uppercase tracking-wider block">
                   SYSTEM BRIEF
                 </label>
                 <textarea
-                  id="system-brief"
+                  id="systemBrief"
                   required
+                  value={formData.systemBrief}
+                  onChange={handleChange}
                   placeholder="Outline your architecture requirements, data sources, latency targets, or agent behaviors..."
                   className="w-full min-h-[120px] rounded-lg bg-white border-2 border-black p-3.5 text-xs font-mono text-black shadow-[2px_2px_0px_#000] focus:bg-amber-50 transition-colors outline-none resize-y"
                 />
@@ -170,11 +244,16 @@ export function ContactSection() {
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="bg-black hover:bg-neutral-800 text-white font-mono font-bold text-xs px-6 py-3.5 rounded-full border-2 border-black shadow-[4px_4px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_#000] transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto"
+                  disabled={loading}
+                  className="bg-black hover:bg-neutral-800 disabled:bg-neutral-600 text-white font-mono font-bold text-xs px-6 py-3.5 rounded-full border-2 border-black shadow-[4px_4px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_#000] transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto"
                 >
-                  <Rocket className="w-4 h-4 text-amber-400" />
-                  <span>[ DEPLOY AGENT // INITIATE BRIEFING ]</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <Rocket className={`w-4 h-4 text-amber-400 ${loading ? "animate-spin" : ""}`} />
+                  <span>
+                    {loading
+                      ? "[ TRANSMITTING DATA // PLEASE WAIT... ]"
+                      : "[ DEPLOY AGENT // INITIATE BRIEFING ]"}
+                  </span>
+                  {!loading && <ArrowRight className="w-4 h-4" />}
                 </button>
               </div>
 

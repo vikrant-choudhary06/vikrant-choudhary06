@@ -1,5 +1,6 @@
 interface Env {
   RESEND_API_KEY?: string;
+  RESEND_FROM_EMAIL?: string;
 }
 
 interface ContactPayload {
@@ -45,7 +46,7 @@ export const onRequestPost = async (context: PagesContext): Promise<Response> =>
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Portfolio Briefing <onboarding@resend.dev>",
+        from: env.RESEND_FROM_EMAIL || "Vikrant Portfolio <contact@vikrant.sbs>",
         to: ["vikrantchoudhary1203@gmail.com"],
         reply_to: body.email,
         subject: `⚡ New Project Briefing from ${body.name} [${body.scope || "General"}]`,

@@ -12,6 +12,20 @@ interface ProjectPageProps {
   }>;
 }
 
+export async function generateStaticParams() {
+  return [
+    { id: "wayline" },
+    { id: "retail-erp-suite" },
+    { id: "omni-retail" },
+    { id: "movie-streaming" },
+    { id: "popcorn-stream" },
+    { id: "imdb-scraper" },
+    { id: "ecommerce-app" },
+    { id: "nova-store" },
+    { id: "tech-us" },
+  ];
+}
+
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { id } = await params;
   const projectTitle = id.charAt(0).toUpperCase() + id.slice(1);

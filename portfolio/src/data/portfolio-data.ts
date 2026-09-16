@@ -70,7 +70,7 @@ export const ALL_PROJECTS: (Project & {
     title: "IMDb High-Throughput Scraper & Fast API",
     category: "Backend & Systems",
     badgeColor: "from-amber-400 to-orange-500",
-    metrics: "⚡ Sub-15ms API Latency",
+    metrics: "Sub-15ms API Latency",
     description: "Blazing fast concurrent scraping pipeline and REST API designed to harvest, clean, and serve movie metadata at scale with zero lag.",
     highlights: [
       "Concurrent worker pipelines with rate-limiting and auto retry backoff",

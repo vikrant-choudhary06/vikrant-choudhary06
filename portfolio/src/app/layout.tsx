@@ -1,34 +1,54 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { VT323, Caveat, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const vt323 = VT323({
+  variable: "--font-pixel",
   subsets: ["latin"],
+  weight: "400",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const caveat = Caveat({
+  variable: "--font-handwriting",
   subsets: ["latin"],
+  weight: ["400", "600", "700"],
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-sans",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
   title: "Vikrant Choudhary — Full-Stack & Systems Engineer",
-  description: "Portfolio of Vikrant Choudhary: Full-stack systems engineer, architecting retail ERP platforms, financial ledgers, and distributed APIs with TypeScript, Go, and Python.",
+  description: "I build fast web apps, break APIs & ship real code.",
   keywords: [
     "Vikrant Choudhary",
     "Full-Stack Engineer",
-    "Systems Engineer",
+    "Python Developer",
+    "FastAPI",
     "Next.js",
-    "TypeScript",
-    "Golang",
-    "Retail ERP",
-    "Manipal University Jaipur"
+    "React",
+    "Tailwind CSS",
+    "PostgreSQL",
+    "Redis"
   ],
   authors: [{ name: "Vikrant Choudhary" }],
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
   openGraph: {
     title: "Vikrant Choudhary — Full-Stack & Systems Engineer",
-    description: "Bridging financial accounting logic with resilient software architecture.",
+    description: "I build fast web apps, break APIs & ship real code.",
     type: "website",
   },
 };
@@ -42,9 +62,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      className={`${vt323.variable} ${caveat.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-zinc-950 text-zinc-100 selection:bg-emerald-500/20 selection:text-emerald-300">
+      <body className="min-h-full flex flex-col bg-[#FAF8F5] text-slate-900 selection:bg-amber-300 selection:text-slate-950">
         {children}
       </body>
     </html>

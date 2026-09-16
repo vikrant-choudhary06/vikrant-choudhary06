@@ -1,170 +1,130 @@
 "use client";
 
 import React from "react";
-import { EXPERIENCES, PERSONAL_INFO } from "@/data/portfolio-data";
-import { TactileCard } from "./TactileCard";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { 
-  Flame, 
-  TrendingUp, 
-  Shield, 
-  Briefcase, 
-  GitPullRequest, 
-  GraduationCap, 
-  Code2,
-  Sparkles 
-} from "lucide-react";
+import { Sparkles, Terminal, Code2, Zap, Cpu, Boxes, Database, Eye } from "lucide-react";
 
 export function AboutSection() {
-  const getIcon = (type: string) => {
-    switch (type) {
-      case "Freelance / Contract":
-        return <Briefcase className="w-4 h-4 text-cyan-400" />;
-      case "Open Source":
-        return <GitPullRequest className="w-4 h-4 text-emerald-400" />;
-      case "Education":
-        return <GraduationCap className="w-4 h-4 text-purple-400" />;
-      default:
-        return <Briefcase className="w-4 h-4 text-zinc-400" />;
-    }
-  };
-
   return (
-    <section id="about" className="py-16 md:py-24 border-t border-zinc-200">
-      <div className="space-y-12">
-        {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.5 }}
-          className="space-y-3"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-300 text-xs font-mono text-emerald-800">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>The Developer Journey</span>
-          </div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-zinc-950">
-            Driven by Curiosity, Built by Code
-          </h2>
-          <p className="text-zinc-600 text-sm sm:text-base max-w-2xl leading-relaxed">
-            How a high-school obsession with building web apps evolved into architecting 
-            scalable full-stack platforms and backend microservices.
-          </p>
-        </motion.div>
-
-        {/* 1. The Pure Developer Story */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <TactileCard 
-            category="ORIGIN & MISSION" 
-            title="The Developer Journey" 
-            badge="Coding Since 12th Grade"
-            variant="featured"
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center font-sans">
-              <div className="lg:col-span-8 space-y-4 text-sm text-zinc-700 leading-relaxed">
-                <p>
-                  I wrote my first lines of code in <span className="text-zinc-950 font-semibold">12th grade</span>. 
-                  What started as building small Python scripts and tinkering with simple HTML/CSS quickly became a genuine addiction to understanding how modern software systems actually work behind the scenes.
-                </p>
-                <p>
-                  Instead of just watching video tutorials, I chose to learn by shipping real applications: 
-                  <span className="text-emerald-700 font-medium"> designing multi-tenant databases, handling real-time WebSockets, creating concurrent web scrapers, and optimizing API response times down to milliseconds</span>.
-                </p>
-                <p>
-                  Currently pursuing my <span className="text-zinc-950 font-semibold">BCA at Manipal University Jaipur</span>, 
-                  I spend my days deep-diving into distributed systems, database internals, and computer networks. 
-                  My primary focus is on <span className="text-cyan-700 font-medium">TypeScript, Go, and PostgreSQL</span>—building clean, reliable software that scales seamlessly under load.
-                </p>
-              </div>
-
-              {/* Developer Principles */}
-              <div className="lg:col-span-4 space-y-3 font-mono text-xs">
-                <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200 space-y-2 shadow-2xs">
-                  <div className="flex items-center gap-2 text-emerald-700 font-semibold">
-                    <TrendingUp className="w-4 h-4" />
-                    <span>Engineering Mindset</span>
-                  </div>
-                  <p className="text-zinc-600 text-[11px] leading-relaxed font-sans">
-                    Deep understanding of system design, clean API boundaries, and building resilient backends that fail gracefully.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200 space-y-2 shadow-2xs">
-                  <div className="flex items-center gap-2 text-cyan-700 font-semibold">
-                    <Code2 className="w-4 h-4" />
-                    <span>Build Philosophy</span>
-                  </div>
-                  <p className="text-zinc-600 text-[11px] leading-relaxed font-sans">
-                    Ship fast, write clean types, don&apos;t over-abstract too early, and always optimize for the end-user.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </TactileCard>
-        </motion.div>
-
-        {/* 2. Track Record */}
-        <div className="space-y-6">
-          <div className="flex items-center gap-2 text-xs font-mono text-zinc-500 uppercase tracking-wider font-semibold">
-            <Shield className="w-4 h-4 text-emerald-600" />
-            <span>Track Record &amp; Proof of Work</span>
-          </div>
-
-          <div className="space-y-4">
-            {EXPERIENCES.map((exp, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.4, delay: idx * 0.1 }}
-              >
-                <TactileCard 
-                  category={exp.type.toUpperCase()}
-                  title={exp.role}
-                  badge={exp.period}
-                  variant="default"
-                >
-                  <div className="space-y-3">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                      <div className="flex items-center gap-2">
-                        {getIcon(exp.type)}
-                        <h3 className="text-base sm:text-lg font-bold text-zinc-950">
-                          {exp.role}
-                        </h3>
-                      </div>
-                      <span className="text-xs font-mono text-zinc-500">
-                        {exp.organization}
-                      </span>
-                    </div>
-
-                    <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed font-sans">
-                      {exp.description}
-                    </p>
-
-                    <div className="space-y-1.5 pt-2 border-t border-zinc-200">
-                      <ul className="space-y-1">
-                        {exp.achievements.map((ach, i) => (
-                          <li key={i} className="flex items-start gap-2 text-xs text-zinc-700">
-                            <span className="text-emerald-600 mt-0.5">➜</span>
-                            <span>{ach}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </TactileCard>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+    <section id="about" className="py-16 sm:py-20 px-6 relative max-w-6xl mx-auto min-h-[520px] flex flex-col items-center justify-center">
+      
+      {/* 1. Micro Tag */}
+      <div className="font-handwriting text-lg text-neutral-600 -rotate-3 absolute top-4 left-6 select-none">
+        about me!
       </div>
+
+      {/* 2. Section Header Badge */}
+      <motion.div 
+        initial={{ opacity: 0, y: -10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="border-2 border-black bg-white px-5 py-1 text-sm font-mono font-medium rounded-sm shadow-[2px_2px_0px_#000] mb-5 inline-block select-none"
+      >
+        [ what&apos;s up ]
+      </motion.div>
+
+      {/* 3. Bio Narrative */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="max-w-xl text-center z-10 px-4"
+      >
+        <p className="font-handwriting text-2xl text-neutral-800 leading-snug font-normal flex flex-wrap items-center justify-center gap-1">
+          <span>Hi, I&apos;m Vikrant. I&apos;ve been writing code and shipping software since 12th grade. Whether it&apos;s crafting snappy frontends, building concurrent scrapers, or architecting sub-50ms REST APIs, I love getting into the weeds of software engineering.</span>
+          <Sparkles className="w-5 h-5 text-amber-500 inline" />
+        </p>
+      </motion.div>
+
+      {/* 4. Left Polaroid (Framed developer avatar: /pic.png) */}
+      <motion.div
+        initial={{ opacity: 0, rotate: -3, x: -20 }}
+        whileInView={{ opacity: 1, rotate: -3, x: 0 }}
+        whileHover={{ scale: 1.03, rotate: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="bg-white p-3 pb-7 shadow-[0_10px_25px_rgba(0,0,0,0.12)] border border-neutral-200/80 -rotate-3 absolute left-2 sm:left-8 top-1/2 -translate-y-1/2 w-44 sm:w-52 hidden lg:block z-20 cursor-pointer"
+      >
+        {/* Light Blue Masking Tape Ribbon across corners */}
+        <div className="bg-[#93C5FD]/80 backdrop-blur-xs w-16 h-5 -rotate-45 absolute -top-2.5 -left-4 shadow-sm pointer-events-none" />
+        <div className="bg-[#93C5FD]/80 backdrop-blur-xs w-16 h-5 rotate-45 absolute -top-2.5 -right-4 shadow-sm pointer-events-none" />
+
+        <div className="relative w-full aspect-[4/5] rounded-xs overflow-hidden border border-neutral-200 bg-neutral-100">
+          <Image
+            src="/pic.png"
+            alt="Vikrant Developer Portrait"
+            fill
+            className="object-cover object-top"
+          />
+        </div>
+        <div className="mt-2 text-center font-handwriting text-base text-neutral-700 font-bold">
+          vikrant ✦
+        </div>
+      </motion.div>
+
+      {/* 5. Right Polaroid (Desk setup / My Terminal) */}
+      <motion.div
+        initial={{ opacity: 0, rotate: 3, x: 20 }}
+        whileInView={{ opacity: 1, rotate: 3, x: 0 }}
+        whileHover={{ scale: 1.03, rotate: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="bg-white p-3 pb-7 shadow-[0_10px_25px_rgba(0,0,0,0.12)] border border-neutral-200/80 rotate-3 absolute right-2 sm:right-8 top-1/2 -translate-y-1/2 w-44 sm:w-52 hidden lg:block z-20 cursor-pointer"
+      >
+        {/* Warm Yellow Tape Ribbon across corners */}
+        <div className="bg-[#FEF08A]/90 backdrop-blur-xs w-16 h-5 -rotate-12 absolute -top-2.5 left-4 shadow-sm pointer-events-none border border-amber-300/60" />
+        <div className="bg-[#FEF08A]/90 backdrop-blur-xs w-16 h-5 rotate-12 absolute -top-2.5 right-4 shadow-sm pointer-events-none border border-amber-300/60" />
+
+        <div className="relative w-full aspect-[4/5] rounded-xs overflow-hidden border border-neutral-200 bg-neutral-100">
+          <Image
+            src="/ecom_mockup.png"
+            alt="Desk setup / My Terminal"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="mt-2 text-center font-handwriting text-base text-neutral-700 font-bold flex items-center justify-center gap-1.5">
+          <span>my terminal</span>
+          <Terminal className="w-4 h-4 text-neutral-700" />
+        </div>
+      </motion.div>
+
+      {/* 6. Skill Stickers: Centered 2x2 Grid right below narrative */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="mt-8 grid grid-cols-2 gap-3 max-w-md mx-auto text-xs font-semibold z-10"
+      >
+        {/* Yellow Sticker: Full-Stack Web */}
+        <div className="bg-[#FFCA38] text-black font-bold text-xs px-4 py-2.5 rounded-xs shadow-sm flex items-center justify-between border border-amber-400">
+          <span>[ Full-Stack Web ]</span>
+          <Sparkles className="w-3.5 h-3.5 text-black" />
+        </div>
+
+        {/* Green Sticker: Python & FastAPI */}
+        <div className="bg-[#13A867] text-white font-bold text-xs px-4 py-2.5 rounded-xs shadow-sm flex items-center justify-between border border-emerald-600">
+          <span>[ Python &amp; FastAPI ]</span>
+          <Code2 className="w-3.5 h-3.5 text-white" />
+        </div>
+
+        {/* Pink Sticker: Distributed Systems */}
+        <div className="bg-[#FF4685] text-white font-bold text-xs px-4 py-2.5 rounded-xs shadow-sm flex items-center justify-between border border-pink-600">
+          <span>[ Distributed Systems ]</span>
+          <Cpu className="w-3.5 h-3.5 text-white" />
+        </div>
+
+        {/* Blue Sticker: Postgres & Redis */}
+        <div className="bg-[#2257F5] text-white font-bold text-xs px-4 py-2.5 rounded-xs shadow-sm flex items-center justify-between border border-blue-700">
+          <span>[ Postgres &amp; Redis ]</span>
+          <Database className="w-3.5 h-3.5 text-white" />
+        </div>
+      </motion.div>
+
     </section>
   );
 }

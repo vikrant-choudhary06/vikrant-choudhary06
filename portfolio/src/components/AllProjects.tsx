@@ -1,359 +1,498 @@
 "use client";
 
 import React, { useState } from "react";
-import { ALL_PROJECTS, PERSONAL_INFO } from "@/data/portfolio-data";
-import { TactileCard } from "./TactileCard";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { 
   Sparkles, 
-  Film, 
-  ShoppingBag, 
-  Share2, 
-  Zap, 
-  Layers, 
-  MapPin, 
-  Coffee, 
-  Quote, 
+  ExternalLink, 
+  Play, 
   CheckCircle2, 
-  Cpu,
-  Play,
-  Globe,
-  ExternalLink
+  Terminal, 
+  ArrowUpRight,
+  Database,
+  Zap,
+  Code2,
+  Layers,
+  ShieldCheck,
+  Film
 } from "lucide-react";
 import { GithubIcon } from "./icons";
-import { ProjectActionModal, ModalData } from "./ProjectActionModal";
+
+type CategoryFilter = "all" | "erp" | "api" | "fullstack";
 
 export function AllProjects() {
-  const flagship = ALL_PROJECTS.find((p) => p.id === "retail-erp-suite") || ALL_PROJECTS[0];
-  const otherProjects = ALL_PROJECTS.filter((p) => p.id !== "retail-erp-suite");
-
-  const [modalData, setModalData] = useState<ModalData | null>(null);
-
-  const handleDemoClick = (project: { title: string; demoUrl?: string; githubUrl?: string }) => {
-    if (project.demoUrl) {
-      window.open(project.demoUrl, "_blank", "noopener,noreferrer");
-    } else {
-      setModalData({
-        type: "demo",
-        projectTitle: project.title,
-        githubUrl: project.githubUrl,
-      });
-    }
-  };
-
-  const handleLiveClick = (project: { title: string; liveUrl?: string; githubUrl?: string }) => {
-    if (project.liveUrl) {
-      window.open(project.liveUrl, "_blank", "noopener,noreferrer");
-    } else {
-      setModalData({
-        type: "live",
-        projectTitle: project.title,
-        githubUrl: project.githubUrl,
-      });
-    }
-  };
-
-  const getProjectIcon = (id: string) => {
-    switch (id) {
-      case "movie-streaming":
-        return <Film className="w-4 h-4 text-rose-400" />;
-      case "imdb-scraper":
-        return <Zap className="w-4 h-4 text-amber-400" />;
-      case "ecommerce-app":
-        return <ShoppingBag className="w-4 h-4 text-blue-400" />;
-      case "tech-us":
-        return <Share2 className="w-4 h-4 text-purple-400" />;
-      default:
-        return <Layers className="w-4 h-4 text-emerald-400" />;
-    }
-  };
+  const [activeFilter, setActiveFilter] = useState<CategoryFilter>("all");
 
   return (
-    <section id="projects" className="py-16 md:py-24 border-t border-zinc-200">
-      <div className="space-y-10">
-        {/* Section Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.5 }}
-          className="space-y-3"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-300 text-xs font-mono text-emerald-800">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Things I&apos;ve Built &amp; Shipped</span>
+    <section className="py-12 px-6 max-w-7xl mx-auto">
+      
+      {/* 1. PAGE HEADER & TELEMETRY STRIP */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-neutral-200/80">
+        
+        {/* Left Column */}
+        <div className="max-w-2xl">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-black/10 font-mono text-xs font-bold text-neutral-700 shadow-xs mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+            <span>[ REGISTRY // 01-05 DEPLOYED SYSTEMS ]</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-zinc-950">
-            Featured Projects &amp; Lab Work
-          </h2>
-          <p className="text-zinc-600 text-sm sm:text-base max-w-2xl leading-relaxed">
-            From an interconnected retail &amp; dining ERP platform to concurrent web scrapers 
-            and media streaming pipelines. Real working software, no toy tutorials.
+
+          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-neutral-950 leading-[1.08]">
+            Production Systems &amp; Engineering Labs.
+          </h1>
+
+          <p className="text-neutral-600 text-sm sm:text-base max-w-xl mt-3 leading-relaxed">
+            Sub-50ms REST gateways, multi-tenant POS ecosystems, concurrent scrapers, and full-stack software built for production.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* 1. THE BIG FLAGSHIP CARD (Spans 2 columns on desktop) */}
+        {/* Right Column: Live Telemetry Counter */}
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="bg-white/80 backdrop-blur-xs p-3.5 rounded-2xl border border-black/10 shadow-xs text-center min-w-[110px]">
+            <span className="font-pixel text-2xl font-bold text-neutral-950 block">[ 5 ]</span>
+            <span className="font-mono text-[10px] text-neutral-500 uppercase tracking-wider block font-semibold mt-0.5">
+              Production Engines
+            </span>
+          </div>
+
+          <div className="bg-white/80 backdrop-blur-xs p-3.5 rounded-2xl border border-black/10 shadow-xs text-center min-w-[120px]">
+            <span className="font-pixel text-2xl font-bold text-emerald-600 block">[ &lt;50ms ]</span>
+            <span className="font-mono text-[10px] text-neutral-500 uppercase tracking-wider block font-semibold mt-0.5">
+              Core API Latency
+            </span>
+          </div>
+
+          <div className="bg-white/80 backdrop-blur-xs p-3.5 rounded-2xl border border-black/10 shadow-xs text-center min-w-[120px]">
+            <span className="font-pixel text-2xl font-bold text-blue-600 block">[ 100% ]</span>
+            <span className="font-mono text-[10px] text-neutral-500 uppercase tracking-wider block font-semibold mt-0.5">
+              TS &amp; Py Coverage
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      {/* 2. INTERACTIVE FILTER DOCK */}
+      <div className="flex items-center gap-2 mt-8 mb-10 overflow-x-auto pb-2 scrollbar-none">
+        <button
+          onClick={() => setActiveFilter("all")}
+          className={`font-mono text-xs px-4 py-2 rounded-full transition-all cursor-pointer font-bold ${
+            activeFilter === "all"
+              ? "bg-neutral-950 text-white shadow-sm"
+              : "bg-white border border-neutral-200 text-neutral-700 hover:bg-neutral-100"
+          }`}
+        >
+          [ All Projects (5) ]
+        </button>
+
+        <button
+          onClick={() => setActiveFilter("erp")}
+          className={`font-mono text-xs px-4 py-2 rounded-full transition-all cursor-pointer font-bold ${
+            activeFilter === "erp"
+              ? "bg-neutral-950 text-white shadow-sm"
+              : "bg-white border border-neutral-200 text-neutral-700 hover:bg-neutral-100"
+          }`}
+        >
+          [ Enterprise ERP ]
+        </button>
+
+        <button
+          onClick={() => setActiveFilter("api")}
+          className={`font-mono text-xs px-4 py-2 rounded-full transition-all cursor-pointer font-bold ${
+            activeFilter === "api"
+              ? "bg-neutral-950 text-white shadow-sm"
+              : "bg-white border border-neutral-200 text-neutral-700 hover:bg-neutral-100"
+          }`}
+        >
+          [ APIs &amp; Fast Scraping ]
+        </button>
+
+        <button
+          onClick={() => setActiveFilter("fullstack")}
+          className={`font-mono text-xs px-4 py-2 rounded-full transition-all cursor-pointer font-bold ${
+            activeFilter === "fullstack"
+              ? "bg-neutral-950 text-white shadow-sm"
+              : "bg-white border border-neutral-200 text-neutral-700 hover:bg-neutral-100"
+          }`}
+        >
+          [ Full-Stack Apps ]
+        </button>
+      </div>
+
+      {/* 3. ASYMMETRICAL PROJECTS REGISTRY */}
+      <div className="space-y-10">
+
+        {/* A. FLAGSHIP HERO PROJECT (Full-Width Split Blueprint) */}
+        {(activeFilter === "all" || activeFilter === "erp") && (
           <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="md:col-span-2 flex flex-col"
+            className="rounded-[2.5rem] bg-white border border-black/[0.08] p-8 sm:p-12 shadow-[0_20px_60px_rgba(0,0,0,0.05)] grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
           >
-            <TactileCard 
-              category="FLAGSHIP B2B SUITE"
-              title="OmniRetail — Multi-Tenant Retail & Dining ERP" 
-              badge="Sub-100ms Cart • High-Throughput"
-              variant="featured"
-              className="flex-1 flex flex-col justify-between"
-            >
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-mono text-xs font-semibold">
-                      {flagship.category}
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700 font-mono text-xs">
-                      {flagship.ecosystem || "POS • Invoicing • Tasks • Payroll"}
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl sm:text-2xl font-bold text-zinc-950 tracking-tight">
-                    {flagship.title}
-                  </h3>
-
-                  <p className="text-sm text-zinc-600 leading-relaxed font-sans max-w-3xl">
-                    {flagship.description}
-                  </p>
-                </div>
-
-                {/* 4 Connected Modules Visual Pill Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                  {flagship.highlights.map((highlight, idx) => (
-                    <div 
-                      key={idx}
-                      className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 space-y-1 hover:border-emerald-400 transition-colors"
-                    >
-                      <div className="flex items-center gap-2 text-xs font-semibold text-zinc-900">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                        <span>{highlight.split(":")[0]}</span>
-                      </div>
-                      <p className="text-[11px] text-zinc-500 pl-5 font-sans">
-                        {highlight.split(":")[1]}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Tags */}
-                <div className="pt-4 border-t border-zinc-200/80 flex flex-wrap gap-1.5">
-                  {flagship.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2.5 py-1 rounded-lg bg-zinc-100 border border-zinc-200 text-xs font-mono text-zinc-800 font-medium shadow-2xs hover:border-emerald-500 hover:text-emerald-700 transition-colors"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Action Buttons: Demo, Source Code, Live */}
-                <div className="pt-4 border-t border-zinc-200/80 flex flex-wrap items-center gap-2.5">
-                  <button
-                    onClick={() => handleDemoClick(flagship)}
-                    className="px-3.5 py-2 rounded-xl bg-white hover:bg-zinc-50 border-2 border-zinc-200 text-zinc-800 hover:text-zinc-950 font-mono text-xs font-bold shadow-[0_3px_0_0_#e4e4e7] active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-1.5 select-none cursor-pointer"
-                  >
-                    <Play className="w-3.5 h-3.5 text-amber-600 fill-amber-600/20" />
-                    <span>Demo</span>
-                  </button>
-
-                  <a
-                    href={flagship.githubUrl || "https://github.com/vikrant-choudhary06"}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="px-3.5 py-2 rounded-xl bg-white hover:bg-zinc-50 border-2 border-zinc-200 text-zinc-800 hover:text-zinc-950 font-mono text-xs font-bold shadow-[0_3px_0_0_#e4e4e7] active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-1.5 select-none"
-                  >
-                    <GithubIcon className="w-3.5 h-3.5" />
-                    <span>Source Code</span>
-                    <ExternalLink className="w-3 h-3 text-zinc-400" />
-                  </a>
-
-                  <button
-                    onClick={() => handleLiveClick(flagship)}
-                    className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs font-bold shadow-[0_3px_0_0_#047857] active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-1.5 select-none cursor-pointer"
-                  >
-                    <Globe className="w-3.5 h-3.5" />
-                    <span>Live</span>
-                  </button>
-                </div>
-              </div>
-            </TactileCard>
-          </motion.div>
-
-          {/* 2. PERSONALITY / BUILDER VIBE CARD (Bento Card) */}
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="md:col-span-1 flex flex-col"
-          >
-            <TactileCard 
-              category="BUILDER CREED"
-              title="vikrant.mindset" 
-              badge="Active"
-              variant="accent"
-              className="flex-1 flex flex-col justify-between"
-            >
-              <div className="space-y-4 font-mono text-xs">
-                {/* Quote */}
-                <div className="p-3.5 rounded-xl bg-gradient-to-br from-cyan-50/60 via-white to-white border border-cyan-200/80 space-y-2">
-                  <div className="flex items-center gap-1.5 text-cyan-700 font-semibold text-[11px]">
-                    <Quote className="w-3.5 h-3.5" />
-                    <span>Engineering Creed</span>
-                  </div>
-                  <p className="text-zinc-700 text-xs italic font-sans leading-relaxed">
-                    &quot;{PERSONAL_INFO.currentVibe.devQuote}&quot;
-                  </p>
-                </div>
-
-                {/* Live Stats */}
-                <div className="space-y-2 pt-2 border-t border-zinc-200 text-[11px]">
-                  <div className="flex items-center justify-between text-zinc-500">
-                    <span className="flex items-center gap-1.5">
-                      <MapPin className="w-3 h-3 text-cyan-600" /> Location:
-                    </span>
-                    <span className="text-zinc-900 font-semibold">{PERSONAL_INFO.location}</span>
-                  </div>
-
-                  <div className="flex items-center justify-between text-zinc-500">
-                    <span className="flex items-center gap-1.5">
-                      <Cpu className="w-3 h-3 text-emerald-600" /> Building:
-                    </span>
-                    <span className="text-zinc-900 text-right truncate max-w-[140px]" title={PERSONAL_INFO.currentVibe.building}>
-                      {PERSONAL_INFO.currentVibe.building.split(" ")[0]} APIs
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between text-zinc-500">
-                    <span className="flex items-center gap-1.5">
-                      <Coffee className="w-3 h-3 text-amber-600" /> Fuel:
-                    </span>
-                    <span className="text-zinc-800">Chai &amp; Late Nights</span>
-                  </div>
-                </div>
-
-                <div className="pt-3 border-t border-zinc-200 text-center">
-                  <span className="text-[10px] text-emerald-700 font-bold tracking-wide uppercase">
-                    ● 100% Focused on shipping software
+            {/* Left Column */}
+            <div className="lg:col-span-5 flex flex-col justify-between h-full space-y-6">
+              <div>
+                {/* Badges */}
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="bg-[#DBEAFE] text-[#1E40AF] font-mono text-[11px] font-bold px-3 py-1 rounded-full border border-[#BFDBFE]">
+                    [ FLAGSHIP PLATFORM ]
+                  </span>
+                  <span className="bg-[#D1FAE5] text-[#065F46] font-mono text-[11px] font-bold px-3 py-1 rounded-full border border-[#A7F3D0]">
+                    [ ENTERPRISE ERP ]
                   </span>
                 </div>
-              </div>
-            </TactileCard>
-          </motion.div>
 
-          {/* 3. OTHER PROJECTS CARDS */}
-          {otherProjects.map((project, idx) => (
+                {/* Title */}
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-neutral-950 mt-4 tracking-tight">
+                  OmniRetail ERP Ecosystem
+                </h2>
+
+                {/* Problem & Architecture */}
+                <p className="text-neutral-600 text-sm leading-relaxed mt-3 font-sans">
+                  Engineered to replace fragmented billing systems in high-traffic retail. Features sub-100ms barcode checkout, automated GST invoicing, WebSocket kitchen dispatch, and attendance-linked payroll.
+                </p>
+
+                {/* Metrics Grid (2x2 mini spec box) */}
+                <div className="grid grid-cols-2 gap-2.5 mt-5 font-mono text-xs">
+                  <div className="p-3 rounded-xl bg-neutral-50 border border-neutral-200/80">
+                    <span className="text-[10px] text-neutral-500 font-bold block uppercase">Barcode Scan</span>
+                    <span className="font-bold text-neutral-900">&lt;100ms checkout</span>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-neutral-50 border border-neutral-200/80">
+                    <span className="text-[10px] text-neutral-500 font-bold block uppercase">Tenancy</span>
+                    <span className="font-bold text-neutral-900">Multi-Tenant Schema</span>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-neutral-50 border border-neutral-200/80">
+                    <span className="text-[10px] text-neutral-500 font-bold block uppercase">Real-Time Sync</span>
+                    <span className="font-bold text-neutral-900">WebSocket KDS</span>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-neutral-50 border border-neutral-200/80">
+                    <span className="text-[10px] text-neutral-500 font-bold block uppercase">Compliance</span>
+                    <span className="font-bold text-neutral-900">Automated GST</span>
+                  </div>
+                </div>
+
+                {/* Tech Pills */}
+                <div className="flex flex-wrap gap-1.5 mt-5 font-mono text-[11px]">
+                  {["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Redis"].map((tech) => (
+                    <span key={tech} className="px-2.5 py-1 rounded-md bg-neutral-100 border border-neutral-200 text-neutral-800 font-semibold">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Row */}
+              <div className="pt-4 flex flex-wrap items-center gap-3">
+                <a
+                  href="https://github.com/vikrant-choudhary06"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-neutral-950 hover:bg-neutral-800 text-white font-mono text-xs font-bold px-5 py-2.5 rounded-full shadow-sm transition-all flex items-center gap-1.5"
+                >
+                  <Play className="w-3.5 h-3.5 fill-current" />
+                  <span>Live Demo ↗</span>
+                </a>
+
+                <a
+                  href="https://github.com/vikrant-choudhary06"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-white hover:bg-neutral-50 border-2 border-black text-black font-mono text-xs font-bold px-5 py-2.5 rounded-full shadow-xs transition-all flex items-center gap-1.5"
+                >
+                  <GithubIcon className="w-3.5 h-3.5" />
+                  <span>GitHub Source ↗</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Right Column: Perspective Dashboard Mockup */}
+            <div className="lg:col-span-7 relative">
+              <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border border-black/10 shadow-2xl bg-neutral-900 group">
+                <Image
+                  src="/ecom_mockup.png"
+                  alt="OmniRetail POS ERP Dashboard"
+                  fill
+                  className="object-cover group-hover:scale-103 transition-transform duration-500"
+                />
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* B. 2-COLUMN BALANCED SYSTEM CARDS (4 Supporting Projects) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+          {/* CARD 01: IMDb Concurrent Scraper */}
+          {(activeFilter === "all" || activeFilter === "api") && (
             <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.45, delay: idx * 0.08 }}
-              className="flex flex-col"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="rounded-3xl bg-white border border-black/[0.08] p-6 sm:p-8 shadow-[0_10px_30px_rgba(0,0,0,0.04)] flex flex-col justify-between"
             >
-              <TactileCard 
-                category={project.category.toUpperCase()}
-                title={project.title}
-                badge={project.metrics || project.status}
-                variant="default"
-                className="flex-1 flex flex-col justify-between"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      {getProjectIcon(project.id)}
-                      <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider font-semibold">
-                        {project.category}
-                      </span>
+              <div>
+                <div className="flex items-center justify-between mb-3 font-mono text-xs">
+                  <span className="bg-[#FEF3C7] text-[#92400E] font-bold px-3 py-1 rounded-full border border-[#FDE68A]">
+                    [ PYTHON &amp; CONCURRENCY ]
+                  </span>
+                  <span className="text-emerald-600 font-bold">sub-15ms p99 response</span>
+                </div>
+
+                <h3 className="text-2xl font-bold text-neutral-950 mt-2">
+                  IMDb Concurrent Extraction Engine
+                </h3>
+
+                <p className="text-xs sm:text-sm text-neutral-600 mt-2 leading-relaxed font-sans">
+                  Concurrent pipeline featuring automatic retry backoff, headless browser workers, and a Redis-cached REST API delivering movie metadata at sub-15ms response times.
+                </p>
+
+                {/* Dark Code Snippet Terminal */}
+                <div className="mt-4 p-4 rounded-xl bg-neutral-950 text-neutral-200 font-mono text-xs space-y-2 border border-neutral-800">
+                  <div className="flex items-center justify-between text-[10px] text-neutral-500 border-b border-neutral-800 pb-2">
+                    <span className="flex items-center gap-1.5 text-amber-400 font-bold">
+                      <Terminal className="w-3.5 h-3.5" />
+                      curl -X GET /api/v1/movie/tt0111161
+                    </span>
+                    <span>200 OK</span>
+                  </div>
+                  <pre className="text-[11px] text-emerald-400 overflow-x-auto leading-relaxed">
+{`{
+  "status": "cached",
+  "latency_ms": 11.4,
+  "title": "The Shawshank Redemption",
+  "rating": 9.3
+}`}
+                  </pre>
+                </div>
+              </div>
+
+              {/* Stack & Link */}
+              <div className="pt-5 mt-5 border-t border-neutral-200/80 flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
+                <div className="flex flex-wrap gap-1.5 text-[11px]">
+                  {["Python", "FastAPI", "Redis", "AsyncIO"].map((t) => (
+                    <span key={t} className="px-2.5 py-0.5 bg-neutral-100 border border-neutral-200 rounded font-semibold text-neutral-800">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                <a
+                  href="https://github.com/vikrant-choudhary06"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-bold text-neutral-900 hover:text-blue-600 flex items-center gap-1"
+                >
+                  <span>Repo ↗</span>
+                </a>
+              </div>
+            </motion.div>
+          )}
+
+          {/* CARD 02: PopcornStream */}
+          {(activeFilter === "all" || activeFilter === "fullstack") && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="rounded-3xl bg-white border border-black/[0.08] p-6 sm:p-8 shadow-[0_10px_30px_rgba(0,0,0,0.04)] flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-3 font-mono text-xs">
+                  <span className="bg-[#E0E7FF] text-[#3730A3] font-bold px-3 py-1 rounded-full border border-[#C7D2FE]">
+                    [ MEDIA &amp; STREAMING ]
+                  </span>
+                  <span className="text-blue-600 font-bold">Adaptive Bitrate</span>
+                </div>
+
+                <h3 className="text-2xl font-bold text-neutral-950 mt-2">
+                  PopcornStream Engine
+                </h3>
+
+                <p className="text-xs sm:text-sm text-neutral-600 mt-2 leading-relaxed font-sans">
+                  Full-stack streaming platform with adaptive bitrate playback, JWT watchlists, and dynamic CDN caching to minimize peak bandwidth usage.
+                </p>
+
+                {/* Media Preview Frame */}
+                <div className="mt-4 relative aspect-[16/10] w-full rounded-xl overflow-hidden border border-neutral-200 bg-neutral-900">
+                  <Image
+                    src="/fintech_mockup.png"
+                    alt="PopcornStream playback engine"
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-full bg-white/90 backdrop-blur-xs flex items-center justify-center text-black shadow-lg">
+                      <Film className="w-6 h-6 text-neutral-900" />
                     </div>
                   </div>
+                </div>
+              </div>
 
-                  <h3 className="text-base font-bold text-zinc-950 group-hover:text-emerald-700 transition-colors">
-                    {project.title}
-                  </h3>
-
-                  <p className="text-xs text-zinc-600 leading-relaxed font-sans">
-                    {project.description}
-                  </p>
-
-                  <div className="space-y-1.5 pt-2 border-t border-zinc-200">
-                    <ul className="space-y-1.5">
-                      {project.highlights.slice(0, 2).map((highlight, i) => (
-                        <li key={i} className="flex items-start gap-2 text-xs text-zinc-700 font-sans">
-                          <span className="text-emerald-600 text-[10px] mt-0.5">●</span>
-                          <span>{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+              {/* Stack & Link */}
+              <div className="pt-5 mt-5 border-t border-neutral-200/80 flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
+                <div className="flex flex-wrap gap-1.5 text-[11px]">
+                  {["React", "Node.js", "MongoDB", "Tailwind CSS"].map((t) => (
+                    <span key={t} className="px-2.5 py-0.5 bg-neutral-100 border border-neutral-200 rounded font-semibold text-neutral-800">
+                      {t}
+                    </span>
+                  ))}
                 </div>
 
-                <div className="space-y-3 pt-4 border-t border-zinc-200 mt-4">
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2.5 py-1 rounded-lg bg-zinc-100 border border-zinc-200 text-[11px] font-mono text-zinc-800 hover:border-zinc-300 transition-colors"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Action Buttons: Demo, Source Code, Live */}
-                  <div className="pt-2 flex flex-wrap items-center gap-2">
-                    <button
-                      onClick={() => handleDemoClick(project)}
-                      className="px-3 py-1.5 rounded-lg bg-white hover:bg-zinc-50 border-2 border-zinc-200 text-zinc-800 hover:text-zinc-950 font-mono text-xs font-bold shadow-[0_2px_0_0_#e4e4e7] active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-1.5 select-none cursor-pointer"
-                    >
-                      <Play className="w-3 h-3 text-amber-600 fill-amber-600/20" />
-                      <span>Demo</span>
-                    </button>
-
-                    <a
-                      href={project.githubUrl || "https://github.com/vikrant-choudhary06"}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="px-3 py-1.5 rounded-lg bg-white hover:bg-zinc-50 border-2 border-zinc-200 text-zinc-800 hover:text-zinc-950 font-mono text-xs font-bold shadow-[0_2px_0_0_#e4e4e7] active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-1.5 select-none"
-                    >
-                      <GithubIcon className="w-3.5 h-3.5" />
-                      <span>Code</span>
-                      <ExternalLink className="w-2.5 h-2.5 text-zinc-400" />
-                    </a>
-
-                    <button
-                      onClick={() => handleLiveClick(project)}
-                      className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs font-bold shadow-[0_2px_0_0_#047857] active:translate-y-0.5 active:shadow-none transition-all flex items-center gap-1.5 select-none cursor-pointer"
-                    >
-                      <Globe className="w-3 h-3" />
-                      <span>Live</span>
-                    </button>
-                  </div>
-                </div>
-              </TactileCard>
+                <a
+                  href="https://github.com/vikrant-choudhary06"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-bold text-neutral-900 hover:text-blue-600 flex items-center gap-1"
+                >
+                  <span>Repo ↗</span>
+                </a>
+              </div>
             </motion.div>
-          ))}
+          )}
+
+          {/* CARD 03: NovaStore Core */}
+          {(activeFilter === "all" || activeFilter === "fullstack") && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="rounded-3xl bg-white border border-black/[0.08] p-6 sm:p-8 shadow-[0_10px_30px_rgba(0,0,0,0.04)] flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-3 font-mono text-xs">
+                  <span className="bg-[#FCE7F3] text-[#9D174D] font-bold px-3 py-1 rounded-full border border-[#FBCFE8]">
+                    [ TRANSACTION ARCHITECTURE ]
+                  </span>
+                  <span className="text-pink-700 font-bold">Idempotent Transactions</span>
+                </div>
+
+                <h3 className="text-2xl font-bold text-neutral-950 mt-2">
+                  NovaStore Core
+                </h3>
+
+                <p className="text-xs sm:text-sm text-neutral-600 mt-2 leading-relaxed font-sans">
+                  Headless commerce platform engineered with idempotent checkout queues to prevent double charges, persistent state hydration, and multi-variant faceted indexing.
+                </p>
+
+                {/* Catalog Preview */}
+                <div className="mt-4 relative aspect-[16/10] w-full rounded-xl overflow-hidden border border-neutral-200 bg-neutral-900">
+                  <Image
+                    src="/ecom_mockup.png"
+                    alt="NovaStore e-commerce interface"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Stack & Link */}
+              <div className="pt-5 mt-5 border-t border-neutral-200/80 flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
+                <div className="flex flex-wrap gap-1.5 text-[11px]">
+                  {["TypeScript", "Next.js", "PostgreSQL", "Prisma"].map((t) => (
+                    <span key={t} className="px-2.5 py-0.5 bg-neutral-100 border border-neutral-200 rounded font-semibold text-neutral-800">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                <a
+                  href="https://github.com/vikrant-choudhary06"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-bold text-neutral-900 hover:text-blue-600 flex items-center gap-1"
+                >
+                  <span>Repo ↗</span>
+                </a>
+              </div>
+            </motion.div>
+          )}
+
+          {/* CARD 04: Tech Us Knowledge Platform */}
+          {(activeFilter === "all" || activeFilter === "fullstack") && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+              className="rounded-3xl bg-white border border-black/[0.08] p-6 sm:p-8 shadow-[0_10px_30px_rgba(0,0,0,0.04)] flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-3 font-mono text-xs">
+                  <span className="bg-[#CCFBF1] text-[#115E59] font-bold px-3 py-1 rounded-full border border-[#99F6E4]">
+                    [ REAL-TIME COMMUNITY ]
+                  </span>
+                  <span className="text-teal-700 font-bold">Live Markdown Rendering</span>
+                </div>
+
+                <h3 className="text-2xl font-bold text-neutral-950 mt-2">
+                  Tech Us Knowledge Platform
+                </h3>
+
+                <p className="text-xs sm:text-sm text-neutral-600 mt-2 leading-relaxed font-sans">
+                  Interactive developer forum featuring live Markdown code block syntax highlighting, real-time comment threads, and authenticated developer profiles.
+                </p>
+
+                {/* Thread Code Block Formatting Preview */}
+                <div className="mt-4 p-4 rounded-xl bg-neutral-900 text-white font-mono text-xs space-y-2 border border-neutral-800">
+                  <div className="flex items-center justify-between text-[10px] text-neutral-400 border-b border-neutral-800 pb-1.5">
+                    <span>thread_post_42.md</span>
+                    <span className="text-emerald-400">● LIVE</span>
+                  </div>
+                  <pre className="text-[11px] text-amber-300">
+                    {`const fetchMetadata = async (id: string) => {\n  return await redis.get(\`movie:\${id}\`);\n};`}
+                  </pre>
+                </div>
+              </div>
+
+              {/* Stack & Link */}
+              <div className="pt-5 mt-5 border-t border-neutral-200/80 flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
+                <div className="flex flex-wrap gap-1.5 text-[11px]">
+                  {["React", "TypeScript", "Node.js", "MongoDB"].map((t) => (
+                    <span key={t} className="px-2.5 py-0.5 bg-neutral-100 border border-neutral-200 rounded font-semibold text-neutral-800">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                <a
+                  href="https://github.com/vikrant-choudhary06"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-bold text-neutral-900 hover:text-blue-600 flex items-center gap-1"
+                >
+                  <span>Repo ↗</span>
+                </a>
+              </div>
+            </motion.div>
+          )}
+
+        </div>
+
+      </div>
+
+      {/* 4. FOOTER & REPOSITORY CALLOUT */}
+      <div className="mt-16 text-center">
+        <div className="inline-flex flex-col sm:flex-row items-center gap-3 p-4 sm:p-5 rounded-2xl bg-white/90 backdrop-blur-xs border-2 border-black shadow-[4px_4px_0px_#000] text-xs font-mono">
+          <span className="font-bold text-neutral-800">Looking to inspect the source code &amp; commit history?</span>
+          <a
+            href="https://github.com/vikrant-choudhary06"
+            target="_blank"
+            rel="noreferrer"
+            className="bg-black text-white px-4 py-2 rounded-lg font-bold hover:bg-neutral-800 transition-colors flex items-center gap-1.5"
+          >
+            <span>[ github.com/vikrant-choudhary06 ↗ ]</span>
+          </a>
+        </div>
+
+        <div className="mt-6 font-handwriting text-xl text-neutral-700 font-bold">
+          Mathura, India // Updated 2026 // Vikrant Choudhary
         </div>
       </div>
 
-      {/* Interactive Popup Modal for Demo / Live Fallback */}
-      <ProjectActionModal 
-        data={modalData} 
-        onClose={() => setModalData(null)} 
-      />
     </section>
   );
 }

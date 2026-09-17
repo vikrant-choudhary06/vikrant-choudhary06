@@ -1,7 +1,6 @@
 # 👨‍💻 Vikrant Choudhary
 
-> 🌐 **Live Portfolio:** `[Yahan host karne ke baad apna live link dalunga]`  
-> *(Host hone ke baad apna deployed URL yahan update kar lijiye)*
+> 🌐 **Live Portfolio:** [portfolio.vikrant.sbs](https://portfolio.vikrant.sbs)  
 
 ---
 

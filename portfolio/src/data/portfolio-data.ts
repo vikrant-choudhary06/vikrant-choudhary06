@@ -5,7 +5,7 @@ export const PERSONAL_INFO = {
   role: "Full-Stack Developer & Systems Builder",
   tagline: "I build fast web applications, scalable backend APIs, and real-time platforms.",
   bio: "Full-Stack Developer currently studying Computer Applications at Manipal University Jaipur. Coding and shipping software since 12th grade—obsessed with TypeScript, Go, PostgreSQL, and building snappy, production-ready web products.",
-  email: "vikrantchoudhary06@gmail.com",
+  email: "vikrantchoudhary1203@gmail.com",
   github: "https://github.com/vikrant-choudhary06",
   linkedin: "https://linkedin.com/in/",
   location: "Mathura, India",

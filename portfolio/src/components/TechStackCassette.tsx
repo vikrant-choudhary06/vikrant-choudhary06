@@ -5,13 +5,13 @@ import { motion } from "framer-motion";
 
 export function TechStackCassette() {
   return (
-    <section id="stack" className="max-w-6xl mx-auto px-6 py-14 sm:py-16 relative">
+    <section id="stack" className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 relative">
       {/* SECTION HEADER */}
       <div className="mb-10 text-center">
-        <span className="font-handwriting text-2xl text-neutral-600 -rotate-2 inline-block mb-1">
+        <span className="font-handwriting text-xl sm:text-2xl text-neutral-600 -rotate-2 inline-block mb-1">
           languages &amp; tools i break &amp; build with ~
         </span>
-        <h2 className="font-pixel text-5xl sm:text-7xl font-extrabold text-black tracking-wider leading-none uppercase">
+        <h2 className="font-pixel text-3xl sm:text-6xl lg:text-7xl font-extrabold text-black tracking-wider leading-none uppercase">
           TECH STACK
         </h2>
       </div>
@@ -25,7 +25,7 @@ export function TechStackCassette() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="bg-[#FFFDF7] p-6 border-2 border-black rounded-xl shadow-[4px_4px_0px_#000] relative group"
+          className="bg-[#FFFDF7] p-4 sm:p-6 border-2 border-black rounded-xl shadow-[4px_4px_0px_#000] relative group"
         >
           <div className="flex items-center justify-between mb-4 border-b border-neutral-200 pb-3">
             <span className="font-mono text-xs font-bold uppercase tracking-wider bg-amber-300 text-black px-3 py-0.5 rounded-full border border-black shadow-xs">
@@ -52,7 +52,7 @@ export function TechStackCassette() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="bg-[#FFFDF7] p-6 border-2 border-black rounded-xl shadow-[4px_4px_0px_#000] relative group"
+          className="bg-[#FFFDF7] p-4 sm:p-6 border-2 border-black rounded-xl shadow-[4px_4px_0px_#000] relative group"
         >
           <div className="flex items-center justify-between mb-4 border-b border-neutral-200 pb-3">
             <span className="font-mono text-xs font-bold uppercase tracking-wider bg-emerald-300 text-black px-3 py-0.5 rounded-full border border-black shadow-xs">
@@ -79,7 +79,7 @@ export function TechStackCassette() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="bg-[#FFFDF7] p-6 border-2 border-black rounded-xl shadow-[4px_4px_0px_#000] relative group"
+          className="bg-[#FFFDF7] p-4 sm:p-6 border-2 border-black rounded-xl shadow-[4px_4px_0px_#000] relative group"
         >
           <div className="flex items-center justify-between mb-4 border-b border-neutral-200 pb-3">
             <span className="font-mono text-xs font-bold uppercase tracking-wider bg-pink-300 text-black px-3 py-0.5 rounded-full border border-black shadow-xs">

@@ -37,18 +37,18 @@ export function WaylineCaseStudy({
           animate={{ opacity: 1, height: "auto", y: 0 }}
           exit={{ opacity: 0, height: 0, y: -20 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="relative py-12 px-6 max-w-6xl mx-auto overflow-hidden"
+          className="relative py-12 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden"
         >
           {/* SECTION ANNOTATION LABEL & CLOSE BUTTON */}
           <div className="flex items-center justify-between mb-4">
-            <span className="font-handwriting text-xl text-neutral-600 -rotate-2 inline-block">
+            <span className="font-handwriting text-lg sm:text-xl text-neutral-600 -rotate-2 inline-block">
               deep dive case study ~ {projectTitle}
             </span>
 
             {onClose && (
               <button
                 onClick={onClose}
-                className="bg-black text-white font-mono text-xs font-bold px-4 py-2 rounded-full border border-black shadow-[2px_2px_0px_#000] hover:bg-neutral-800 transition-all flex items-center gap-1.5 cursor-pointer z-30"
+                className="bg-black text-white font-mono text-xs font-bold px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full border border-black shadow-[2px_2px_0px_#000] hover:bg-neutral-800 transition-all flex items-center gap-1.5 cursor-pointer z-30"
               >
                 <X className="w-4 h-4" />
                 <span>[ ✕ CLOSE DETAILS ]</span>
@@ -57,7 +57,7 @@ export function WaylineCaseStudy({
           </div>
 
           {/* CASE STUDY CONTAINER CARD */}
-          <div className="bg-white/95 backdrop-blur-xs border-2 border-black rounded-2xl p-6 sm:p-12 shadow-[8px_8px_0px_#000] relative">
+          <div className="bg-white/95 backdrop-blur-xs border-2 border-black rounded-2xl p-4 sm:p-8 lg:p-12 shadow-[8px_8px_0px_#000] relative">
             
             {/* HEADER ROW WITH STACKED PASTEL INDEX TABS */}
             <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8 mb-10 pb-8 border-b border-neutral-200">
@@ -66,15 +66,15 @@ export function WaylineCaseStudy({
                 <span className="font-mono text-xs text-neutral-500 uppercase tracking-widest block font-bold">
                   MAR 19, 2026
                 </span>
-                <h2 className="font-pixel text-5xl sm:text-7xl font-black tracking-wider text-black leading-none">
+                <h2 className="font-pixel text-3xl sm:text-6xl lg:text-7xl font-black tracking-wider text-black leading-none">
                   {projectTitle.toUpperCase()}
                 </h2>
-                <p className="text-lg sm:text-xl text-neutral-700 max-w-xl font-medium leading-relaxed">
+                <p className="text-base sm:text-xl text-neutral-700 max-w-xl font-medium leading-relaxed">
                   Making a whole city&apos;s transit app feel less like decoding a puzzle.
                 </p>
 
                 {/* Pill Tags */}
-                <div className="flex items-center gap-2 pt-2">
+                <div className="flex flex-wrap items-center gap-2 pt-2">
                   <span className="border border-neutral-400 bg-[#FAF8F5] px-3.5 py-1 text-xs font-mono font-bold text-neutral-800 rounded-full shadow-xs">
                     [ MOBILITY ]
                   </span>
@@ -85,20 +85,20 @@ export function WaylineCaseStudy({
               </div>
 
               {/* Right Column: Stacked Pastel Sticky Index Tabs */}
-              <div className="flex flex-wrap lg:flex-col gap-2.5 min-w-[260px]">
-                <div className="bg-[#3B82F6] text-white font-mono text-xs font-bold px-4 py-2.5 rounded-sm shadow-xs border border-blue-600 flex items-center justify-between -rotate-1 hover:rotate-0 transition-transform">
+              <div className="flex flex-wrap lg:flex-col gap-2.5 min-w-full lg:min-w-[260px]">
+                <div className="bg-[#3B82F6] text-white font-mono text-xs font-bold px-4 py-2.5 rounded-sm shadow-xs border border-blue-600 flex items-center justify-between -rotate-1 hover:rotate-0 transition-transform flex-1 lg:flex-none">
                   <span>ROLE</span>
-                  <span className="opacity-90">Lead Product Designer</span>
+                  <span className="opacity-90 ml-2">Lead Product Designer</span>
                 </div>
-                <div className="bg-[#EAB308] text-black font-mono text-xs font-bold px-4 py-2.5 rounded-sm shadow-xs border border-yellow-500 flex items-center justify-between rotate-1 hover:rotate-0 transition-transform">
+                <div className="bg-[#EAB308] text-black font-mono text-xs font-bold px-4 py-2.5 rounded-sm shadow-xs border border-yellow-500 flex items-center justify-between rotate-1 hover:rotate-0 transition-transform flex-1 lg:flex-none">
                   <span>TIMELINE</span>
                   <span>3 Months</span>
                 </div>
-                <div className="bg-[#10B981] text-white font-mono text-xs font-bold px-4 py-2.5 rounded-sm shadow-xs border border-emerald-600 flex items-center justify-between -rotate-1 hover:rotate-0 transition-transform">
+                <div className="bg-[#10B981] text-white font-mono text-xs font-bold px-4 py-2.5 rounded-sm shadow-xs border border-emerald-600 flex items-center justify-between -rotate-1 hover:rotate-0 transition-transform flex-1 lg:flex-none">
                   <span>TEAM</span>
-                  <span>Founders + Me (Solo Eng)</span>
+                  <span className="ml-2">Founders + Me (Solo Eng)</span>
                 </div>
-                <div className="bg-[#EC4899] text-white font-mono text-xs font-bold px-4 py-2.5 rounded-sm shadow-xs border border-pink-500 flex items-center justify-between rotate-1 hover:rotate-0 transition-transform">
+                <div className="bg-[#EC4899] text-white font-mono text-xs font-bold px-4 py-2.5 rounded-sm shadow-xs border border-pink-500 flex items-center justify-between rotate-1 hover:rotate-0 transition-transform flex-1 lg:flex-none">
                   <span>YEAR</span>
                   <span>2026</span>
                 </div>
@@ -121,7 +121,7 @@ export function WaylineCaseStudy({
 
             {/* RESULTS & METRIC BADGES BLOCK */}
             <div className="mb-12">
-              <span className="font-handwriting text-2xl text-neutral-600 -rotate-2 inline-flex items-center gap-1.5 mb-3">
+              <span className="font-handwriting text-xl sm:text-2xl text-neutral-600 -rotate-2 inline-flex items-center gap-1.5 mb-3">
                 <span>the results</span>
                 <Sparkles className="w-5 h-5 text-amber-500 inline" />
               </span>
@@ -130,10 +130,10 @@ export function WaylineCaseStudy({
               </p>
 
               {/* 3 Pastel Metric Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                 {/* Card 1 (Soft Blue) */}
-                <div className="bg-[#DBEAFE] border-2 border-[#BFDBFE] p-6 rounded-xl shadow-xs -rotate-1 hover:rotate-0 transition-transform">
-                  <span className="font-pixel text-4xl sm:text-5xl font-black text-[#1E40AF] block mb-1">
+                <div className="bg-[#DBEAFE] border-2 border-[#BFDBFE] p-4 sm:p-6 rounded-xl shadow-xs -rotate-1 hover:rotate-0 transition-transform">
+                  <span className="font-pixel text-3xl sm:text-5xl font-black text-[#1E40AF] block mb-1">
                     47%
                   </span>
                   <p className="font-mono text-xs text-[#1E3A8A] font-bold uppercase tracking-wider">
@@ -142,8 +142,8 @@ export function WaylineCaseStudy({
                 </div>
 
                 {/* Card 2 (Soft Yellow) */}
-                <div className="bg-[#FEF3C7] border-2 border-[#FDE68A] p-6 rounded-xl shadow-xs rotate-1 hover:rotate-0 transition-transform">
-                  <span className="font-pixel text-4xl sm:text-5xl font-black text-[#B45309] block mb-1">
+                <div className="bg-[#FEF3C7] border-2 border-[#FDE68A] p-4 sm:p-6 rounded-xl shadow-xs rotate-1 hover:rotate-0 transition-transform">
+                  <span className="font-pixel text-3xl sm:text-5xl font-black text-[#B45309] block mb-1">
                     -55%
                   </span>
                   <p className="font-mono text-xs text-[#78350F] font-bold uppercase tracking-wider">
@@ -152,8 +152,8 @@ export function WaylineCaseStudy({
                 </div>
 
                 {/* Card 3 (Soft Mint) */}
-                <div className="bg-[#D1FAE5] border-2 border-[#A7F3D0] p-6 rounded-xl shadow-xs -rotate-1 hover:rotate-0 transition-transform">
-                  <span className="font-pixel text-2xl sm:text-3xl font-black text-[#065F46] block mb-2 leading-snug">
+                <div className="bg-[#D1FAE5] border-2 border-[#A7F3D0] p-4 sm:p-6 rounded-xl shadow-xs -rotate-1 hover:rotate-0 transition-transform">
+                  <span className="font-pixel text-xl sm:text-3xl font-black text-[#065F46] block mb-2 leading-snug">
                     App Store Feature
                   </span>
                   <p className="font-mono text-xs text-[#064E3B] font-bold uppercase tracking-wider">

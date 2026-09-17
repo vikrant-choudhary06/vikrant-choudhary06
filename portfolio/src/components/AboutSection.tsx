@@ -52,12 +52,12 @@ export function AboutSection() {
         <div className="bg-[#93C5FD]/80 backdrop-blur-xs w-16 h-5 -rotate-45 absolute -top-2.5 -left-4 shadow-sm pointer-events-none" />
         <div className="bg-[#93C5FD]/80 backdrop-blur-xs w-16 h-5 rotate-45 absolute -top-2.5 -right-4 shadow-sm pointer-events-none" />
 
-        <div className="relative w-full aspect-[4/5] rounded-xs overflow-hidden border border-neutral-200 bg-neutral-100">
+        <div className="relative w-full aspect-[4/5] rounded-xs overflow-hidden border border-neutral-200 bg-neutral-100 group">
           <Image
             src="/pic.png"
             alt="Vikrant Developer Portrait"
             fill
-            className="object-cover object-top"
+            className="object-cover object-[center_10%] scale-[1.85] origin-top transition-transform duration-500 group-hover:scale-[2]"
           />
         </div>
         <div className="mt-2 text-center font-handwriting text-base text-neutral-700 font-bold">
@@ -78,12 +78,12 @@ export function AboutSection() {
         <div className="bg-[#FEF08A]/90 backdrop-blur-xs w-16 h-5 -rotate-12 absolute -top-2.5 left-4 shadow-sm pointer-events-none border border-amber-300/60" />
         <div className="bg-[#FEF08A]/90 backdrop-blur-xs w-16 h-5 rotate-12 absolute -top-2.5 right-4 shadow-sm pointer-events-none border border-amber-300/60" />
 
-        <div className="relative w-full aspect-[4/5] rounded-xs overflow-hidden border border-neutral-200 bg-neutral-100">
+        <div className="relative w-full aspect-[4/5] rounded-xs overflow-hidden border border-neutral-200 bg-neutral-900 group">
           <Image
-            src="/ecom_mockup.png"
-            alt="Desk setup / My Terminal"
+            src="/terminal.png"
+            alt="Vikrant Terminal Neofetch"
             fill
-            className="object-cover"
+            className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
           />
         </div>
         <div className="mt-2 text-center font-handwriting text-base text-neutral-700 font-bold flex items-center justify-center gap-1.5">

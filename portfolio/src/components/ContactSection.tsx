@@ -13,7 +13,7 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contact" className="relative py-16 sm:py-20 px-6 max-w-6xl mx-auto overflow-hidden">
+    <section id="contact" className="relative py-16 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto overflow-hidden">
       
       {/* SECTION ANNOTATION & HEAVY PIXEL HEADER */}
       <div className="text-center max-w-3xl mx-auto mb-10">
@@ -22,18 +22,18 @@ export function ContactSection() {
           <span>AI AGENT BRIEFING TERMINAL</span>
         </div>
 
-        <h2 className="font-pixel text-5xl sm:text-7xl font-black text-black tracking-wider leading-none uppercase mb-2">
+        <h2 className="font-pixel text-3xl sm:text-6xl lg:text-7xl font-black text-black tracking-wider leading-none uppercase mb-2">
           SUBMIT BRIEFING TO AGENT SWARM
         </h2>
 
-        <p className="font-handwriting text-2xl sm:text-3xl text-neutral-700 max-w-xl mx-auto leading-relaxed flex items-center justify-center gap-1.5">
+        <p className="font-handwriting text-xl sm:text-3xl text-neutral-700 max-w-xl mx-auto leading-relaxed flex flex-wrap items-center justify-center gap-1.5">
           <span>Define the operational context for your autonomous system, RAG pipeline, or custom LangGraph workforce.</span>
           <Sparkles className="w-5 h-5 text-amber-500 inline shrink-0" />
         </p>
       </div>
 
       {/* TERMINAL BRIEFING MODULE CONTAINER */}
-      <div className="bg-[#FFFDF7] border-2 border-black rounded-2xl p-6 sm:p-10 shadow-[6px_6px_0px_#000] grid grid-cols-1 md:grid-cols-12 gap-8 relative">
+      <div className="bg-[#FFFDF7] border-2 border-black rounded-2xl p-4 sm:p-8 lg:p-10 shadow-[6px_6px_0px_#000] grid grid-cols-1 md:grid-cols-12 gap-8 relative">
         
         {/* A. LEFT SIDE (System State & Identity - md:col-span-5) */}
         <div className="md:col-span-5 flex flex-col justify-between space-y-6 border-b md:border-b-0 md:border-r border-neutral-200 pb-6 md:pb-0 md:pr-8">

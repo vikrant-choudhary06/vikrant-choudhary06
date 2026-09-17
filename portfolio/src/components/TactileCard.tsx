@@ -37,7 +37,7 @@ export function TactileCard({
 
       {/* Header (Only if title/category/badge provided) */}
       {(title || category || badge) && (
-        <div className="flex items-center justify-between border-b border-zinc-200/80 bg-zinc-50/90 px-5 py-3 select-none">
+        <div className="flex items-center justify-between border-b border-zinc-200/80 bg-zinc-50/90 px-3.5 sm:px-5 py-2.5 sm:py-3 select-none">
           <div className="flex items-center gap-2.5 truncate">
             {category && (
               <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-600 px-2 py-0.5 rounded bg-white border border-zinc-200 shadow-xs">
@@ -60,7 +60,7 @@ export function TactileCard({
       )}
 
       {/* Card Body */}
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         {children}
       </div>
     </div>

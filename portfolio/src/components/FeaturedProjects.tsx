@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { PROJECTS } from "@/data/portfolio-data";
+import { findProjectLogo } from "@/lib/project-assets";
 
 export function FeaturedProjects() {
   return (
@@ -17,6 +18,7 @@ export function FeaturedProjects() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         {PROJECTS.map((project) => {
+          const logo = findProjectLogo(project.slug);
           const cover = project.images[0];
           return (
             <Link key={project.slug} href={`/projects/${project.slug}`} className="group block">
@@ -28,8 +30,19 @@ export function FeaturedProjects() {
               </div>
 
               <div className="bg-[#0F172A] border-2 border-ink rounded-b-2xl rounded-tr-2xl p-3 sm:p-4 shadow-[6px_6px_0px_var(--shadow)] group-hover:shadow-[9px_9px_0px_var(--shadow)] transition-shadow">
-                <div className="relative aspect-[16/10] w-full rounded-lg overflow-hidden bg-[#1E293B]">
-                  {cover ? (
+                <div
+                  className="relative aspect-[16/10] w-full rounded-lg overflow-hidden bg-[#1E293B]"
+                  style={project.color ? { backgroundColor: project.color } : undefined}
+                >
+                  {/* Logo first; a screenshot until the logo exists; the name as a last resort. */}
+                  {logo ? (
+                    <Image
+                      src={logo}
+                      alt={`${project.name} logo`}
+                      fill
+                      className="object-contain p-10 sm:p-14 group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : cover ? (
                     <Image src={cover.src} alt={cover.alt} fill className="object-cover" />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center font-pixel text-5xl text-white/80">

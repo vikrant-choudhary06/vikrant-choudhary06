@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, Lock } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { ProjectGallery } from "@/components/ProjectGallery";
 import { PROJECTS } from "@/data/portfolio-data";
 
 // Static export: only the slugs listed below exist, anything else is a 404.
@@ -32,8 +32,6 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
   const { slug } = await params;
   const project = findProject(slug);
   if (!project) notFound();
-
-  const [cover, ...gallery] = project.images;
 
   return (
     <div className="min-h-screen bg-notebook-ruled text-ink overflow-x-hidden">
@@ -122,14 +120,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
             </div>
           </header>
 
-          {cover && (
-            <figure className="mt-8">
-              <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden border border-line bg-neutral-900">
-                <Image src={cover.src} alt={cover.alt} fill className="object-cover" priority />
-              </div>
-              <figcaption className="font-handwriting text-lg text-ink-soft mt-2 text-center">{cover.caption}</figcaption>
-            </figure>
-          )}
+          <ProjectGallery images={project.images} />
 
           <section className="mt-10">
             <h2 className="font-mono text-xs font-bold uppercase tracking-wider text-muted">The problem</h2>
@@ -159,20 +150,6 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
             <p className="mt-3 text-ink leading-relaxed">{project.challenge}</p>
           </section>
 
-          {gallery.length > 0 && (
-            <section className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {gallery.map((image) => (
-                <figure key={image.src} className="bg-card p-3 border border-line shadow-lg">
-                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-neutral-900">
-                    <Image src={image.src} alt={image.alt} fill className="object-cover" />
-                  </div>
-                  <figcaption className="font-handwriting text-lg text-ink-soft mt-2 text-center">
-                    {image.caption}
-                  </figcaption>
-                </figure>
-              ))}
-            </section>
-          )}
         </article>
       </main>
 

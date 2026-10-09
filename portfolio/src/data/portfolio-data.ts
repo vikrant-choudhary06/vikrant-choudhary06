@@ -33,6 +33,7 @@ export const PROJECTS: Project[] = [
       "Tailwind CSS",
     ],
     source: "private",
+    color: "#9B4DCA",
     links: {
       live: "https://rizzoto.vikrant.sbs",
     },
@@ -91,6 +92,7 @@ export const PROJECTS: Project[] = [
       "Judge0",
     ],
     source: "private",
+    color: "#FACC15",
     links: {
       live: "https://opensourcehub.vikrantcode08.workers.dev",
     },
@@ -130,6 +132,7 @@ export const PROJECTS: Project[] = [
     year: "2026",
     stack: ["Go", "PostgreSQL wire protocol", "B+Trees", "Write-ahead log", "MVCC", "Linux"],
     source: "public",
+    color: "#FEF3C7",
     labels: ["Under development"],
     links: {
       github: "https://github.com/NoVacDB/NoVacDB",
@@ -169,6 +172,7 @@ export const PROJECTS: Project[] = [
     year: "2026",
     stack: ["Go", "Wails", "TypeScript", "CodeMirror", "PostgreSQL wire protocol", "Windows"],
     source: "public",
+    color: "#CCFBF1",
     labels: ["Under development"],
     links: {
       github: "https://github.com/NoVacDB/NoVacDB-Studio",
@@ -225,6 +229,7 @@ export const PROJECTS: Project[] = [
       "Kubernetes",
     ],
     source: "private",
+    color: "#D1FAE5",
     labels: ["Under development"],
     note: "Still being built, so some features may be unfinished.",
     links: {
@@ -266,6 +271,7 @@ export const PROJECTS: Project[] = [
     year: "2026",
     stack: ["Next.js", "React", "TypeScript", "NestJS", "PostgreSQL", "Prisma", "Razorpay", "Tailwind CSS"],
     source: "public",
+    color: "#E0E7FF",
     links: {
       github: "https://github.com/vikrant-choudhary06/miiday-shop",
     },
@@ -305,6 +311,7 @@ export const PROJECTS: Project[] = [
     year: "2026",
     stack: ["React", "TypeScript", "Vite", "Tailwind CSS", "Motion", "Hono", "Cloudflare Workers", "Cloudflare D1"],
     source: "private",
+    color: "#F5F5F4",
     links: {
       live: "https://miiday-crm.vikrantcode08.workers.dev",
     },
@@ -344,6 +351,7 @@ export const PROJECTS: Project[] = [
     year: "2026",
     stack: ["Node.js", "Express", "TypeScript", "MongoDB", "Mongoose", "Python", "FastAPI", "React", "Vite", "Tailwind CSS"],
     source: "public",
+    color: "#000000",
     labels: ["Practice project", "Not maintained"],
     note: "A practice project to learn scraping and backend design. The backend is my main work here; the frontend is basic. It isn't hosted anymore.",
     links: {

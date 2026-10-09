@@ -15,6 +15,8 @@ export interface Project {
   labels?: string[];
   // One-line context shown at the top of the case study.
   note?: string;
+  // Background behind the logo on the project card, e.g. "#7C3AED".
+  color?: string;
   links: {
     github?: string;
     live?: string;

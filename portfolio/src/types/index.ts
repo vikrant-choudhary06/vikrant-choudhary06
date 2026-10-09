@@ -1,38 +1,36 @@
-export interface ERPModule {
-  id: string;
-  name: string;
-  badge: string;
-  description: string;
-  features: string[];
-  techStack: string[];
-  engineeringHighlight: string;
+export interface ProjectImage {
+  src: string;
+  alt: string;
+  caption: string;
 }
 
 export interface Project {
-  id: string;
-  title: string;
-  category: string;
-  description: string;
-  highlights: string[];
-  tags: string[];
-  githubUrl?: string;
-  liveUrl?: string;
-  demoUrl?: string;
-  status: 'Production' | 'Case Study' | 'In Development';
+  slug: string;
+  name: string;
+  summary: string;
+  year: string;
+  stack: string[];
+  source: "public" | "private";
+  // Short status tags shown on the card, e.g. "Under development".
+  labels?: string[];
+  // One-line context shown at the top of the case study.
+  note?: string;
+  links: {
+    github?: string;
+    live?: string;
+    video?: string;
+  };
+  problem: string;
+  decisions: { title: string; why: string }[];
+  challenge: string;
+  images: ProjectImage[];
 }
 
-export interface SkillCategory {
-  title: string;
-  description: string;
-  skills: { name: string; level: 'Core' | 'Familiar' }[];
-}
+// A plain string is matched against each project's `stack` to find where it
+// was used. Use the object form when the skill isn't a stack entry (e.g. "SSE").
+export type StackItem = string | { name: string; projects: string[] };
 
-export interface ExperienceItem {
-  role: string;
-  organization: string;
-  type: 'Freelance / Contract' | 'Open Source' | 'Education';
-  period: string;
-  description: string;
-  achievements: string[];
-  technologies: string[];
+export interface StackGroup {
+  title: string;
+  items: StackItem[];
 }

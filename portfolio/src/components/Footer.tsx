@@ -66,7 +66,7 @@ export function Footer() {
   return (
     <footer className="py-8 bg-transparent border-t border-neutral-300/80 relative text-neutral-800">
       <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs font-bold">
-        <div>© 2026 // VK.STUDIO // MATHURA, IN</div>
+        <div>© 2026 Vikrant Choudhary · Mathura, India</div>
 
         <div className="flex flex-wrap items-center justify-center sm:justify-end gap-2 sm:gap-3 text-xs font-mono font-medium">
           <a

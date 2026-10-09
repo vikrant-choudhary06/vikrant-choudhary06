@@ -1,105 +1,95 @@
-"use client";
+import Link from "next/link";
+import { ALSO_FAMILIAR, PROJECTS, STACK } from "@/data/portfolio-data";
+import type { Project, StackItem } from "@/types";
 
-import React from "react";
-import { motion } from "framer-motion";
+const LABEL_COLORS = ["bg-amber-300", "bg-emerald-300", "bg-pink-300", "bg-sky-300"];
+
+function resolve(item: StackItem): { name: string; usedIn: Project[] } {
+  if (typeof item === "string") {
+    const key = item.toLowerCase();
+    return {
+      name: item,
+      usedIn: PROJECTS.filter((p) => p.stack.some((s) => s.toLowerCase() === key)),
+    };
+  }
+  return {
+    name: item.name,
+    usedIn: PROJECTS.filter((p) => item.projects.includes(p.slug)),
+  };
+}
 
 export function TechStackCassette() {
   return (
-    <section id="stack" className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 relative">
-      {/* SECTION HEADER */}
+    <section id="stack" className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
       <div className="mb-10 text-center">
         <span className="font-handwriting text-xl sm:text-2xl text-neutral-600 -rotate-2 inline-block mb-1">
-          languages &amp; tools i break &amp; build with ~
+          what I work with ~
         </span>
-        <h2 className="font-pixel text-3xl sm:text-6xl lg:text-7xl font-extrabold text-black tracking-wider leading-none uppercase">
-          TECH STACK
+        <h2 className="font-pixel text-4xl sm:text-6xl text-black tracking-wider leading-none uppercase">
+          Tech Stack
         </h2>
+        <p className="text-sm text-neutral-600 mt-3">Next to each one: the projects where I used it.</p>
       </div>
 
-      {/* STICKER BOXES GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-        {/* 1. LANGUAGES */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-          className="bg-[#FFFDF7] p-4 sm:p-6 border-2 border-black rounded-xl shadow-[4px_4px_0px_#000] relative group"
-        >
-          <div className="flex items-center justify-between mb-4 border-b border-neutral-200 pb-3">
-            <span className="font-mono text-xs font-bold uppercase tracking-wider bg-amber-300 text-black px-3 py-0.5 rounded-full border border-black shadow-xs">
-              01. LANGUAGES
-            </span>
-            <span className="font-mono text-xs text-neutral-500 font-bold">// CORE</span>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {["Python", "Go", "TypeScript", "JavaScript", "SQL"].map((lang) => (
+      <div className="bg-[#FFFDF7] border-2 border-black rounded-xl shadow-[4px_4px_0px_#000] divide-y divide-neutral-200">
+        {STACK.map((group, i) => (
+          <div key={group.title} className="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-[180px_1fr] gap-3 md:gap-6">
+            <div>
               <span
-                key={lang}
-                className="px-3.5 py-1.5 rounded-md bg-white border-2 border-black font-mono text-xs font-bold text-black shadow-[2px_2px_0px_#000] hover:-translate-y-0.5 transition-transform"
+                className={`font-mono text-xs font-bold uppercase tracking-wider text-black px-3 py-0.5 rounded-full border border-black ${LABEL_COLORS[i % LABEL_COLORS.length]}`}
               >
-                {lang}
+                {group.title}
               </span>
-            ))}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {group.items.map((raw) => {
+                const { name, usedIn } = resolve(raw);
+                return (
+                  <div
+                    key={name}
+                    className="px-3 py-1.5 rounded-md bg-white border-2 border-black font-mono text-xs"
+                  >
+                    <span className="font-bold text-black">{name}</span>
+                    {usedIn.length > 0 && (
+                      <span className="text-neutral-500">
+                        {" · "}
+                        {usedIn.map((project, j) => (
+                          <span key={project.slug}>
+                            {j > 0 && ", "}
+                            <Link href={`/projects/${project.slug}`} className="hover:text-blue-600 hover:underline">
+                              {project.name}
+                            </Link>
+                          </span>
+                        ))}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </motion.div>
+        ))}
 
-        {/* 2. FRAMEWORKS & DATABASES */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="bg-[#FFFDF7] p-4 sm:p-6 border-2 border-black rounded-xl shadow-[4px_4px_0px_#000] relative group"
-        >
-          <div className="flex items-center justify-between mb-4 border-b border-neutral-200 pb-3">
-            <span className="font-mono text-xs font-bold uppercase tracking-wider bg-emerald-300 text-black px-3 py-0.5 rounded-full border border-black shadow-xs">
-              02. FRAMEWORKS &amp; DBs
+        <div className="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-[180px_1fr] gap-3 md:gap-6 bg-neutral-50 rounded-b-xl">
+          <div>
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-neutral-700 px-3 py-0.5 rounded-full border border-neutral-400 bg-white">
+              Also familiar
             </span>
-            <span className="font-mono text-xs text-neutral-500 font-bold">// STACK</span>
           </div>
-
-          <div className="flex flex-wrap gap-2">
-            {["FastAPI", "Next.js", "Django", "Node.js", "PostgreSQL", "Redis", "MongoDB"].map((item) => (
-              <span
-                key={item}
-                className="px-3.5 py-1.5 rounded-md bg-white border-2 border-black font-mono text-xs font-bold text-black shadow-[2px_2px_0px_#000] hover:-translate-y-0.5 transition-transform"
-              >
-                {item}
-              </span>
-            ))}
+          <div>
+            <div className="flex flex-wrap gap-2">
+              {ALSO_FAMILIAR.map((name) => (
+                <span
+                  key={name}
+                  className="px-3 py-1.5 rounded-md bg-white border border-dashed border-neutral-400 font-mono text-xs font-bold text-neutral-700"
+                >
+                  {name}
+                </span>
+              ))}
+            </div>
+            <p className="text-xs text-neutral-500 mt-2">I know these, but haven&apos;t shipped a project with them yet.</p>
           </div>
-        </motion.div>
-
-        {/* 3. TOOLS & INFRASTRUCTURE */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-          className="bg-[#FFFDF7] p-4 sm:p-6 border-2 border-black rounded-xl shadow-[4px_4px_0px_#000] relative group"
-        >
-          <div className="flex items-center justify-between mb-4 border-b border-neutral-200 pb-3">
-            <span className="font-mono text-xs font-bold uppercase tracking-wider bg-pink-300 text-black px-3 py-0.5 rounded-full border border-black shadow-xs">
-              03. TOOLS &amp; INFRA
-            </span>
-            <span className="font-mono text-xs text-neutral-500 font-bold">// WORKFLOW</span>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {["Docker", "Git", "Postman", "Prisma"].map((tool) => (
-              <span
-                key={tool}
-                className="px-3.5 py-1.5 rounded-md bg-white border-2 border-black font-mono text-xs font-bold text-black shadow-[2px_2px_0px_#000] hover:-translate-y-0.5 transition-transform"
-              >
-                {tool}
-              </span>
-            ))}
-          </div>
-        </motion.div>
-
+        </div>
       </div>
     </section>
   );

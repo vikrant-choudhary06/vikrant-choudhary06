@@ -1,19 +1,20 @@
-import React from "react";
+import type { Metadata } from "next";
 import { Navbar } from "@/components/Navbar";
-import { AllProjects } from "@/components/AllProjects";
+import { FeaturedProjects } from "@/components/FeaturedProjects";
 import { Footer } from "@/components/Footer";
+
+export const metadata: Metadata = {
+  title: "Projects — Vikrant Choudhary",
+};
 
 export default function ProjectsPage() {
   return (
-    <div className="relative min-h-screen text-slate-900 selection:bg-amber-300 selection:text-slate-950 overflow-x-hidden">
-      {/* Top Navigation */}
+    <div className="min-h-screen bg-notebook-ruled text-slate-900 overflow-x-hidden">
       <Navbar />
-
-      {/* Main Content Showcase */}
-      <main className="relative z-10 pt-14">
-        <AllProjects />
-        <Footer />
+      <main className="pt-14">
+        <FeaturedProjects />
       </main>
+      <Footer />
     </div>
   );
 }

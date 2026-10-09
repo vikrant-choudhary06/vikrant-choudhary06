@@ -4,10 +4,11 @@ interface Env {
 }
 
 interface ContactPayload {
-  name: string;
-  email: string;
-  scope?: string;
-  brief: string;
+  name?: unknown;
+  email?: unknown;
+  subject?: unknown;
+  message?: unknown;
+  website?: unknown;
 }
 
 interface PagesContext {
@@ -15,86 +16,95 @@ interface PagesContext {
   env: Env;
 }
 
-export const onRequestPost = async (context: PagesContext): Promise<Response> => {
+const TO_EMAIL = "vikrantchoudhary1203@gmail.com";
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function json(body: unknown, status: number): Response {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
+function text(value: unknown, maxLength: number): string {
+  return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
+}
+
+// Everything a visitor types goes into an HTML email, so it must be escaped.
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+export const onRequestPost = async ({ request, env }: PagesContext): Promise<Response> => {
+  let body: ContactPayload;
   try {
-    const { request, env } = context;
-    const body = (await request.json()) as ContactPayload;
+    body = (await request.json()) as ContactPayload;
+  } catch {
+    return json({ error: "Invalid request." }, 400);
+  }
 
-    // Validate required fields
-    if (!body.name || !body.email || !body.brief) {
-      return new Response(
-        JSON.stringify({ error: "Missing required fields: name, email, and brief are required." }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
-    }
+  // Honeypot filled in: almost certainly a bot. Pretend it worked so it doesn't retry.
+  if (text(body.website, 200)) {
+    return json({ success: true }, 200);
+  }
 
-    const apiKey = env.RESEND_API_KEY;
-    if (!apiKey) {
-      return new Response(
-        JSON.stringify({
-          error: "RESEND_API_KEY is not configured in Cloudflare Pages Environment Variables.",
-        }),
-        { status: 500, headers: { "Content-Type": "application/json" } }
-      );
-    }
+  const name = text(body.name, 100);
+  const email = text(body.email, 200);
+  const subject = text(body.subject, 150);
+  const message = text(body.message, 5000);
 
-    // Call Resend REST API
+  if (!name || !email || !message) {
+    return json({ error: "Please fill in your name, email and message." }, 400);
+  }
+  if (!EMAIL_PATTERN.test(email)) {
+    return json({ error: "That email address doesn't look right." }, 400);
+  }
+
+  if (!env.RESEND_API_KEY) {
+    console.error("RESEND_API_KEY is not set");
+    return json({ error: "The contact form isn't working right now. Please email me directly." }, 500);
+  }
+
+  // Subject is a header, not HTML: strip line breaks instead of escaping.
+  const subjectLine = `Portfolio message from ${name}${subject ? `: ${subject}` : ""}`.replace(/[\r\n]+/g, " ");
+
+  const html = `
+    <div style="font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 2px solid #000; border-radius: 12px; background: #fffdf7;">
+      <p style="margin: 0 0 8px;"><strong>From:</strong> ${escapeHtml(name)} &lt;${escapeHtml(email)}&gt;</p>
+      <p style="margin: 0 0 16px;"><strong>Subject:</strong> ${escapeHtml(subject || "(none)")}</p>
+      <p style="margin: 0; line-height: 1.6; white-space: pre-wrap;">${escapeHtml(message)}</p>
+    </div>
+  `;
+
+  try {
     const resendResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         from: env.RESEND_FROM_EMAIL || "Vikrant Portfolio <contact@vikrant.sbs>",
-        to: ["vikrantchoudhary1203@gmail.com"],
-        reply_to: body.email,
-        subject: `⚡ New Project Briefing from ${body.name} [${body.scope || "General"}]`,
-        html: `
-          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 2px solid #000; border-radius: 12px; background: #fffdf7;">
-            <div style="display: inline-block; padding: 4px 12px; background: #d2f4e3; border: 1px solid #136c47; border-radius: 9999px; font-size: 11px; font-weight: bold; color: #136c47; margin-bottom: 16px;">
-              [ PROTOCOL BRIEFING RECEIVED ]
-            </div>
-            <h2 style="margin: 0 0 16px; color: #000; font-size: 22px; text-transform: uppercase; letter-spacing: 0.5px;">
-              ⚡ New System Inquiry
-            </h2>
-            <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
-              <p style="margin: 0 0 8px; font-size: 14px;"><strong>Authority Contact:</strong> ${body.name}</p>
-              <p style="margin: 0 0 8px; font-size: 14px;"><strong>Protocol Email:</strong> <a href="mailto:${body.email}" style="color: #0284c7; text-decoration: none;">${body.email}</a></p>
-              <p style="margin: 0; font-size: 14px;"><strong>Automation Scope:</strong> ${body.scope || "Not Specified"}</p>
-            </div>
-            <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 16px;">
-              <strong style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #52525b; display: block; margin-bottom: 8px;">
-                // SYSTEM BRIEF
-              </strong>
-              <p style="margin: 0; font-size: 14px; line-height: 1.6; white-space: pre-wrap; color: #18181b;">${body.brief}</p>
-            </div>
-            <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #e4e4e7; font-size: 11px; color: #71717a; text-align: center;">
-              Dispatched from Vikrant Choudhary's Portfolio Briefing Terminal // Mathura, IN
-            </div>
-          </div>
-        `,
+        to: [TO_EMAIL],
+        reply_to: email,
+        subject: subjectLine,
+        html,
       }),
     });
 
-    const data = await resendResponse.json();
-
     if (!resendResponse.ok) {
-      return new Response(JSON.stringify(data), {
-        status: resendResponse.status,
-        headers: { "Content-Type": "application/json" },
-      });
+      console.error("Resend error", resendResponse.status, await resendResponse.text());
+      return json({ error: "Couldn't send your message. Please try again or email me directly." }, 502);
     }
 
-    return new Response(
-      JSON.stringify({ success: true, messageId: (data as { id?: string }).id }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
-    );
+    return json({ success: true }, 200);
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : "Internal Server Error";
-    return new Response(JSON.stringify({ error: message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    console.error("Contact function failed", error);
+    return json({ error: "Couldn't send your message. Please try again or email me directly." }, 500);
   }
 };

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Home, User, Folder, Cpu, Sparkles, MessageSquare, Menu, X } from "lucide-react";
+import { Home, User, Folder, Cpu, MessageSquare, Menu, X } from "lucide-react";
 
 export function Navbar() {
   const [activeTab, setActiveTab] = useState("home");
@@ -17,7 +17,6 @@ export function Navbar() {
         { id: "about", tab: "about" },
         { id: "projects", tab: "projects" },
         { id: "stack", tab: "stack" },
-        { id: "playground", tab: "playground" },
         { id: "contact", tab: "contact" },
       ];
 
@@ -50,10 +49,9 @@ export function Navbar() {
 
   const navLinks = [
     { id: "home", label: "HOME", href: "/", icon: Home },
-    { id: "about", label: "ABOUT", href: "#about", icon: User },
-    { id: "projects", label: "PROJECTS", href: "#projects", icon: Folder },
-    { id: "stack", label: "STACK", href: "#stack", icon: Cpu },
-    { id: "playground", label: "PLAYGROUND", href: "#playground", icon: Sparkles },
+    { id: "about", label: "ABOUT", href: "/#about", icon: User },
+    { id: "projects", label: "PROJECTS", href: "/#projects", icon: Folder },
+    { id: "stack", label: "STACK", href: "/#stack", icon: Cpu },
   ];
 
   return (
@@ -86,7 +84,7 @@ export function Navbar() {
             const Icon = link.icon;
             const isActive = activeTab === link.id;
             return (
-              <a
+              <Link
                 key={link.id}
                 href={link.href}
                 onClick={() => setActiveTab(link.id)}
@@ -98,15 +96,15 @@ export function Navbar() {
               >
                 <Icon className="w-3.5 h-3.5" />
                 <span>{link.label}</span>
-              </a>
+              </Link>
             );
           })}
         </nav>
 
         {/* RIGHT ACTION CTA & MOBILE MENU TOGGLE */}
         <div className="flex items-center gap-2">
-          <a
-            href="#contact"
+          <Link
+            href="/#contact"
             onClick={() => {
               setActiveTab("contact");
               setIsMobileMenuOpen(false);
@@ -120,7 +118,7 @@ export function Navbar() {
             <MessageSquare className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">LET&apos;S TALK</span>
             <span className="sm:hidden">TALK</span>
-          </a>
+          </Link>
 
           {/* HAMBURGER TOGGLE BUTTON (MOBILE ONLY) */}
           <button
@@ -149,7 +147,7 @@ export function Navbar() {
                 const Icon = link.icon;
                 const isActive = activeTab === link.id;
                 return (
-                  <a
+                  <Link
                     key={link.id}
                     href={link.href}
                     onClick={() => {
@@ -164,12 +162,12 @@ export function Navbar() {
                   >
                     <Icon className="w-4 h-4 text-black" />
                     <span>{link.label}</span>
-                  </a>
+                  </Link>
                 );
               })}
 
-              <a
-                href="#contact"
+              <Link
+                href="/#contact"
                 onClick={() => {
                   setActiveTab("contact");
                   setIsMobileMenuOpen(false);
@@ -181,8 +179,8 @@ export function Navbar() {
                 }`}
               >
                 <MessageSquare className="w-4 h-4 text-amber-400" />
-                <span>LET&apos;S TALK // CONTACT</span>
-              </a>
+                <span>LET&apos;S TALK</span>
+              </Link>
             </div>
           </motion.div>
         )}

@@ -27,18 +27,16 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vikrant Choudhary — Full-Stack & Systems Engineer",
-  description: "I build fast web apps, break APIs & ship real code.",
+  title: "Vikrant Choudhary — Full-stack developer",
+  description: "Full-stack developer from Mathura, India. Building Rizzoto, a restaurant POS that works offline.",
   keywords: [
     "Vikrant Choudhary",
-    "Full-Stack Engineer",
-    "Python Developer",
-    "FastAPI",
+    "Full-stack developer",
     "Next.js",
-    "React",
-    "Tailwind CSS",
+    "NestJS",
+    "TypeScript",
     "PostgreSQL",
-    "Redis"
+    "Rizzoto",
   ],
   authors: [{ name: "Vikrant Choudhary" }],
   icons: {
@@ -47,8 +45,8 @@ export const metadata: Metadata = {
     apple: "/icon.png",
   },
   openGraph: {
-    title: "Vikrant Choudhary — Full-Stack & Systems Engineer",
-    description: "I build fast web apps, break APIs & ship real code.",
+    title: "Vikrant Choudhary — Full-stack developer",
+    description: "Full-stack developer from Mathura, India. Building Rizzoto, a restaurant POS that works offline.",
     type: "website",
   },
 };

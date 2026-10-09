@@ -1,0 +1,182 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { ArrowLeft, ArrowUpRight, Lock } from "lucide-react";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { PROJECTS } from "@/data/portfolio-data";
+
+// Static export: only the slugs listed below exist, anything else is a 404.
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return PROJECTS.map((project) => ({ slug: project.slug }));
+}
+
+function findProject(slug: string) {
+  return PROJECTS.find((project) => project.slug === slug);
+}
+
+export async function generateMetadata({ params }: PageProps<"/projects/[slug]">): Promise<Metadata> {
+  const { slug } = await params;
+  const project = findProject(slug);
+  if (!project) return {};
+  return {
+    title: `${project.name} — Vikrant Choudhary`,
+    description: project.summary,
+  };
+}
+
+export default async function ProjectPage({ params }: PageProps<"/projects/[slug]">) {
+  const { slug } = await params;
+  const project = findProject(slug);
+  if (!project) notFound();
+
+  const [cover, ...gallery] = project.images;
+
+  return (
+    <div className="min-h-screen bg-notebook-ruled text-slate-900 overflow-x-hidden">
+      <Navbar />
+
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-16">
+        <Link
+          href="/#projects"
+          className="inline-flex items-center gap-2 bg-white border-2 border-black px-4 py-2 rounded-full font-mono text-xs font-bold shadow-[2px_2px_0px_#000] hover:bg-amber-300 transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back
+        </Link>
+
+        <article className="mt-6 bg-white border-2 border-black rounded-2xl p-5 sm:p-10 shadow-[8px_8px_0px_#000]">
+          <header className="pb-8 border-b border-neutral-200">
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="font-mono text-xs text-neutral-500 font-bold">{project.year}</p>
+              {project.labels?.map((label) => (
+                <span
+                  key={label}
+                  className="px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-400 text-amber-900 font-mono text-[11px] font-bold"
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+            <h1 className="font-pixel text-5xl sm:text-7xl tracking-wider text-black leading-none mt-2">
+              {project.name.toUpperCase()}
+            </h1>
+            <p className="text-lg sm:text-xl text-neutral-700 mt-4 leading-relaxed">{project.summary}</p>
+            {project.note && (
+              <p className="mt-4 text-sm text-amber-950 bg-amber-50 border-l-4 border-amber-400 px-4 py-2.5">
+                {project.note}
+              </p>
+            )}
+
+            <div className="flex flex-wrap gap-1.5 mt-5 font-mono text-xs">
+              {project.stack.map((tech) => (
+                <span key={tech} className="px-2.5 py-1 rounded-md bg-neutral-100 border border-neutral-300 font-semibold">
+                  {tech}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 mt-6">
+              {project.links.live && (
+                <a
+                  href={project.links.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 bg-[#194BFD] text-white font-mono text-xs font-bold px-4 py-2 border-2 border-black shadow-[3px_3px_0px_#000] rounded-sm"
+                >
+                  Live site
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              )}
+              {project.links.video && (
+                <a
+                  href={project.links.video}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 bg-white font-mono text-xs font-bold px-4 py-2 border-2 border-black shadow-[3px_3px_0px_#000] rounded-sm"
+                >
+                  Demo video
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              )}
+              {project.links.github && (
+                <a
+                  href={project.links.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 bg-white font-mono text-xs font-bold px-4 py-2 border-2 border-black shadow-[3px_3px_0px_#000] rounded-sm"
+                >
+                  Source code
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              )}
+              {project.source === "private" && (
+                <span className="inline-flex items-center gap-1.5 text-xs text-neutral-600">
+                  <Lock className="w-3.5 h-3.5" />
+                  Source is private. Happy to walk through the code in an interview.
+                </span>
+              )}
+            </div>
+          </header>
+
+          {cover && (
+            <figure className="mt-8">
+              <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden border border-neutral-200 bg-neutral-900">
+                <Image src={cover.src} alt={cover.alt} fill className="object-cover" priority />
+              </div>
+              <figcaption className="font-handwriting text-lg text-neutral-600 mt-2 text-center">{cover.caption}</figcaption>
+            </figure>
+          )}
+
+          <section className="mt-10">
+            <h2 className="font-mono text-xs font-bold uppercase tracking-wider text-neutral-500">The problem</h2>
+            <p className="mt-3 text-neutral-800 leading-relaxed">{project.problem}</p>
+          </section>
+
+          {project.decisions.length > 0 && (
+            <section className="mt-10">
+              <h2 className="font-mono text-xs font-bold uppercase tracking-wider text-neutral-500">
+                Decisions and why
+              </h2>
+              <div className="mt-4 space-y-5">
+                {project.decisions.map((decision) => (
+                  <div key={decision.title} className="border-l-4 border-amber-300 pl-4">
+                    <h3 className="font-bold text-neutral-900">{decision.title}</h3>
+                    <p className="mt-1 text-neutral-700 leading-relaxed">{decision.why}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <section className="mt-10">
+            <h2 className="font-mono text-xs font-bold uppercase tracking-wider text-neutral-500">
+              The hardest part
+            </h2>
+            <p className="mt-3 text-neutral-800 leading-relaxed">{project.challenge}</p>
+          </section>
+
+          {gallery.length > 0 && (
+            <section className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {gallery.map((image) => (
+                <figure key={image.src} className="bg-white p-3 border border-neutral-200 shadow-lg">
+                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-neutral-900">
+                    <Image src={image.src} alt={image.alt} fill className="object-cover" />
+                  </div>
+                  <figcaption className="font-handwriting text-lg text-neutral-600 mt-2 text-center">
+                    {image.caption}
+                  </figcaption>
+                </figure>
+              ))}
+            </section>
+          )}
+        </article>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}

@@ -7,6 +7,8 @@ export interface ProjectImage {
 export interface Project {
   slug: string;
   name: string;
+  // What it is in a few words, used in page titles and search results.
+  kind: string;
   summary: string;
   year: string;
   stack: string[];

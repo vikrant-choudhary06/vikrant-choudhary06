@@ -23,6 +23,7 @@ export function Hero() {
         <div className="bg-card px-6 sm:px-14 py-3 sm:py-4 border-2 border-[#FF7A29] rounded-sm shadow-[3px_3px_0px_rgba(255,122,41,0.25)]">
           <h1 className="font-pixel text-5xl sm:text-8xl tracking-widest text-ink leading-none py-1">
             VIKRANT
+            <span className="sr-only"> Choudhary, {PERSONAL_INFO.role.toLowerCase()}</span>
           </h1>
         </div>
 

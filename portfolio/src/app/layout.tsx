@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { VT323, Caveat, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { THEME_STORAGE_KEY } from "@/lib/theme";
+import { PERSONAL_INFO, PROJECTS, SITE_URL } from "@/data/portfolio-data";
 
 const THEME_SCRIPT = `(function(){try{if(localStorage.getItem("${THEME_STORAGE_KEY}")==="light")document.documentElement.classList.remove("dark")}catch(e){}})()`;
 
@@ -29,28 +30,53 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["400", "500", "600", "700"],
 });
 
+const SITE_DESCRIPTION =
+  "Vikrant Choudhary is a full-stack developer from Mathura, India, studying BCA at Manipal University Jaipur. " +
+  `Projects include ${PROJECTS.slice(0, 4)
+    .map((p) => `${p.name} (${p.kind.toLowerCase()})`)
+    .join(", ")} and more.`;
+
+const OG_HOME_ALT = `${PERSONAL_INFO.name}, ${PERSONAL_INFO.role.toLowerCase()} from ${PERSONAL_INFO.location}`;
+
 export const metadata: Metadata = {
-  title: "Vikrant Choudhary — Full-stack developer",
-  description: "Full-stack developer from Mathura, India. Building Rizzoto, a restaurant POS that works offline.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Vikrant Choudhary — Full-stack developer",
+    template: "%s — Vikrant Choudhary",
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: "Vikrant Choudhary — Portfolio",
   keywords: [
     "Vikrant Choudhary",
-    "Full-stack developer",
-    "Next.js",
-    "NestJS",
-    "TypeScript",
-    "PostgreSQL",
-    "Rizzoto",
+    "Vikrant Choudhary developer",
+    "full-stack developer Mathura",
+    "Manipal University Jaipur BCA",
+    "MiidayStudio",
+    ...PROJECTS.map((p) => p.name),
   ],
-  authors: [{ name: "Vikrant Choudhary" }],
+  authors: [{ name: PERSONAL_INFO.name, url: SITE_URL }],
+  creator: PERSONAL_INFO.name,
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/icon.png",
     apple: "/icon.png",
   },
   openGraph: {
-    title: "Vikrant Choudhary — Full-stack developer",
-    description: "Full-stack developer from Mathura, India. Building Rizzoto, a restaurant POS that works offline.",
     type: "website",
+    url: "/",
+    siteName: "Vikrant Choudhary",
+    locale: "en_IN",
+    title: "Vikrant Choudhary — Full-stack developer",
+    description: SITE_DESCRIPTION,
+    images: [{ url: "/og/home.png", width: 1200, height: 630, alt: OG_HOME_ALT }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Vikrant Choudhary — Full-stack developer",
+    description: SITE_DESCRIPTION,
+    images: [{ url: "/og/home.png", alt: OG_HOME_ALT }],
   },
 };
 

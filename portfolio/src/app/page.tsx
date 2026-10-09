@@ -5,10 +5,12 @@ import { FeaturedProjects } from "@/components/FeaturedProjects";
 import { TechStackCassette } from "@/components/TechStackCassette";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
+import { homeJsonLd, serializeJsonLd } from "@/lib/structured-data";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-notebook-ruled text-ink overflow-x-hidden">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(homeJsonLd()) }} />
       <Navbar />
       <main>
         <Hero />

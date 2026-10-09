@@ -18,7 +18,7 @@ export function AboutSection() {
           <div className="bg-[#93C5FD]/80 w-16 h-5 -rotate-45 absolute -top-2.5 -left-4" />
           <div className="relative w-full aspect-[4/5] overflow-hidden border border-line bg-subtle">
             <Image
-              src="/pic.png"
+              src="/pic.webp"
               alt="Vikrant Choudhary"
               fill
               className="object-cover object-[center_10%] scale-[1.85] origin-top"

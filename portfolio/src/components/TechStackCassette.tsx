@@ -22,21 +22,21 @@ export function TechStackCassette() {
   return (
     <section id="stack" className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
       <div className="mb-10 text-center">
-        <span className="font-handwriting text-xl sm:text-2xl text-neutral-600 -rotate-2 inline-block mb-1">
+        <span className="font-handwriting text-xl sm:text-2xl text-ink-soft -rotate-2 inline-block mb-1">
           what I work with ~
         </span>
-        <h2 className="font-pixel text-4xl sm:text-6xl text-black tracking-wider leading-none uppercase">
+        <h2 className="font-pixel text-4xl sm:text-6xl text-ink tracking-wider leading-none uppercase">
           Tech Stack
         </h2>
-        <p className="text-sm text-neutral-600 mt-3">Next to each one: the projects where I used it.</p>
+        <p className="text-sm text-ink-soft mt-3">Next to each one: the projects where I used it.</p>
       </div>
 
-      <div className="bg-[#FFFDF7] border-2 border-black rounded-xl shadow-[4px_4px_0px_#000] divide-y divide-neutral-200">
+      <div className="bg-cream border-2 border-ink rounded-xl shadow-[4px_4px_0px_var(--shadow)] divide-y divide-line">
         {STACK.map((group, i) => (
           <div key={group.title} className="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-[180px_1fr] gap-3 md:gap-6">
             <div>
               <span
-                className={`font-mono text-xs font-bold uppercase tracking-wider text-black px-3 py-0.5 rounded-full border border-black ${LABEL_COLORS[i % LABEL_COLORS.length]}`}
+                className={`font-mono text-xs font-bold uppercase tracking-wider text-neutral-950 px-3 py-0.5 rounded-full border border-ink ${LABEL_COLORS[i % LABEL_COLORS.length]}`}
               >
                 {group.title}
               </span>
@@ -47,11 +47,11 @@ export function TechStackCassette() {
                 return (
                   <div
                     key={name}
-                    className="px-3 py-1.5 rounded-md bg-white border-2 border-black font-mono text-xs"
+                    className="px-3 py-1.5 rounded-md bg-card border-2 border-ink font-mono text-xs"
                   >
-                    <span className="font-bold text-black">{name}</span>
+                    <span className="font-bold text-ink">{name}</span>
                     {usedIn.length > 0 && (
-                      <span className="text-neutral-500">
+                      <span className="text-muted">
                         {" · "}
                         {usedIn.map((project, j) => (
                           <span key={project.slug}>
@@ -70,9 +70,9 @@ export function TechStackCassette() {
           </div>
         ))}
 
-        <div className="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-[180px_1fr] gap-3 md:gap-6 bg-neutral-50 rounded-b-xl">
+        <div className="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-[180px_1fr] gap-3 md:gap-6 bg-subtle rounded-b-xl">
           <div>
-            <span className="font-mono text-xs font-bold uppercase tracking-wider text-neutral-700 px-3 py-0.5 rounded-full border border-neutral-400 bg-white">
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-ink-soft px-3 py-0.5 rounded-full border border-line bg-card">
               Also familiar
             </span>
           </div>
@@ -81,13 +81,13 @@ export function TechStackCassette() {
               {ALSO_FAMILIAR.map((name) => (
                 <span
                   key={name}
-                  className="px-3 py-1.5 rounded-md bg-white border border-dashed border-neutral-400 font-mono text-xs font-bold text-neutral-700"
+                  className="px-3 py-1.5 rounded-md bg-card border border-dashed border-line font-mono text-xs font-bold text-ink-soft"
                 >
                   {name}
                 </span>
               ))}
             </div>
-            <p className="text-xs text-neutral-500 mt-2">I know these, but haven&apos;t shipped a project with them yet.</p>
+            <p className="text-xs text-muted mt-2">I know these, but haven&apos;t shipped a project with them yet.</p>
           </div>
         </div>
       </div>

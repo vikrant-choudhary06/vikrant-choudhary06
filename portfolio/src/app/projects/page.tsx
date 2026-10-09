@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function ProjectsPage() {
   return (
-    <div className="min-h-screen bg-notebook-ruled text-slate-900 overflow-x-hidden">
+    <div className="min-h-screen bg-notebook-ruled text-ink overflow-x-hidden">
       <Navbar />
       <main className="pt-14">
         <FeaturedProjects />

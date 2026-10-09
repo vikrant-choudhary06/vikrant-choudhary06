@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { VT323, Caveat, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { THEME_STORAGE_KEY } from "@/lib/theme";
+
+const THEME_SCRIPT = `(function(){try{if(localStorage.getItem("${THEME_STORAGE_KEY}")==="light")document.documentElement.classList.remove("dark")}catch(e){}})()`;
 
 const vt323 = VT323({
   variable: "--font-pixel",
@@ -60,9 +63,13 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${vt323.variable} ${caveat.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`dark ${vt323.variable} ${caveat.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#FAF8F5] text-slate-900 selection:bg-amber-300 selection:text-slate-950">
+      <head>
+        {/* Dark is the default. Runs before first paint so a saved "light" choice doesn't flash dark. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
+      <body className="min-h-full flex flex-col bg-paper text-ink selection:bg-amber-300 selection:text-slate-950">
         {children}
       </body>
     </html>

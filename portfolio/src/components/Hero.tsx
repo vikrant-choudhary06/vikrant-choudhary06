@@ -7,7 +7,7 @@ export function Hero() {
       id="hero"
       className="w-full flex flex-col items-center text-center pt-28 pb-16 px-4 sm:px-6"
     >
-      <span className="font-handwriting text-xl text-neutral-700 font-bold">
+      <span className="font-handwriting text-xl text-ink-soft font-bold">
         my name is ~
       </span>
 
@@ -20,8 +20,8 @@ export function Hero() {
           Next.js · NestJS
         </div>
 
-        <div className="bg-white px-6 sm:px-14 py-3 sm:py-4 border-2 border-[#FF7A29] rounded-sm shadow-[3px_3px_0px_rgba(255,122,41,0.25)]">
-          <h1 className="font-pixel text-5xl sm:text-8xl tracking-widest text-black leading-none py-1">
+        <div className="bg-card px-6 sm:px-14 py-3 sm:py-4 border-2 border-[#FF7A29] rounded-sm shadow-[3px_3px_0px_rgba(255,122,41,0.25)]">
+          <h1 className="font-pixel text-5xl sm:text-8xl tracking-widest text-ink leading-none py-1">
             VIKRANT
           </h1>
         </div>
@@ -35,19 +35,19 @@ export function Hero() {
         </div>
       </div>
 
-      <p className="mt-10 text-[11px] font-mono text-neutral-700 flex items-center gap-2 bg-white border border-neutral-300 px-4 py-1.5 rounded-full font-bold">
+      <p className="mt-10 text-[11px] font-mono text-ink-soft flex items-center gap-2 bg-card border border-line px-4 py-1.5 rounded-full font-bold">
         <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
         {PERSONAL_INFO.status}
       </p>
 
-      <h2 className="mt-6 font-sans text-2xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 max-w-2xl leading-tight">
+      <h2 className="mt-6 font-sans text-2xl sm:text-4xl font-extrabold tracking-tight text-ink max-w-2xl leading-tight">
         I build web apps and the backends behind them.
       </h2>
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         <a
           href="#projects"
-          className="bg-[#194BFD] text-white text-xs font-mono font-bold px-6 py-3 border-2 border-black shadow-[3px_3px_0px_#000] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0px_#000] transition-all rounded-sm"
+          className="bg-[#194BFD] text-white text-xs font-mono font-bold px-6 py-3 border-2 border-ink shadow-[3px_3px_0px_var(--shadow)] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0px_var(--shadow)] transition-all rounded-sm"
         >
           See my work
         </a>
@@ -55,7 +55,7 @@ export function Hero() {
           href={PERSONAL_INFO.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-white text-black text-xs font-mono font-bold px-6 py-3 border-2 border-black shadow-[3px_3px_0px_#000] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0px_#000] transition-all inline-flex items-center gap-1.5 rounded-sm"
+          className="bg-card text-ink text-xs font-mono font-bold px-6 py-3 border-2 border-ink shadow-[3px_3px_0px_var(--shadow)] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0px_var(--shadow)] transition-all inline-flex items-center gap-1.5 rounded-sm"
         >
           GitHub
           <ArrowUpRight className="w-4 h-4" />

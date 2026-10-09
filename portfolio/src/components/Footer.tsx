@@ -64,7 +64,7 @@ function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export function Footer() {
   return (
-    <footer className="py-8 bg-transparent border-t border-neutral-300/80 relative text-neutral-800">
+    <footer className="py-8 bg-transparent border-t border-line relative text-ink">
       <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs font-bold">
         <div>© 2026 Vikrant Choudhary · Mathura, India</div>
 
@@ -75,7 +75,7 @@ export function Footer() {
             rel="noopener noreferrer"
             title="GitHub"
             aria-label="GitHub"
-            className="p-2 rounded-md text-neutral-700 hover:text-black hover:bg-neutral-200/70 border border-transparent hover:border-neutral-300 transition-all flex items-center justify-center"
+            className="p-2 rounded-md text-ink-soft hover:text-ink hover:bg-subtle border border-transparent hover:border-line transition-all flex items-center justify-center"
           >
             <GithubIcon className="w-4 h-4" />
           </a>
@@ -85,7 +85,7 @@ export function Footer() {
             rel="noopener noreferrer"
             title="LinkedIn"
             aria-label="LinkedIn"
-            className="p-2 rounded-md text-neutral-700 hover:text-black hover:bg-neutral-200/70 border border-transparent hover:border-neutral-300 transition-all flex items-center justify-center"
+            className="p-2 rounded-md text-ink-soft hover:text-ink hover:bg-subtle border border-transparent hover:border-line transition-all flex items-center justify-center"
           >
             <LinkedinIcon className="w-4 h-4" />
           </a>
@@ -95,7 +95,7 @@ export function Footer() {
             rel="noopener noreferrer"
             title="Instagram"
             aria-label="Instagram"
-            className="p-2 rounded-md text-neutral-700 hover:text-black hover:bg-neutral-200/70 border border-transparent hover:border-neutral-300 transition-all flex items-center justify-center"
+            className="p-2 rounded-md text-ink-soft hover:text-ink hover:bg-subtle border border-transparent hover:border-line transition-all flex items-center justify-center"
           >
             <InstagramIcon className="w-4 h-4" />
           </a>
@@ -103,13 +103,13 @@ export function Footer() {
             href="mailto:vikrantchoudhary1203@gmail.com"
             title="Email"
             aria-label="Email"
-            className="p-2 rounded-md text-neutral-700 hover:text-black hover:bg-neutral-200/70 border border-transparent hover:border-neutral-300 transition-all flex items-center justify-center"
+            className="p-2 rounded-md text-ink-soft hover:text-ink hover:bg-subtle border border-transparent hover:border-line transition-all flex items-center justify-center"
           >
             <Mail className="w-4 h-4" />
           </a>
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="hover:text-neutral-950 transition-colors flex items-center gap-1.5 font-bold cursor-pointer border-l border-neutral-300 pl-3 sm:pl-4 ml-1 text-neutral-800"
+            className="hover:text-ink transition-colors flex items-center gap-1.5 font-bold cursor-pointer border-l border-line pl-3 sm:pl-4 ml-1 text-ink"
           >
             <span>Back to Top</span>
             <ArrowUp className="w-3.5 h-3.5" />

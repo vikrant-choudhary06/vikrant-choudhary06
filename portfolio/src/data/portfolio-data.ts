@@ -1,5 +1,7 @@
 import { Project, StackGroup } from "@/types";
 
+export const SITE_URL = "https://portfolio.vikrant.sbs";
+
 export const PERSONAL_INFO = {
   name: "Vikrant Choudhary",
   role: "Full-stack developer",
@@ -20,6 +22,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "rizzoto",
     name: "Rizzoto",
+    kind: "Offline-first restaurant POS",
     summary:
       "A restaurant POS that keeps billing, KOTs and the kitchen screen running even when the internet goes down.",
     year: "2026",
@@ -74,6 +77,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "opensourcehub",
     name: "OpenSourceHub",
+    kind: "Open-source issues and code battles platform",
     summary:
       "A developer community for discovering open-source issues, chatting with contributors, and competing in fairly judged code battles.",
     year: "2026",
@@ -127,6 +131,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "novacdb",
     name: "NoVacDB",
+    kind: "PostgreSQL-compatible database in Go",
     summary:
       "A PostgreSQL-compatible database built from scratch in Go that updates rows in place and keeps old versions in an undo log, so tables don't bloat and never need VACUUM.",
     year: "2026",
@@ -168,6 +173,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "novacdb-studio",
     name: "NoVacDB Studio",
+    kind: "Desktop SQL client for NoVacDB and PostgreSQL",
     summary: "A lightweight Windows desktop SQL client for NoVacDB that also works with any PostgreSQL server.",
     year: "2026",
     stack: ["Go", "Wails", "TypeScript", "CodeMirror", "PostgreSQL wire protocol", "Windows"],
@@ -208,6 +214,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "lyven",
     name: "Lyven",
+    kind: "Live classroom platform for teachers",
     summary:
       "A live classroom platform where a teacher runs a shared whiteboard, polls and lecture slides for the whole class from one dashboard, and AI grades handwritten homework in the background.",
     year: "2026",
@@ -266,6 +273,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "miidayshop",
     name: "MiidayShop",
+    kind: "Custom ecommerce store with Razorpay",
     summary:
       "A custom ecommerce platform for one brand, with its own storefront, admin panel and payments, so it doesn't have to rent a store from Shopify.",
     year: "2026",
@@ -306,6 +314,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "agency-crm",
     name: "Agency CRM",
+    kind: "Internal CRM for MiidayStudio",
     summary:
       "An internal CRM for a design-and-dev studio that turns inbox enquiries into a tracked pipeline, from lead to project to paid invoice.",
     year: "2026",
@@ -346,6 +355,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "cutcrew",
     name: "CutCrew",
+    kind: "Movie metadata and streaming backend",
     summary:
       "A movie and series streaming app that pulls IMDb details and playable links from dozens of sources and shows them in one place.",
     year: "2026",

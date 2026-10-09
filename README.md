@@ -1,86 +1,32 @@
-# 👨‍💻 Vikrant Choudhary
+# Vikrant Choudhary
 
-> 🌐 **Live Portfolio:** [portfolio.vikrant.sbs](https://portfolio.vikrant.sbs)  
+Full-stack developer from Mathura, India, studying BCA at Manipal University Jaipur.
+I build web apps and the backends behind them.
 
----
+**Portfolio:** [portfolio.vikrant.sbs](https://portfolio.vikrant.sbs) · **Email:** [vikrantchoudhary1203@gmail.com](mailto:vikrantchoudhary1203@gmail.com) · **LinkedIn:** [vikrant-kumar](https://www.linkedin.com/in/vikrant-kumar-268631395/)
 
-### 👋 About Me
+Open to internships and freelance work.
 
-Hi, I'm **Vikrant Choudhary** — a Full-Stack & Python Developer based in **Mathura, India**, currently pursuing BCA at **Manipal University Jaipur**. 
+## Projects
 
-I’ve been writing code and shipping software since 12th grade. I enjoy taking ideas from scratch and turning them into fast, reliable, and user-friendly web apps and backend systems. Whether it’s designing snappy frontend interfaces, building concurrent scrapers, or architecting sub-50ms REST APIs, I love getting into the weeds of software engineering.
+| Project | What it is | Stack | Links |
+|---|---|---|---|
+| **Rizzoto** | Restaurant POS that keeps billing, KOTs and the kitchen screen running when the internet goes down | Next.js, NestJS, PostgreSQL, Prisma, Electron | [Case study](https://portfolio.vikrant.sbs/projects/rizzoto) · [Live](https://rizzoto.vikrant.sbs) |
+| **OpenSourceHub** | Community for finding open-source issues and competing in fairly judged code battles | Next.js, NestJS, Fastify, PostgreSQL, Redis, BullMQ | [Case study](https://portfolio.vikrant.sbs/projects/opensourcehub) · [Live](https://opensourcehub.vikrantcode08.workers.dev) |
+| **NoVacDB** *(in development)* | PostgreSQL-compatible database in Go that updates rows in place, so tables never need VACUUM | Go, PostgreSQL wire protocol, WAL, MVCC | [Case study](https://portfolio.vikrant.sbs/projects/novacdb) · [Source](https://github.com/NoVacDB/NoVacDB) |
+| **NoVacDB Studio** *(in development)* | Lightweight Windows SQL client for NoVacDB and PostgreSQL | Go, Wails, TypeScript | [Case study](https://portfolio.vikrant.sbs/projects/novacdb-studio) · [Source](https://github.com/NoVacDB/NoVacDB-Studio) |
+| **Lyven** *(in development)* | Live classroom platform: shared whiteboard, polls and AI grading of handwritten homework | React, Node.js, Socket.io, Redis, BullMQ, MongoDB | [Case study](https://portfolio.vikrant.sbs/projects/lyven) · [Live](https://teach-us.vercel.app) |
+| **MiidayShop** | Custom ecommerce store with its own storefront, admin panel and Razorpay payments | Next.js, NestJS, PostgreSQL, Prisma, Razorpay | [Case study](https://portfolio.vikrant.sbs/projects/miidayshop) · [Source](https://github.com/vikrant-choudhary06/miiday-shop) |
+| **Agency CRM** | Internal CRM for MiidayStudio that turns enquiry emails into a tracked pipeline | React, Hono, Cloudflare Workers, D1 | [Case study](https://portfolio.vikrant.sbs/projects/agency-crm) · [Live](https://miiday-crm.vikrantcode08.workers.dev) |
+| **CutCrew** *(practice project, not maintained)* | Backend that pulls IMDb details and playable links from many sources | Node.js, Express, MongoDB, Python, FastAPI | [Case study](https://portfolio.vikrant.sbs/projects/cutcrew) · [Source](https://github.com/vikrant-choudhary06/CutCrew) |
 
-- 📍 **Location:** Mathura, India
-- 🎓 **Education:** BCA, Manipal University Jaipur
-- ⚡ **Focus:** Full-Stack Web Development, Scalable Backend APIs & Distributed Systems
-- 🎯 **Status:** Open to internships, full-time roles & exciting freelance collaborations
+## Tech I've shipped with
 
----
+- **Languages:** TypeScript, Go, JavaScript, SQL, Python
+- **Frontend:** React, Next.js, Vite, Tailwind CSS, Electron, Wails
+- **Backend:** NestJS, Express, Fastify, Hono, FastAPI
+- **Data:** PostgreSQL, Prisma, Redis, BullMQ, MongoDB
+- **Infra:** Cloudflare Workers and D1, Docker, Supabase, Git
+- **Also:** database internals (WAL, MVCC, B+Trees), real-time apps (Socket.io, SSE, offline sync)
 
-### 🛠️ Languages & Tech Stack
-
-#### 💻 Programming Languages
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![Go](https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white)
-![SQL](https://img.shields.io/badge/SQL-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-
-#### 🌐 Frontend & UI
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-
-#### ⚙️ Backend & Frameworks
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
-
-#### 🗄️ Databases & Caching
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
-![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
-![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
-
-#### 🔧 Tools & Workflow
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
-
----
-
-### 🚀 Projects I've Built
-
-- **🏪 OmniRetail — Multi-Tenant Retail & Dining ERP (Flagship)**  
-  Full business management suite featuring sub-100ms barcode POS checkout, automated GST invoicing, real-time kitchen order dispatch, and attendance-linked payroll.  
-  *Stack:* Next.js, TypeScript, PostgreSQL, Prisma, Redis
-
-- **🍿 PopcornStream — Video Streaming Platform**  
-  Full-stack streaming platform with adaptive bitrate playback, optimized caching layers to minimize bandwidth, and JWT-authenticated watchlists.  
-  *Stack:* React, Node.js, MongoDB, Tailwind CSS
-
-- **⚡ IMDb High-Throughput Scraper & Fast API**  
-  Concurrent web scraping pipeline with automatic retry backoff and a Redis-cached REST API delivering movie metadata at sub-15ms response times.  
-  *Stack:* Python, FastAPI, Redis, REST APIs
-
-- **🛍️ NovaStore — Full-Stack E-Commerce Engine**  
-  Modern storefront with dynamic multi-variant product filtering, persistent cart state, and idempotent checkout pipeline to prevent duplicate transactions.  
-  *Stack:* TypeScript, Next.js, PostgreSQL, Prisma, Tailwind CSS
-
-- **💬 Tech Us — Developer Social & Knowledge Hub**  
-  Interactive developer community platform featuring live discussion threads, code snippet rendering, and authenticated interactions.  
-  *Stack:* React, TypeScript, Node.js, MongoDB
-
----
-
-### 📬 Connect With Me
-
-- 📧 **Email:** [vikrantchoudhary1203@gmail.com](mailto:vikrantchoudhary1203@gmail.com)
-- 🐙 **GitHub:** [@vikrant-choudhary06](https://github.com/vikrant-choudhary06)
-- 📍 **Location:** Mathura, India
+The full list, with the project each one was used in, is on [my portfolio](https://portfolio.vikrant.sbs/#stack).

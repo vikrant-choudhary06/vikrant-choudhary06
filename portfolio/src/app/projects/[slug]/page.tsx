@@ -5,7 +5,8 @@ import { ArrowLeft, ArrowUpRight, Lock } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ProjectGallery } from "@/components/ProjectGallery";
-import { PROJECTS } from "@/data/portfolio-data";
+import { PERSONAL_INFO, PROJECTS } from "@/data/portfolio-data";
+import { projectJsonLd, serializeJsonLd } from "@/lib/structured-data";
 
 // Static export: only the slugs listed below exist, anything else is a 404.
 export const dynamicParams = false;
@@ -22,9 +23,30 @@ export async function generateMetadata({ params }: PageProps<"/projects/[slug]">
   const { slug } = await params;
   const project = findProject(slug);
   if (!project) return {};
+  const title = `${project.name}: ${project.kind}`;
+  const description = `${project.summary} Built by ${PERSONAL_INFO.name}.`;
+  const path = `/projects/${project.slug}`;
+  const image = { url: `/og/${project.slug}.png`, width: 1200, height: 630, alt: `${project.name} by ${PERSONAL_INFO.name}` };
   return {
-    title: `${project.name} — Vikrant Choudhary`,
-    description: project.summary,
+    title,
+    description,
+    keywords: [project.name, project.kind, PERSONAL_INFO.name, ...project.stack],
+    alternates: { canonical: path },
+    openGraph: {
+      type: "article",
+      url: path,
+      siteName: PERSONAL_INFO.name,
+      locale: "en_IN",
+      title: `${title} — ${PERSONAL_INFO.name}`,
+      description,
+      images: [image],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} — ${PERSONAL_INFO.name}`,
+      description,
+      images: [image],
+    },
   };
 }
 
@@ -35,6 +57,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
 
   return (
     <div className="min-h-screen bg-notebook-ruled text-ink overflow-x-hidden">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(projectJsonLd(project)) }} />
       <Navbar />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-16">
@@ -59,9 +82,12 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                 </span>
               ))}
             </div>
-            <h1 className="font-pixel text-5xl sm:text-7xl tracking-wider text-ink leading-none mt-2">
-              {project.name.toUpperCase()}
+            <h1 className="font-pixel text-5xl sm:text-7xl tracking-wider text-ink leading-none mt-2 uppercase">
+              {project.name}
             </h1>
+            <p className="mt-3 font-mono text-xs sm:text-sm text-muted font-bold">
+              {project.kind} · built by {PERSONAL_INFO.name}
+            </p>
             <p className="text-lg sm:text-xl text-ink-soft mt-4 leading-relaxed">{project.summary}</p>
             {project.note && (
               <p className="mt-4 text-sm text-amber-950 bg-amber-50 border-l-4 border-amber-400 dark:text-amber-100 dark:bg-amber-400/10 px-4 py-2.5">

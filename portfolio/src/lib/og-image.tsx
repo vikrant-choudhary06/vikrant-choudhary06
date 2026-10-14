@@ -69,7 +69,7 @@ export function renderOgCard({ eyebrow, title, subtitle, accent = AMBER, footer 
             </div>
           )}
           <div style={{ display: "flex", justifyContent: "space-between", fontSize: 28, color: MUTED }}>
-            <div style={{ display: "flex" }}>Vikrant Choudhary · Full-stack developer</div>
+            <div style={{ display: "flex" }}>Vikrant Kumar · Full-stack developer</div>
             <div style={{ display: "flex" }}>{domain}</div>
           </div>
         </div>

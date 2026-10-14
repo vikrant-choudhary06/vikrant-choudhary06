@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio",
+  "pages_build_output_dir": "./out",
+  "compatibility_date": "2026-10-13",
+  "d1_databases": [
+    {
+      "binding": "CONTACT_RATE_LIMITS",
+      "database_name": "portfolio-contact",
+      "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

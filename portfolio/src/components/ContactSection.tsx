@@ -1,19 +1,26 @@
 "use client";
 
 import React, { useState } from "react";
+import localFont from "next/font/local";
+import styles from "./ContactSection.module.css";
 import { ArrowRight, CheckCircle2, Mail, MapPin } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolio-data";
+import { ContactVerification } from "./ContactVerification";
+
+const displayFont = localFont({ src: "../app/fonts/anton.ttf", display: "swap", weight: "400" });
 
 const EMPTY_FORM = { name: "", email: "", subject: "", message: "", website: "" };
 
 const inputClass =
-  "w-full rounded-lg bg-card border-2 border-ink px-4 text-sm text-ink shadow-[2px_2px_0px_var(--shadow)] focus:bg-amber-50 dark:focus:bg-amber-400/10 transition-colors outline-none";
+  styles.input;
 
 export function ContactSection() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [verificationAttempt, setVerificationAttempt] = useState(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -22,6 +29,11 @@ export function ContactSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
+    if (!turnstileToken) {
+      setErrorMessage("Please complete the verification before sending.");
+      return;
+    }
     setLoading(true);
     setErrorMessage(null);
 
@@ -29,19 +41,19 @@ export function ContactSection() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, turnstileToken }),
+        signal: AbortSignal.timeout(30000),
       });
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
         // The function only exists on Cloudflare Pages, so `next dev` returns 404.
         if (response.status === 404 && process.env.NODE_ENV === "development") {
-          console.warn("/api/contact runs on Cloudflare Pages only. Pretending it worked in dev.");
-          setSubmitted(true);
-          return;
+          throw new Error("No message was sent. The contact form runs on Cloudflare Pages; use the email link during local development.");
         }
         throw new Error(data.error || "Couldn't send your message.");
       }
+      if (data.success !== true) throw new Error("Couldn't confirm your message was sent.");
 
       setSubmitted(true);
       setForm(EMPTY_FORM);
@@ -49,40 +61,42 @@ export function ContactSection() {
       setErrorMessage(err instanceof Error ? err.message : "Couldn't send your message.");
     } finally {
       setLoading(false);
+      setTurnstileToken("");
+      setVerificationAttempt((attempt) => attempt + 1);
     }
   };
 
   return (
-    <section id="contact" className="py-16 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto">
-      <div className="text-center mb-10">
-        <span className="font-handwriting text-xl sm:text-2xl text-ink-soft -rotate-2 inline-block mb-1">
-          say hi ~
-        </span>
-        <h2 className="font-pixel text-4xl sm:text-6xl text-ink tracking-wider leading-none uppercase">
-          Contact
-        </h2>
-      </div>
-
-      <div className="bg-cream border-2 border-ink rounded-2xl p-5 sm:p-8 shadow-[6px_6px_0px_var(--shadow)] grid grid-cols-1 md:grid-cols-12 gap-8">
-        <div className="md:col-span-5 space-y-5 md:border-r md:border-line md:pr-8">
-          <p className="text-ink leading-relaxed">
+    <section id="contact" className={styles.contact} aria-labelledby="contact-title">
+      <header className={styles.header}>
+        <p className={styles.eyebrow}>04 / Start a conversation</p>
+        <h2 id="contact-title" className={`${styles.title} ${displayFont.className}`}>LET’S BUILD SOMETHING.</h2>
+      </header>
+      <div className={styles.layout}>
+        <div className={styles.details}>
+          <p className={styles.availability}><span aria-hidden="true" />Open to internships &amp; freelance work</p>
+<h3 className={`${styles.invitation} ${displayFont.className}`}>Have an idea?<br />Let&apos;s make it work.</h3>
+<p className={styles.description}>
             Have an internship, a freelance project or just a question about something I&apos;ve built? Send me a
             message and I&apos;ll reply by email.
           </p>
           <a
             href={`mailto:${PERSONAL_INFO.email}`}
-            className="flex items-center gap-2 font-mono text-xs sm:text-[13px] font-bold text-ink hover:text-blue-600 break-all"
+            className={styles.email}
           >
             <Mail className="w-4 h-4 shrink-0" />
             {PERSONAL_INFO.email}
           </a>
-          <p className="flex items-center gap-2 font-mono text-sm text-ink-soft">
+          <p className={styles.location}>
             <MapPin className="w-4 h-4 shrink-0" />
             {PERSONAL_INFO.location}
           </p>
         </div>
 
-        <div className="md:col-span-7">
+        <div className={styles.formArea}>
+          <p role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+            {loading ? "Sending your message." : submitted ? "Thanks, your message is on its way." : ""}
+          </p>
           {submitted ? (
             <div className="p-8 rounded-xl bg-[#D1FAE5] text-emerald-950 dark:bg-emerald-400/10 dark:text-emerald-100 border-2 border-ink text-center space-y-4 shadow-[4px_4px_0px_var(--shadow)]">
               <CheckCircle2 className="w-10 h-10 text-emerald-700 dark:text-emerald-300 mx-auto" />
@@ -97,9 +111,9 @@ export function ContactSection() {
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} aria-busy={loading} className="space-y-4">
               {errorMessage && (
-                <div className="p-3 rounded-lg bg-rose-50 border-2 border-rose-500 text-rose-900 dark:bg-rose-500/10 dark:text-rose-200 text-sm">
+                <div role="alert" className="p-3 rounded-lg bg-rose-50 border-2 border-rose-500 text-rose-900 dark:bg-rose-500/10 dark:text-rose-200 text-sm">
                   {errorMessage}
                 </div>
               )}
@@ -138,10 +152,12 @@ export function ContactSection() {
                 <input id="website" name="website" tabIndex={-1} autoComplete="off" value={form.website} onChange={handleChange} />
               </div>
 
+              <ContactVerification key={verificationAttempt} onToken={setTurnstileToken} />
+
               <button
                 type="submit"
-                disabled={loading}
-                className="bg-ink text-paper hover:opacity-90 disabled:opacity-60 font-mono font-bold text-xs px-6 py-3.5 rounded-full border-2 border-ink shadow-[4px_4px_0px_var(--shadow)] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0px_var(--shadow)] transition-all inline-flex items-center gap-2"
+                disabled={loading || !turnstileToken}
+                className={styles.submit}
               >
                 {loading ? "Sending..." : "Send message"}
                 {!loading && <ArrowRight className="w-4 h-4" />}

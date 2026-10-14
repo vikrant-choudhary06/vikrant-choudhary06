@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const LOGO_EXTENSIONS = ["svg", "png", "webp"];
+const LOGO_EXTENSIONS = ["svg", "webp", "png"];
 
 // Looks for public/projects/<slug>/logo.{svg,png,webp} at build time, so adding
 // a logo only means dropping the file in that folder.

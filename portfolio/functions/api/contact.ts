@@ -1,6 +1,15 @@
 interface Env {
   RESEND_API_KEY?: string;
   RESEND_FROM_EMAIL?: string;
+  TURNSTILE_SECRET_KEY?: string;
+  CONTACT_RATE_LIMITS?: {
+    prepare(sql: string): {
+      bind(...values: (string | number)[]): {
+        first<T>(): Promise<T | null>;
+        run(): Promise<unknown>;
+      };
+    };
+  };
 }
 
 interface ContactPayload {
@@ -9,6 +18,7 @@ interface ContactPayload {
   subject?: unknown;
   message?: unknown;
   website?: unknown;
+  turnstileToken?: unknown;
 }
 
 interface PagesContext {
@@ -19,10 +29,10 @@ interface PagesContext {
 const TO_EMAIL = "vikrantchoudhary1203@gmail.com";
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function json(body: unknown, status: number): Response {
+function json(body: unknown, status: number, headers: HeadersInit = {}): Response {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "Cache-Control": "no-store", ...headers },
   });
 }
 
@@ -43,7 +53,11 @@ function escapeHtml(value: string): string {
 export const onRequestPost = async ({ request, env }: PagesContext): Promise<Response> => {
   let body: ContactPayload;
   try {
-    body = (await request.json()) as ContactPayload;
+    const parsed: unknown = await request.json();
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return json({ error: "Invalid request." }, 400);
+    }
+    body = parsed as ContactPayload;
   } catch {
     return json({ error: "Invalid request." }, 400);
   }
@@ -65,9 +79,50 @@ export const onRequestPost = async ({ request, env }: PagesContext): Promise<Res
     return json({ error: "That email address doesn't look right." }, 400);
   }
 
-  if (!env.RESEND_API_KEY) {
-    console.error("RESEND_API_KEY is not set");
-    return json({ error: "The contact form isn't working right now. Please email me directly." }, 500);
+  if (!env.RESEND_API_KEY || !env.TURNSTILE_SECRET_KEY || !env.CONTACT_RATE_LIMITS) {
+    console.error("Contact configuration is incomplete");
+    return json({ error: "The contact form isn't working right now. Please email me directly." }, 503);
+  }
+
+  const token = text(body.turnstileToken, 2048);
+  if (!token) return json({ error: "Please complete the verification." }, 400);
+
+  try {
+    // Cloudflare supplies this header; do not trust client-controlled forwarding headers.
+    const ip = request.headers.get("CF-Connecting-IP");
+    if (!ip) return json({ error: "Couldn't verify this request. Please email me directly." }, 503);
+    const windowSeconds = 600;
+    const now = Math.floor(Date.now() / 1000);
+    const expires = now + windowSeconds;
+    const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`${env.TURNSTILE_SECRET_KEY}:${ip}`));
+    const key = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+    const limit = await env.CONTACT_RATE_LIMITS.prepare(`
+      INSERT INTO contact_rate_limits (key, count, expires_at) VALUES (?, 1, ?)
+      ON CONFLICT(key) DO UPDATE SET
+        count = CASE WHEN expires_at <= ? THEN 1 ELSE count + 1 END,
+        expires_at = CASE WHEN expires_at <= ? THEN excluded.expires_at ELSE expires_at END
+      RETURNING count, expires_at
+    `).bind(key, expires, now, now).first<{ count: number; expires_at: number }>();
+    await env.CONTACT_RATE_LIMITS.prepare("DELETE FROM contact_rate_limits WHERE expires_at <= ?").bind(now).run();
+    if (!limit) throw new Error("Rate limit returned no result");
+    if (limit.count > 5) {
+      return json({ error: "Too many attempts. Please wait a few minutes or email me directly." }, 429,
+        { "Retry-After": String(Math.max(1, limit.expires_at - now)) });
+    }
+    const verification = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ secret: env.TURNSTILE_SECRET_KEY, response: token, remoteip: ip }),
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!verification.ok) throw new Error("Verification service unavailable");
+    const result = await verification.json() as { success?: boolean; hostname?: string; action?: string };
+    if (!result.success || result.hostname !== new URL(request.url).hostname || result.action !== "contact") {
+      return json({ error: "Verification expired or failed. Please try again." }, 400);
+    }
+  } catch (error) {
+    console.error("Contact verification failed", error);
+    return json({ error: "Couldn't verify your message. Please try again or email me directly." }, 503);
   }
 
   // Subject is a header, not HTML: strip line breaks instead of escaping.
@@ -84,6 +139,7 @@ export const onRequestPost = async ({ request, env }: PagesContext): Promise<Res
   try {
     const resendResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
+      signal: AbortSignal.timeout(10000),
       headers: {
         Authorization: `Bearer ${env.RESEND_API_KEY}`,
         "Content-Type": "application/json",

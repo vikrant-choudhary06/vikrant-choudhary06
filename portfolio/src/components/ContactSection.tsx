@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { ArrowRight, CheckCircle2, Mail, MapPin } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolio-data";
+import { ContactVerification } from "./ContactVerification";
 
 const EMPTY_FORM = { name: "", email: "", subject: "", message: "", website: "" };
 
@@ -14,6 +15,8 @@ export function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [verificationAttempt, setVerificationAttempt] = useState(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -22,6 +25,11 @@ export function ContactSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
+    if (!turnstileToken) {
+      setErrorMessage("Please complete the verification before sending.");
+      return;
+    }
     setLoading(true);
     setErrorMessage(null);
 
@@ -29,19 +37,19 @@ export function ContactSection() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, turnstileToken }),
+        signal: AbortSignal.timeout(30000),
       });
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
         // The function only exists on Cloudflare Pages, so `next dev` returns 404.
         if (response.status === 404 && process.env.NODE_ENV === "development") {
-          console.warn("/api/contact runs on Cloudflare Pages only. Pretending it worked in dev.");
-          setSubmitted(true);
-          return;
+          throw new Error("No message was sent. The contact form runs on Cloudflare Pages; use the email link during local development.");
         }
         throw new Error(data.error || "Couldn't send your message.");
       }
+      if (data.success !== true) throw new Error("Couldn't confirm your message was sent.");
 
       setSubmitted(true);
       setForm(EMPTY_FORM);
@@ -49,6 +57,8 @@ export function ContactSection() {
       setErrorMessage(err instanceof Error ? err.message : "Couldn't send your message.");
     } finally {
       setLoading(false);
+      setTurnstileToken("");
+      setVerificationAttempt((attempt) => attempt + 1);
     }
   };
 
@@ -83,6 +93,9 @@ export function ContactSection() {
         </div>
 
         <div className="md:col-span-7">
+          <p role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+            {loading ? "Sending your message." : submitted ? "Thanks, your message is on its way." : ""}
+          </p>
           {submitted ? (
             <div className="p-8 rounded-xl bg-[#D1FAE5] text-emerald-950 dark:bg-emerald-400/10 dark:text-emerald-100 border-2 border-ink text-center space-y-4 shadow-[4px_4px_0px_var(--shadow)]">
               <CheckCircle2 className="w-10 h-10 text-emerald-700 dark:text-emerald-300 mx-auto" />
@@ -97,9 +110,9 @@ export function ContactSection() {
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} aria-busy={loading} className="space-y-4">
               {errorMessage && (
-                <div className="p-3 rounded-lg bg-rose-50 border-2 border-rose-500 text-rose-900 dark:bg-rose-500/10 dark:text-rose-200 text-sm">
+                <div role="alert" className="p-3 rounded-lg bg-rose-50 border-2 border-rose-500 text-rose-900 dark:bg-rose-500/10 dark:text-rose-200 text-sm">
                   {errorMessage}
                 </div>
               )}
@@ -138,9 +151,11 @@ export function ContactSection() {
                 <input id="website" name="website" tabIndex={-1} autoComplete="off" value={form.website} onChange={handleChange} />
               </div>
 
+              <ContactVerification key={verificationAttempt} onToken={setTurnstileToken} />
+
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !turnstileToken}
                 className="bg-ink text-paper hover:opacity-90 disabled:opacity-60 font-mono font-bold text-xs px-6 py-3.5 rounded-full border-2 border-ink shadow-[4px_4px_0px_var(--shadow)] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0px_var(--shadow)] transition-all inline-flex items-center gap-2"
               >
                 {loading ? "Sending..." : "Send message"}

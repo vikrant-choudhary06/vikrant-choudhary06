@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Home, User, Folder, Cpu, MessageSquare, Menu, X } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
@@ -10,8 +11,11 @@ import { ThemeToggle } from "./ThemeToggle";
 export function Navbar() {
   const [activeTab, setActiveTab] = useState("home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const currentTab = pathname === "/" ? activeTab : pathname.startsWith("/projects") ? "projects" : "";
 
   useEffect(() => {
+    if (pathname !== "/") return;
     const handleScroll = () => {
       const sections = [
         { id: "hero", tab: "home" },
@@ -46,7 +50,19 @@ export function Navbar() {
     handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMobileMenuOpen(false);
+        document.getElementById("navigation-toggle")?.focus();
+      }
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [isMobileMenuOpen]);
 
   const navLinks = [
     { id: "home", label: "HOME", href: "/", icon: Home },
@@ -83,11 +99,12 @@ export function Navbar() {
         <nav className="hidden md:flex items-center gap-1 sm:gap-1.5" aria-label="Main Navigation">
           {navLinks.map((link) => {
             const Icon = link.icon;
-            const isActive = activeTab === link.id;
+            const isActive = currentTab === link.id;
             return (
               <Link
                 key={link.id}
                 href={link.href}
+                aria-current={isActive ? pathname === "/" ? "location" : "page" : undefined}
                 onClick={() => setActiveTab(link.id)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-mono text-xs transition-all ${
                   isActive
@@ -112,7 +129,7 @@ export function Navbar() {
               setIsMobileMenuOpen(false);
             }}
             className={`border-2 border-ink rounded-full px-3 sm:px-4 py-1.5 font-mono text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              activeTab === "contact"
+              currentTab === "contact"
                 ? "bg-ink text-paper shadow-none"
                 : "bg-card text-ink hover:bg-ink hover:text-paper shadow-[2px_2px_0px_var(--shadow)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]"
             }`}
@@ -124,9 +141,13 @@ export function Navbar() {
 
           {/* HAMBURGER TOGGLE BUTTON (MOBILE ONLY) */}
           <button
+            id="navigation-toggle"
+            type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden p-2 text-ink bg-subtle hover:bg-line border border-ink/10 rounded-full transition-colors"
             aria-label="Toggle Navigation Menu"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
           >
             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -138,6 +159,9 @@ export function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            id="mobile-navigation"
+            role="navigation"
+            aria-label="Mobile Navigation"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -147,11 +171,12 @@ export function Navbar() {
             <div className="flex flex-col gap-2 font-mono">
               {navLinks.map((link) => {
                 const Icon = link.icon;
-                const isActive = activeTab === link.id;
+                const isActive = currentTab === link.id;
                 return (
                   <Link
                     key={link.id}
                     href={link.href}
+                    aria-current={isActive ? pathname === "/" ? "location" : "page" : undefined}
                     onClick={() => {
                       setActiveTab(link.id);
                       setIsMobileMenuOpen(false);
@@ -175,7 +200,7 @@ export function Navbar() {
                   setIsMobileMenuOpen(false);
                 }}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all border mt-2 ${
-                  activeTab === "contact"
+                  currentTab === "contact"
                     ? "bg-ink text-paper border-ink shadow-[2px_2px_0px_#FFD028]"
                     : "bg-ink text-paper border-ink hover:opacity-90 shadow-[2px_2px_0px_var(--shadow)]"
                 }`}

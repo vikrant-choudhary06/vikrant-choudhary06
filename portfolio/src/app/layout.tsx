@@ -1,34 +1,15 @@
 import type { Metadata } from "next";
-import { VT323, Caveat, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { THEME_STORAGE_KEY } from "@/lib/theme";
 import { PERSONAL_INFO, PROJECTS, SITE_URL } from "@/data/portfolio-data";
 
 const THEME_SCRIPT = `(function(){try{if(localStorage.getItem("${THEME_STORAGE_KEY}")==="light")document.documentElement.classList.remove("dark")}catch(e){}})()`;
 
-const vt323 = VT323({
-  variable: "--font-pixel",
-  subsets: ["latin"],
-  weight: "400",
-});
-
-const caveat = Caveat({
-  variable: "--font-handwriting",
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-});
-
-const plusJakarta = Plus_Jakarta_Sans({
-  variable: "--font-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+const vt323 = localFont({ src: "./fonts/vt323.woff2", variable: "--font-pixel", weight: "400", display: "swap" });
+const caveat = localFont({ src: "./fonts/caveat.woff2", variable: "--font-handwriting", weight: "400 700", display: "swap" });
+const plusJakarta = localFont({ src: "./fonts/plus-jakarta-sans.woff2", variable: "--font-sans", weight: "400 800", display: "swap" });
+const jetbrainsMono = localFont({ src: "./fonts/jetbrains-mono.woff2", variable: "--font-mono", weight: "400 700", display: "swap" });
 
 const SITE_DESCRIPTION =
   "Vikrant Choudhary is a full-stack developer from Mathura, India, studying BCA at Manipal University Jaipur. " +

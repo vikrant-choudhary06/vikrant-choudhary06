@@ -19,6 +19,8 @@ export function Navbar() {
   useEffect(() => {
     if (pathname !== "/") return;
     const handleScroll = () => {
+      // Desktop uses the motion-value overlay; only update this menu on smaller screens.
+      if (window.innerWidth >= 1024) return;
       const sections = [
         { id: "hero", tab: "home" },
         { id: "about", tab: "about" },
@@ -49,9 +51,13 @@ export function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
     handleScroll();
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
   }, [pathname]);
 
   useEffect(() => {

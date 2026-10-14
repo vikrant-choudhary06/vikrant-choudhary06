@@ -1,9 +1,9 @@
 import Image from "next/image";
-import Link from "next/link";
 import localFont from "next/font/local";
-import { ArrowDown, ArrowRight, MapPin } from "lucide-react";
+import { ArrowDown, ArrowRight, Database, Braces } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolio-data";
 import styles from "./Hero.module.css";
+import { HeroMotion } from "./HeroMotion";
 
 const displayFont = localFont({
   src: "../app/fonts/anton.ttf",
@@ -18,14 +18,14 @@ export function Hero() {
       className={styles.hero}
       aria-labelledby="hero-title"
     >
-      <div className={styles.stage}>
+      <HeroMotion>
         <p className={`${styles.backdrop} ${displayFont.className}`} aria-hidden="true">VIKRANT</p>
         <p className={`${styles.edgeLabel} ${styles.edgeLeft}`}>{PERSONAL_INFO.role}</p>
 
-        <div className={styles.portrait}>
+        <div className={styles.portrait} data-hero-portrait>
           <Image
-            src="/hero-portrait.webp"
-            alt="Vikrant Choudhary wearing a black suit"
+            src="/hero-portrait-new.webp"
+            alt="Vikrant Kumar wearing glasses and a navy shirt with folded arms"
             fill
             preload
             sizes="(min-width: 1100px) 44vw, (min-width: 768px) 50vw, 90vw"
@@ -33,11 +33,20 @@ export function Hero() {
           />
         </div>
 
+        <div className={styles.floatingDetails} aria-hidden="true">
+          <span className={`${styles.floatIcon} ${styles.javascriptIcon}`}><Image src="/tech/javascript.svg" alt="" width={42} height={42} /></span>
+          <span className={`${styles.floatIcon} ${styles.mongoIcon}`}><Image src="/tech/mongodb.svg" alt="" width={42} height={42} /></span>
+          <span className={`${styles.floatIcon} ${styles.pythonIcon}`}><Image src="/tech/python.svg" alt="" width={42} height={42} /></span>
+          <span className={`${styles.floatIcon} ${styles.languageIcon}`}><span className={styles.tsMark}>TS</span></span>
+          <span className={`${styles.floatIcon} ${styles.databaseIcon}`}><Database size={36} /></span>
+          <span className={`${styles.floatIcon} ${styles.apiIcon}`}><Braces size={36} /></span>
+          <span className={`${styles.floatIcon} ${styles.goIcon}`}><strong>Go</strong></span>
+        </div>
+
         <div className={styles.intro}>
-          <h1 id="hero-title" className={`font-pixel ${styles.name}`}>
-            Vikrant<br />Choudhary<span className={styles.nameAccent} aria-hidden="true">_</span>
-          </h1>
-          <p className={styles.description}>I build web apps and the backends behind them.</p>
+          <h1 id="hero-title" className="sr-only">Vikrant Kumar — Full-stack developer</h1>
+          <p className={styles.focusTitle}>Full-stack developer. <span>Backend at heart.</span></p>
+          <p className={styles.focusDescription}>I focus on APIs, databases and reliable systems, and build the interfaces that bring them to life.</p>
           <div className={styles.actions}>
             <a href="#projects" className={`${styles.button} ${styles.primary}`}>
               See my work <ArrowRight size={15} aria-hidden="true" />
@@ -46,19 +55,11 @@ export function Hero() {
           </div>
         </div>
 
-        <aside className={styles.current} aria-label="Current project and availability">
-          <p className={styles.eyebrow}>Currently building</p>
-          <Link href="/projects/rizzoto" className={`font-pixel ${styles.projectName}`}>Rizzoto</Link>
-          <p className={styles.projectDescription}>Offline-first restaurant POS</p>
-          <span className={styles.rule} aria-hidden="true" />
-          <p className={styles.location}><MapPin size={15} aria-hidden="true" />{PERSONAL_INFO.location}</p>
-          <p className={styles.availability}>{PERSONAL_INFO.status}</p>
-        </aside>
 
         <a href="#about" className={styles.scrollCue}>
           <span aria-hidden="true" />Scroll to explore <ArrowDown size={14} aria-hidden="true" /><span aria-hidden="true" />
         </a>
-      </div>
+      </HeroMotion>
     </section>
   );
 }

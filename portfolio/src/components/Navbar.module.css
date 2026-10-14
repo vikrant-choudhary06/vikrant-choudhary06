@@ -6,3 +6,11 @@
   .overlayHeader > div:last-child > a { display: none; }
   .overlayHeader > div:last-child > button:first-child { position: fixed; bottom: 22px; left: 28px; pointer-events: auto; }
 }
+
+@media (max-width: 1023px) {
+  .overlayHeader { background: transparent !important; border: 0 !important; box-shadow: none !important; backdrop-filter: none !important; pointer-events: none; }
+  .overlayHeader a, .overlayHeader button { pointer-events: auto; }
+  .overlayHeader > nav, .overlayHeader > div:first-child span { display: none !important; }
+  .overlayHeader > div:last-child { position: fixed; bottom: 14px; left: 16px; }
+  .overlayHeader > div:last-child > a, .overlayHeader > div:last-child > button:last-child { display: none !important; }
+}

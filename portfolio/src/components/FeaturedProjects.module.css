@@ -1,0 +1,50 @@
+.projects { --project-amber: #a36b17; padding: 64px 0 72px; background: transparent; overflow: hidden; }
+:global(.dark) .projects { --project-amber: #d4a441; }
+.header { margin: 0 5%; }
+.eyebrow { color: var(--project-amber); font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 14px; }
+.title { margin: 0; font-size: clamp(64px, 11vw, 164px); font-weight: 400; line-height: 1.1; letter-spacing: -.025em; color: var(--project-amber); }
+.track { position: relative; display: flex; gap: 48px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 5vw; padding: 38px 5vw 30px; scrollbar-width: none; }
+.track::-webkit-scrollbar { display: none; }
+.track:focus-visible { outline: 2px solid var(--project-amber); outline-offset: -3px; }
+.panel { flex: 0 0 min(58vw, 780px, 64svh); min-width: 0; scroll-snap-align: start; display: block; }
+.panel:focus-visible { outline: 2px solid var(--project-amber); outline-offset: 8px; border-radius: 8px; }
+.stage { position: relative; aspect-ratio: 16 / 9; border: 1px solid color-mix(in srgb, var(--project-amber) 60%, var(--line)); border-radius: 10px; overflow: hidden; background: #121211; transform: perspective(1500px) rotateY(-5deg) rotate(-2deg); transform-origin: center; box-shadow: 12px 25px 38px rgb(0 0 0 / 25%), 0 0 28px color-mix(in srgb, var(--project-amber) 8%, transparent); transition: transform .45s ease, border-color .45s ease; }
+.panel:hover .stage, .panel:focus-visible .stage { transform: perspective(1500px) rotateY(0) rotate(0); border-color: var(--project-amber); }
+.cover { object-fit: contain; }
+.logoStage { background: radial-gradient(ellipse at center, #302a20, #121211 70%); }
+.logo { object-fit: contain; padding: 12%; }
+.previewNote { position: absolute; bottom: 24px; left: 28px; right: 28px; text-align: center; font-family: var(--font-mono); font-size: 12px; color: #c8c1b3; }
+.placeholder { position: absolute; inset: 0; display: grid; place-items: center; color: #d4a441; font-size: clamp(28px, 5vw, 70px); }
+.info { display: flex; align-items: flex-start; gap: 24px; margin-top: 24px; }
+.number { color: var(--project-amber); font-size: 58px; line-height: 1; padding-right: 24px; border-right: 1px solid var(--line); }
+.description { min-width: 0; flex: 1; }
+.description h3 { font-size: clamp(24px, 2.5vw, 38px); font-weight: 700; line-height: 1.2; margin: 0 0 6px; }
+.kind { font-size: 18px; margin: 0 0 6px; }
+.summary { font-size: 14px; line-height: 1.7; color: var(--ink-soft); max-width: 670px; margin: 0 0 10px; }
+.stack { font-family: var(--font-mono); text-transform: uppercase; font-size: 10px; letter-spacing: .05em; color: var(--muted); margin: 0; line-height: 1.7; }
+.status { color: var(--project-amber); font-family: var(--font-mono); font-size: 10px; margin: 8px 0; }
+.open { display: grid; place-items: center; flex-shrink: 0; border: 1px solid var(--project-amber); color: var(--project-amber); border-radius: 50%; width: 52px; height: 52px; align-self: center; }
+.controls { display: flex; align-items: center; gap: 18px; margin: 12px 5% 0; }
+.count, .hint { font-family: var(--font-mono); color: var(--project-amber); font-size: 11px; text-transform: uppercase; white-space: nowrap; }
+.progress { flex: 1; height: 3px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.progress span { display: block; height: 100%; background: var(--project-amber); }
+.controls button { width: 40px; height: 40px; border: 1px solid var(--project-amber); border-radius: 50%; display: grid; place-items: center; color: var(--project-amber); cursor: pointer; }
+.controls button:disabled { opacity: .3; cursor: default; }
+.controls button:focus-visible { outline: 2px solid var(--project-amber); outline-offset: 4px; }
+@media (max-width: 767px) {
+  .projects { padding: 44px 0 48px; }
+  .header { margin-inline: 24px; }
+  .title { font-size: 18vw; }
+  .track { gap: 24px; padding-inline: 24px; scroll-padding-inline: 24px; }
+  .panel { flex-basis: min(78vw, 64svh); }
+  .stage { transform: perspective(1200px) rotateY(-2deg) rotate(-1deg); }
+  .info { gap: 12px; margin-top: 24px; }
+  .number { font-size: 36px; padding-right: 12px; }
+  .kind { font-size: 14px; }
+  .summary { font-size: 12px; }
+  .open { width: 34px; height: 34px; }
+  .previewNote { font-size: 9px; bottom: 12px; }
+  .controls { margin-inline: 24px; gap: 10px; }
+  .hint { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .stage { transition: none; } }

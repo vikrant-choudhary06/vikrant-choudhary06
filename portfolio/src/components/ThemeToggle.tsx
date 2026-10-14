@@ -16,9 +16,7 @@ export function ThemeToggle() {
   // The inline script in layout.tsx applies the saved theme before paint. In dev,
   // React's Strict Mode remount resets <html> to its JSX classes, so re-apply here.
   useLayoutEffect(() => {
-    if (readSavedTheme() === "light") {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", readSavedTheme() === "dark");
   }, []);
 
   function toggle() {

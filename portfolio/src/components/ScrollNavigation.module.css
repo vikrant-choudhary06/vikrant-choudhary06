@@ -1,6 +1,6 @@
 .overlay { display: none; }
 
-@media (min-width: 1024px) {
+@media (min-width: 0px) {
   .overlay {
     display: block;
     --navigation-accent: #95621a;
@@ -21,7 +21,7 @@
     padding: 9px 0 9px 7px;
     color: var(--ink-soft);
     font-family: var(--font-sans);
-    font-size: 12px;
+    font-size: 24px;
     font-weight: 600;
     text-align: right;
     text-transform: uppercase;
@@ -30,10 +30,11 @@
     transform-origin: right center;
     pointer-events: auto;
     text-shadow: 0 1px 4px var(--paper), 0 0 10px var(--paper);
-    transition: color .2s, font-size .2s;
+    transition: color .2s;
     will-change: transform;
   }
-  .sectionLabel[aria-current="location"] { color: var(--navigation-accent); font-size: 24px; font-weight: 700; letter-spacing: -.02em; }
+  .sectionLabel[aria-current="location"] { color: var(--navigation-accent); }
+  .letter { display: inline-block; transform-origin: center; will-change: transform, opacity; }
   .sectionLabel:hover { color: var(--ink); }
   .sectionLabel:focus-visible { outline: 2px solid var(--navigation-accent); outline-offset: 3px; }
   .ruler { position: absolute; right: 0; top: 0; bottom: 0; width: 35px; overflow: hidden; pointer-events: auto; touch-action: none; }
@@ -51,4 +52,15 @@
 
 @media (prefers-reduced-motion: reduce) {
   .sectionLabel { transition: none; }
+}
+
+@media (max-width: 1023px) {
+  .overlay { width: 76px; }
+  .sectionLabel { right: 15px; max-width: 60px; font-size: 11px; padding: 10px 0; letter-spacing: 0; }
+  .ruler { width: 9px; }
+  .tick { width: 4px; }
+  .major { width: 7px; }
+  .tickNumber, .percent { display: none; }
+  .indicator { width: 9px; }
+  .accessibleLinks:focus-within { right: 15px; }
 }

@@ -1,0 +1,31 @@
+.contact { --contact-amber: #a36b17; padding: 64px 5% 80px; background: transparent; }
+:global(.dark) .contact { --contact-amber: #d4a441; }
+.header, .layout { max-width: 1440px; margin: auto; }
+.eyebrow { color: var(--contact-amber); font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; margin: 0 0 18px; }
+.title { color: var(--contact-amber); font-size: clamp(48px, 8.8vw, 132px); font-weight: 400; line-height: 1.12; letter-spacing: -.02em; margin: 0 0 48px; }
+.layout { display: grid; grid-template-columns: 1fr 1fr; gap: 8%; border-top: 1px solid color-mix(in srgb, var(--contact-amber) 45%, var(--line)); padding-top: 40px; }
+.details { min-width: 0; }
+.availability { display: flex; align-items: center; gap: 10px; color: var(--contact-amber); font-family: var(--font-mono); font-size: 11px; line-height: 1.7; margin-bottom: 26px; }
+.availability span { width: 7px; height: 7px; border-radius: 50%; background: var(--contact-amber); flex-shrink: 0; box-shadow: 0 0 10px color-mix(in srgb, var(--contact-amber) 40%, transparent); }
+.invitation { font-size: clamp(36px, 4vw, 58px); font-weight: 400; line-height: 1.2; margin: 0 0 24px; }
+.description { font-size: 16px; line-height: 1.9; color: var(--ink-soft); max-width: 440px; margin-bottom: 30px; }
+.email, .location { display: flex; align-items: center; gap: 12px; color: var(--ink-soft); font-family: var(--font-mono); font-size: 12px; line-height: 1.8; margin-bottom: 20px; }
+.email { color: var(--contact-amber); overflow-wrap: anywhere; }
+.email svg, .location svg { flex-shrink: 0; }
+.email:hover { color: var(--ink); }
+.formArea { min-width: 0; padding-left: 32px; border-left: 1px solid var(--line); }
+.input { width: 100%; background: var(--subtle); border: 0; border-bottom: 1px solid var(--line); border-radius: 0; padding: 12px 14px; font-size: 14px; color: var(--ink); transition: border-color .2s, background .2s; }
+.input:focus { outline: 2px solid var(--contact-amber); outline-offset: 2px; background: var(--card); border-color: var(--contact-amber); }
+.formArea label { color: var(--ink-soft); letter-spacing: .08em; font-weight: 500; }
+.submit { display: inline-flex; align-items: center; justify-content: space-between; gap: 30px; min-height: 48px; padding: 12px 24px; background: var(--contact-amber); color: var(--paper); font-family: var(--font-mono); font-size: 12px; font-weight: 700; text-transform: uppercase; border: 1px solid var(--contact-amber); cursor: pointer; transition: transform .2s; }
+.submit:hover:not(:disabled) { transform: translateY(-2px); }
+.submit:disabled { opacity: .5; cursor: not-allowed; }
+.submit:focus-visible, .details a:focus-visible { outline: 2px solid var(--contact-amber); outline-offset: 5px; }
+@media (max-width: 767px) {
+  .contact { padding: 44px 24px 48px; }
+  .title { font-size: clamp(48px, 12vw, 84px); margin-bottom: 30px; }
+  .layout { grid-template-columns: 1fr; gap: 32px; padding-top: 28px; }
+  .formArea { padding: 28px 0 0; border-left: 0; border-top: 1px solid var(--line); }
+  .submit { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .input, .submit { transition: none; } .submit:hover:not(:disabled) { transform: none; } }

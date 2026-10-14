@@ -21,7 +21,6 @@ export function Hero() {
       <div className={styles.stage}>
         <p className={`${styles.backdrop} ${displayFont.className}`} aria-hidden="true">VIKRANT</p>
         <p className={`${styles.edgeLabel} ${styles.edgeLeft}`}>{PERSONAL_INFO.role}</p>
-        <p className={`${styles.edgeLabel} ${styles.edgeRight}`} aria-hidden="true">Build. Learn. Repeat.</p>
 
         <div className={styles.portrait}>
           <Image

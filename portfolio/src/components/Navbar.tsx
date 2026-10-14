@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Home, User, Folder, Cpu, MessageSquare, Menu, X } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import { ScrollNavigation } from "./ScrollNavigation";
+import styles from "./Navbar.module.css";
 
 export function Navbar() {
   const [activeTab, setActiveTab] = useState("home");
@@ -73,7 +75,8 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 inset-x-0 z-50 h-14 bg-paper/90 backdrop-blur-md border-b border-line px-4 sm:px-8 flex items-center justify-between shadow-xs">
+      {pathname === "/" && <ScrollNavigation />}
+      <header className={`fixed top-0 inset-x-0 z-50 h-14 bg-paper/90 backdrop-blur-md border-b border-line px-4 sm:px-8 flex items-center justify-between shadow-xs ${pathname === "/" ? styles.overlayHeader : ""}`}>
         
         {/* LEFT BRANDING / LOGOMARK */}
         <div className="flex items-center shrink-0">

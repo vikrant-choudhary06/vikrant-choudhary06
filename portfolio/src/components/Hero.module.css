@@ -74,7 +74,6 @@
 }
 
 .edgeLeft { left: 22px; transform: rotate(180deg); }
-.edgeRight { right: 22px; }
 
 .intro, .current {
   position: absolute;
@@ -121,7 +120,6 @@
   .name { font-size: 46px; }
   .description { max-width: 240px; }
   .edgeLeft { left: 12px; }
-  .edgeRight { right: 12px; }
 }
 
 @media (max-width: 767px) {

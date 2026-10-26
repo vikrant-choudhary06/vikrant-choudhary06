@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import Image from "next/image";
 import { PERSONAL_INFO } from "@/data/portfolio-data";
 import styles from "./AboutSection.module.css";
+import { AboutNarrative } from "./AboutNarrative";
 
 const displayFont = localFont({ src: "../../public/fonts/Tanker-Regular.otf", display: "swap", weight: "400" });
 const bodyFont = localFont({ src: "../../public/fonts/GeneralSans-Variable.ttf", display: "swap", weight: "200 700" });
@@ -14,7 +15,7 @@ export function AboutSection() {
         <div className={styles.content}>
           <div className={styles.story}>
             <h2 id="about-title" className={`${styles.title} ${displayFont.className}`}>VIKRANT KUMAR</h2>
-            <p className={bodyFont.className}>I’m <strong>Vikrant Kumar</strong>, <a href="https://miidaystudio.online/" target="_blank" rel="noopener noreferrer">Founder of MiidayStudio</a> and a backend-focused Full Stack Developer. I specialize in building fast, optimized web applications and fine-tuning databases for performance at scale.</p>
+            <AboutNarrative className={bodyFont.className} />
             <p className={`${styles.motto} ${displayFont.className}`}>Built from an idea.<br />Made to work.</p>
           </div>
           <div id="about-portrait-slot" className={styles.portraitSlot} aria-hidden="true">

@@ -23,6 +23,13 @@ function SectionLabel({ id, label, index, reached, active }: {
   return (
     <MotionLink
       href={`/#${id}`}
+      onClick={(event) => {
+        const target = document.getElementById(id);
+        if (!target) return;
+        event.preventDefault();
+        history.replaceState(null, "", `/#${id}`);
+        window.scrollTo({ top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - 72), behavior: reducedMotion ? "instant" : "smooth" });
+      }}
       className={styles.sectionLabel}
       aria-label={label}
       aria-current={active ? "location" : undefined}
@@ -96,6 +103,9 @@ export function ScrollNavigation() {
   });
 
   useEffect(() => {
+    // Clear state left by the removed horizontal experiment during Fast Refresh.
+    delete document.documentElement.dataset.horizontalJourney;
+    document.querySelectorAll<HTMLElement>("[data-horizontal-start]").forEach(element => delete element.dataset.horizontalStart);
     let frame = 0;
     let disposed = false;
     const desktop = window.matchMedia("(min-width: 0px)");

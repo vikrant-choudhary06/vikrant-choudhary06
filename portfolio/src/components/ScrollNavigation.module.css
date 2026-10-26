@@ -3,7 +3,7 @@
 @media (min-width: 0px) {
   .overlay {
     display: block;
-    --navigation-accent: #95621a;
+    --navigation-accent: var(--ink);
     position: fixed;
     inset: 0 0 0 auto;
     width: 170px;
@@ -12,7 +12,7 @@
     pointer-events: none;
     /* The page remains full width: no panel, fill, border, or reserved gutter. */
   }
-  :global(.dark) .overlay { --navigation-accent: #d4a441; }
+  :global(.dark) .overlay { --navigation-accent: var(--ink); }
   .sectionLabel {
     position: absolute;
     right: 42px;
@@ -33,14 +33,14 @@
     transition: color .2s;
     will-change: transform;
   }
-  .sectionLabel[aria-current="location"] { color: var(--navigation-accent); }
+  .sectionLabel[aria-current="location"] { color: var(--navigation-accent); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 7px; text-decoration-thickness: 2px; }
   .letter { display: inline-block; transform-origin: center; will-change: transform, opacity; }
   .sectionLabel:hover { color: var(--ink); }
   .sectionLabel:focus-visible { outline: 2px solid var(--navigation-accent); outline-offset: 3px; }
   .ruler { position: absolute; right: 0; top: 0; bottom: 0; width: 35px; overflow: hidden; pointer-events: auto; touch-action: none; }
   .ruler:focus-within { outline: 1px solid var(--navigation-accent); outline-offset: -1px; }
-  .tick { position: absolute; top: 0; right: 0; width: 9px; height: 1px; background: var(--line); pointer-events: none; }
-  .major { width: 17px; background: var(--muted); }
+  .tick { position: absolute; top: 0; right: 0; width: 9px; height: 1px; background: color-mix(in srgb, var(--ink) 65%, transparent); pointer-events: none; }
+  .major { width: 17px; background: var(--ink); }
   .tickNumber { position: absolute; right: 22px; top: -5px; color: var(--muted); font-family: var(--font-mono); font-size: 9px; }
   .indicator { position: absolute; top: 0; right: 0; width: 35px; height: 1px; background: var(--navigation-accent); pointer-events: none; }
   .percent { position: absolute; right: 4px; top: 5px; color: var(--navigation-accent); font-family: var(--font-mono); font-size: 9px; }

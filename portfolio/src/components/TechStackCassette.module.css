@@ -1,5 +1,5 @@
-.stack { --stack-amber: #a36b17; background: transparent; padding: 64px 5% 72px; }
-:global(.dark) .stack { --stack-amber: #d4a441; }
+.stack { --stack-amber: var(--ink); background: transparent; padding: 64px 5% 72px; }
+:global(.dark) .stack { --stack-amber: var(--ink); }
 .inner { max-width: 1440px; margin: auto; }
 .eyebrow { display: flex; align-items: center; gap: 20px; color: var(--stack-amber); font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; margin: 0 0 16px; }
 .eyebrow span { height: 1px; width: 38%; background: var(--line); }
@@ -8,7 +8,7 @@
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 44px 64px; }
 .group { min-width: 0; }
 .category { display: flex; align-items: center; gap: 16px; font-family: var(--font-mono); font-weight: 400; text-transform: uppercase; font-size: 12px; letter-spacing: .1em; margin: 0 0 12px; }
-.category > span:first-child { color: var(--stack-amber); }
+.category > span:first-child { color: var(--ink); border-left: 3px solid var(--accent); padding-left: 10px; }
 .rule { height: 1px; background: color-mix(in srgb, var(--stack-amber) 45%, var(--line)); flex: 1; }
 .groupContent { display: flex; gap: 24px; align-items: flex-start; }
 .groupIcon { color: var(--ink-soft); flex-shrink: 0; margin-top: 22px; }

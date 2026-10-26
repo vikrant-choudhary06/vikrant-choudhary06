@@ -6,7 +6,6 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Home, User, Folder, Cpu, MessageSquare, Menu, X } from "lucide-react";
-import { ThemeToggle } from "./ThemeToggle";
 import { ScrollNavigation } from "./ScrollNavigation";
 import styles from "./Navbar.module.css";
 
@@ -130,7 +129,6 @@ export function Navbar() {
 
         {/* RIGHT ACTION CTA & MOBILE MENU TOGGLE */}
         <div className="flex items-center gap-2">
-          <ThemeToggle />
           <Link
             href="/#contact"
             onClick={() => {

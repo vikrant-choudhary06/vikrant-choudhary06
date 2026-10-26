@@ -4,6 +4,7 @@ import { Braces, Code2, Database, Layers, Cloud, Terminal, Workflow } from "luci
 import { ALSO_FAMILIAR, PROJECTS, STACK } from "@/data/portfolio-data";
 import type { StackItem } from "@/types";
 import styles from "./TechStackCassette.module.css";
+import { StackConnections } from "./StackConnections";
 
 const displayFont = localFont({ src: "../app/fonts/anton.ttf", display: "swap", weight: "400" });
 function resolve(item: StackItem) {
@@ -35,6 +36,7 @@ export function TechStackCassette() {
         <p className={styles.eyebrow}>03 / The toolkit <span /></p>
         <h2 id="stack-title" className={`${styles.title} ${displayFont.className}`}>WHAT POWERS THE BUILD.</h2>
         <p className={styles.subtitle}>The tools behind the interfaces, APIs and systems I build.</p>
+        <StackConnections />
         <div className={styles.grid}>
           {groups.map((entry, index) => {
             const Icon = entry.icon;

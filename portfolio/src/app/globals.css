@@ -5,25 +5,28 @@
 
 /* Light: paper notebook. */
 :root {
-  --paper: #fafaf7;
-  --paper-line: #e5e0da;
-  --card: #ffffff;
-  --cream: #fffdf7;
-  --subtle: #f5f5f4;
-  --ink: #0a0a0a;
-  --ink-soft: #404040;
-  --muted: #737373;
-  --line: #e5e5e5;
-  --shadow: #000000;
-  --scrollbar: #cbd5e1;
+  --paper: #ad9878;
+  --paper-line: #9b8b70;
+  --card: #f2e9d8;
+  --cream: #f2e9d8;
+  --subtle: #e2d5bc;
+  --accent: #a64b35;
+  --accent-hover: #873c2a;
+  --on-accent: #fff8ec;
+  --ink: #163c32;
+  --ink-soft: #214639;
+  --muted: #345345;
+  --line: #8c8168;
+  --shadow: #163c32;
+  --scrollbar: #345345;
 }
 
 /* Dark: the same notebook at night. Warm greys instead of pure black,
    off-white ink, and amber offset shadows so the "sticker" edges still read. */
 .dark {
-  --paper: #191816;
-  --paper-line: #25231f;
-  --card: #22201d;
+  --paper: #101214;
+  --paper-line: #34312b;
+  --card: #191c20;
   --cream: #26231f;
   --subtle: #2c2925;
   --ink: #ece7dc;
@@ -50,6 +53,7 @@
 }
 
 html {
+  scrollbar-width: none;
   color-scheme: light;
   scroll-behavior: smooth;
   scroll-padding-top: 4.5rem;
@@ -66,23 +70,16 @@ html.dark {
 }
 
 body {
+  scrollbar-width: none;
   background-color: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
   overflow-x: hidden;
 }
 
-/* Notebook ruled lines */
+/* Shared page surface, including project pages. */
 .bg-notebook-ruled {
   background-color: var(--paper);
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent,
-    transparent 31px,
-    var(--paper-line) 31px,
-    var(--paper-line) 32px
-  );
-  background-size: 100% 32px;
 }
 
 .font-pixel {
@@ -105,3 +102,17 @@ body {
   background: var(--scrollbar);
   border-radius: 4px;
 }
+
+/* The ruler navigation provides page progress; hide only the page scrollbar. */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+[data-section-reveal="true"] { transition: opacity .7s ease, translate .7s cubic-bezier(.22,1,.36,1); }
+[data-section-reveal="true"][data-section-visible="false"] { opacity: 0; translate: 0 22px; }
+[data-section-reveal="true"][data-section-visible="true"] { opacity: 1; translate: 0 0; }
+.about-highlight { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 5px; }
+@media (prefers-reduced-motion: reduce) { [data-section-reveal="true"] { transition: none; opacity: 1 !important; translate: none !important; } }

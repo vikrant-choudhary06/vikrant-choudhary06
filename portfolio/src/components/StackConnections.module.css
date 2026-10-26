@@ -1,0 +1,5 @@
+.connections { color: var(--stack-amber); margin: 18px 0 36px; }
+.connections svg { display: block; width: 100%; height: auto; max-height: 150px; }
+.connections text { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; }
+.node { fill: var(--paper); }
+@media (max-width: 767px) { .connections { margin: 8px 0 28px; } .connections text { font-size: 17px; letter-spacing: 0; } }

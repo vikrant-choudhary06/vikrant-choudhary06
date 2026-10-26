@@ -69,6 +69,13 @@ export function HeroMotion({ children }: { children: ReactNode }) {
   useMotionValueEvent(portraitTransform, "change", (value) => {
     if (portraitElement.current) portraitElement.current.style.transform = value;
   });
+  useEffect(() => {
+    // Restore the current transform even when mounting at an existing scroll offset.
+    const frame = requestAnimationFrame(() => {
+      if (portraitElement.current) portraitElement.current.style.transform = portraitTransform.get();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [portraitTransform]);
   const reset = () => { pointerX.set(0); pointerY.set(0); };
 
   return <motion.div ref={stage} className={styles.stage}

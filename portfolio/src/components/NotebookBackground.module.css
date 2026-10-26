@@ -1,0 +1,6 @@
+.background { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: var(--paper); }
+.blueprint { position: absolute; inset: 0; width: 100%; height: calc(100% + 140px); color: var(--ink); opacity: .13; mask-image: linear-gradient(to right, #000, transparent 25%, transparent 75%, #000); }
+.structure { opacity: .65; }
+.signal { stroke-width: 1.8; }
+.background::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 40%, color-mix(in srgb, var(--paper) 18%, transparent), transparent 70%); }
+@media (max-width: 767px) { .blueprint { opacity: .065; mask-image: linear-gradient(to right, #000, transparent 17%, transparent 83%, #000); } }

@@ -1,0 +1,8 @@
+.scene { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .85; mask-image: linear-gradient(90deg, #000, #000 20%, #0009 50%, #000 80%, #000); }
+.scene canvas { display: block; width: 100%; height: 100%; }
+:global(.dark) .scene { opacity: .9; }
+@media (max-width: 767px) { .scene { opacity: .65; } }
+@media (prefers-reduced-motion: reduce) { .scene { display: none; } }
+
+.scene { mask-image: linear-gradient(90deg, #000, #0009 18%, #0002 35%, #0001 65%, #0009 82%, #000); }
+@media (max-width: 767px) { .scene { opacity: .45; mask-image: linear-gradient(90deg, #0008, #0001 28%, #0001 72%, #0008); } }

@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { THEME_STORAGE_KEY } from "@/lib/theme";
 import { PERSONAL_INFO, PROJECTS, SITE_URL } from "@/data/portfolio-data";
 
-const THEME_SCRIPT = `(function(){try{if(localStorage.getItem("${THEME_STORAGE_KEY}")==="dark")document.documentElement.classList.add("dark")}catch(e){}})()`;
+const THEME_SCRIPT = `document.documentElement.classList.remove("dark");`;
 
 const vt323 = localFont({ src: "./fonts/vt323.woff2", variable: "--font-pixel", weight: "400", display: "swap" });
 const caveat = localFont({ src: "./fonts/caveat.woff2", variable: "--font-handwriting", weight: "400 700", display: "swap" });
@@ -73,7 +72,7 @@ export default function RootLayout({
       className={`${vt323.variable} ${caveat.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <head>
-        {/* Light is the default; restore an explicit dark choice before first paint. */}
+        {/* One fixed oatmeal and pine palette, regardless of old theme preferences. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
       <body className="min-h-full flex flex-col bg-paper text-ink selection:bg-amber-300 selection:text-slate-950">

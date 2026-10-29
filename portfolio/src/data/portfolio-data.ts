@@ -1,6 +1,6 @@
 import { Project, StackGroup } from "@/types";
 
-export const SITE_URL = "https://portfolio.vikrant.sbs";
+export const SITE_URL = "https://vikrant.sbs";
 
 export const PERSONAL_INFO = {
   name: "Vikrant Kumar",

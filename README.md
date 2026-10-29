@@ -1,4 +1,4 @@
-# Vikrant Choudhary
+# Vikrant Kumar (Vikrant Choudhary)
 
 Full-stack developer from Mathura, India, studying BCA at Manipal University Jaipur.
 I build web apps and the backends behind them.
@@ -13,7 +13,7 @@ Open to internships and freelance work.
 |---|---|---|---|
 | **Rizzoto** | Restaurant POS that keeps billing, KOTs and the kitchen screen running when the internet goes down | Next.js, NestJS, PostgreSQL, Prisma, Electron | [Case study](https://vikrant.sbs/projects/rizzoto) · [Live](https://rizzoto.vikrant.sbs) |
 | **OpenSourceHub** | Community for finding open-source issues and competing in fairly judged code battles | Next.js, NestJS, Fastify, PostgreSQL, Redis, BullMQ | [Case study](https://vikrant.sbs/projects/opensourcehub) · [Live](https://opensourcehub.vikrantcode08.workers.dev) |
-| **NoVacDB** *(in development)* | PostgreSQL-compatible database in Go that updates rows in place, so tables never need VACUUM | Go, PostgreSQL wire protocol, WAL, MVCC | [Case study](https://.vikrant.sbs/projects/novacdb) · [Source](https://github.com/NoVacDB/NoVacDB) |
+| **NoVacDB** *(in development)* | PostgreSQL-compatible database in Go that updates rows in place, so tables never need VACUUM | Go, PostgreSQL wire protocol, WAL, MVCC | [Case study](https://vikrant.sbs/projects/novacdb) · [Source](https://github.com/NoVacDB/NoVacDB) |
 | **NoVacDB Studio** *(in development)* | Lightweight Windows SQL client for NoVacDB and PostgreSQL | Go, Wails, TypeScript | [Case study](https://vikrant.sbs/projects/novacdb-studio) · [Source](https://github.com/NoVacDB/NoVacDB-Studio) |
 | **Lyven** *(in development)* | Live classroom platform: shared whiteboard, polls and AI grading of handwritten homework | React, Node.js, Socket.io, Redis, BullMQ, MongoDB | [Case study](https://vikrant.sbs/projects/lyven) · [Live](https://teach-us.vercel.app) |
 | **MiidayShop** | Custom ecommerce store with its own storefront, admin panel and Razorpay payments | Next.js, NestJS, PostgreSQL, Prisma, Razorpay | [Case study](https://vikrant.sbs/projects/miidayshop) · [Source](https://github.com/vikrant-choudhary06/miiday-shop) |

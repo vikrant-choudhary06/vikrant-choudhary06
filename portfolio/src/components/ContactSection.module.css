@@ -1,5 +1,4 @@
 .contact { --contact-amber: var(--ink); padding: 64px 5% 80px; background: transparent; }
-:global(.dark) .contact { --contact-amber: var(--ink); }
 .header, .layout { max-width: 1440px; margin: auto; }
 .eyebrow { color: var(--contact-amber); font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; margin: 0 0 18px; }
 .title { color: var(--contact-amber); font-size: clamp(48px, 8.8vw, 132px); font-weight: 400; line-height: 1.12; letter-spacing: -.02em; margin: 0 0 48px; }

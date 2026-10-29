@@ -1,5 +1,4 @@
 .stack { --stack-amber: var(--ink); background: transparent; padding: 64px 5% 72px; }
-:global(.dark) .stack { --stack-amber: var(--ink); }
 .inner { max-width: 1440px; margin: auto; }
 .eyebrow { display: flex; align-items: center; gap: 20px; color: var(--stack-amber); font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; margin: 0 0 16px; }
 .eyebrow span { height: 1px; width: 38%; background: var(--line); }

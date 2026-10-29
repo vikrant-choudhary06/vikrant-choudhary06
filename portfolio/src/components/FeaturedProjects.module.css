@@ -1,5 +1,4 @@
 .projects { --project-amber: var(--ink); padding: 64px 0 72px; background: transparent; overflow: hidden; }
-:global(.dark) .projects { --project-amber: var(--ink); }
 .header { margin: 0 5%; }
 .eyebrow { color: var(--project-amber); font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 14px; }
 .title { margin: 0; font-size: clamp(64px, 11vw, 164px); font-weight: 400; line-height: 1.1; letter-spacing: -.025em; color: var(--project-amber); }

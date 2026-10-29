@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
-/* `dark:` utilities apply when <html> has the `dark` class (set by the theme toggle). */
+/* The site has one light palette. Tie `dark:` to a class that is never set, so
+   leftover `dark:` utilities never follow the visitor's system dark mode. */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Light: paper notebook. */
+/* Oatmeal paper, pine ink, rust accent. */
 :root {
   --paper: #ad9878;
   --paper-line: #9b8b70;
@@ -19,22 +20,6 @@
   --line: #8c8168;
   --shadow: #163c32;
   --scrollbar: #345345;
-}
-
-/* Dark: the same notebook at night. Warm greys instead of pure black,
-   off-white ink, and amber offset shadows so the "sticker" edges still read. */
-.dark {
-  --paper: #101214;
-  --paper-line: #34312b;
-  --card: #191c20;
-  --cream: #26231f;
-  --subtle: #2c2925;
-  --ink: #ece7dc;
-  --ink-soft: #c8c1b3;
-  --muted: #8f887b;
-  --line: #3a3631;
-  --shadow: #d4a441;
-  --scrollbar: #4a453e;
 }
 
 @theme inline {
@@ -57,10 +42,6 @@ html {
   color-scheme: light;
   scroll-behavior: smooth;
   scroll-padding-top: 4.5rem;
-}
-
-html.dark {
-  color-scheme: dark;
 }
 
 @media (prefers-reduced-motion: reduce) {

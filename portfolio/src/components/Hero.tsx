@@ -27,7 +27,7 @@ export function Hero() {
             src="/hero-portrait-new.webp"
             alt="Vikrant Kumar wearing glasses and a navy shirt with folded arms"
             fill
-            preload
+            fetchPriority="high"
             sizes="(min-width: 1100px) 44vw, (min-width: 768px) 50vw, 90vw"
             className={styles.portraitImage}
           />

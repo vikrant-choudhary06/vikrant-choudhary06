@@ -1,5 +1,4 @@
 .about { --about-amber: var(--ink); background: transparent; padding: 64px 5% 72px; position: relative; }
-:global(.dark) .about { --about-amber: var(--ink); }
 .inner { max-width: 1440px; margin: auto; }
 .eyebrow { display: flex; align-items: center; gap: 20px; margin: 0 0 20px; color: var(--about-amber); font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
 .eyebrow span { width: 72px; height: 1px; background: var(--about-amber); opacity: .6; }

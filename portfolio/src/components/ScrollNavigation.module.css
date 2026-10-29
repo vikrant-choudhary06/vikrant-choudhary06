@@ -12,7 +12,6 @@
     pointer-events: none;
     /* The page remains full width: no panel, fill, border, or reserved gutter. */
   }
-  :global(.dark) .overlay { --navigation-accent: var(--ink); }
   .sectionLabel {
     position: absolute;
     right: 42px;

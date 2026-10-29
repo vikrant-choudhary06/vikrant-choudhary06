@@ -7,11 +7,6 @@
   overflow: clip;
 }
 
-:global(.dark) .hero {
-  --hero-amber: var(--ink);
-  --hero-display: var(--ink);
-}
-
 .stage {
   position: relative;
   max-width: 1680px;
@@ -84,12 +79,6 @@
   filter: drop-shadow(2px 0 1px color-mix(in srgb, var(--hero-amber) 40%, transparent))
     drop-shadow(12px 8px 10px rgb(28 18 7 / 30%))
     drop-shadow(22px 14px 24px rgb(28 18 7 / 22%));
-}
-
-:global(.dark) .portraitImage {
-  filter: drop-shadow(2px 0 1px color-mix(in srgb, var(--hero-amber) 40%, transparent))
-    drop-shadow(12px 8px 10px rgb(0 0 0 / 65%))
-    drop-shadow(22px 14px 24px rgb(0 0 0 / 48%));
 }
 
 .edgeLabel {
@@ -210,7 +199,6 @@
 .pythonIcon { left: 36%; top: 38%; bottom: auto; --icon-angle: -12deg; animation-delay: -4s; }
 .floatIcon img { opacity: .8; }
 .languageIcon, .databaseIcon, .apiIcon, .goIcon { color: var(--ink); opacity: .28; }
-:global(.dark) .floatIcon img { filter: invert(1); }
 .tsMark { font-family: var(--font-sans); font-weight: 800; font-size: 22px; border: 2px solid currentColor; padding: 2px 4px; }
 .goIcon strong { font-family: var(--font-sans); font-size: 28px; font-style: italic; }
 @keyframes workspaceFloat { 0%, 100% { transform: translateY(0) rotate(var(--icon-angle)); } 50% { transform: translateY(-7px) rotate(var(--icon-angle)); } }

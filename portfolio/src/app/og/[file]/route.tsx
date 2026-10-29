@@ -11,8 +11,8 @@ export function generateStaticParams() {
   return [{ file: "home.png" }, ...PROJECTS.map((p) => ({ file: `${p.slug}.png` }))];
 }
 
-// Very light or black brand colours would vanish as the accent stripe on the dark card.
-const HIDDEN_ACCENTS = ["#000000", "#F5F5F4"];
+// Near-white brand colours would vanish as the accent stripe on the oatmeal card.
+const HIDDEN_ACCENTS = ["#F5F5F4"];
 
 export async function GET(_request: Request, { params }: { params: Promise<{ file: string }> }) {
   const { file } = await params;

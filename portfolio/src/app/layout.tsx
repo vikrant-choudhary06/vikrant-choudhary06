@@ -3,8 +3,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { PERSONAL_INFO, PROJECTS, SITE_URL } from "@/data/portfolio-data";
 
-const THEME_SCRIPT = `document.documentElement.classList.remove("dark");`;
-
 const vt323 = localFont({ src: "./fonts/vt323.woff2", variable: "--font-pixel", weight: "400", display: "swap" });
 const caveat = localFont({ src: "./fonts/caveat.woff2", variable: "--font-handwriting", weight: "400 700", display: "swap" });
 const plusJakarta = localFont({ src: "./fonts/plus-jakarta-sans.woff2", variable: "--font-sans", weight: "400 800", display: "swap" });
@@ -29,6 +27,7 @@ export const metadata: Metadata = {
   keywords: [
     "Vikrant Kumar",
     "Vikrant Kumar developer",
+    PERSONAL_INFO.alternateName,
     "full-stack developer Mathura",
     "Manipal University Jaipur BCA",
     "MiidayStudio",
@@ -71,10 +70,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${vt323.variable} ${caveat.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <head>
-        {/* One fixed oatmeal and pine palette, regardless of old theme preferences. */}
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
-      </head>
       <body className="min-h-full flex flex-col bg-paper text-ink selection:bg-amber-300 selection:text-slate-950">
         {children}
       </body>

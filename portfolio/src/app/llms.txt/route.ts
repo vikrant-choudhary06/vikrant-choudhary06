@@ -21,7 +21,7 @@ function body(): string {
     (g) => `- ${g.title}: ${g.items.map((i) => (typeof i === "string" ? i : i.name)).join(", ")}`,
   ).join("\n");
 
-  return `# ${PERSONAL_INFO.name}
+  return `# ${PERSONAL_INFO.name} (also known as ${PERSONAL_INFO.alternateName})
 
 > ${PERSONAL_INFO.role} from ${PERSONAL_INFO.location}. ${PERSONAL_INFO.education}. ${PERSONAL_INFO.status}.
 

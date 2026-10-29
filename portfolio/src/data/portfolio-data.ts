@@ -4,6 +4,8 @@ export const SITE_URL = "https://vikrant.sbs";
 
 export const PERSONAL_INFO = {
   name: "Vikrant Kumar",
+  // Also known by this name on GitHub and older profiles.
+  alternateName: "Vikrant Choudhary",
   role: "Full-stack developer",
   location: "Mathura, India",
   education: "BCA, Manipal University Jaipur",

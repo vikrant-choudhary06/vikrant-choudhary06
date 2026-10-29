@@ -2,14 +2,14 @@ import { ImageResponse } from "next/og";
 import { SITE_URL } from "@/data/portfolio-data";
 
 // Link-preview cards (LinkedIn, WhatsApp, X…), rendered at build time.
-// Styled like the site's dark "night notebook".
+// Same oatmeal paper, pine ink and rust accent as the site (globals.css).
 
 export const OG_SIZE = { width: 1200, height: 630 };
 
-const PAPER = "#191816";
-const INK = "#ece7dc";
-const MUTED = "#8f887b";
-const AMBER = "#d4a441";
+const PAPER = "#ad9878";
+const INK = "#163c32";
+const MUTED = "#345345";
+const ACCENT = "#a64b35";
 
 interface OgCardProps {
   eyebrow: string;
@@ -19,7 +19,7 @@ interface OgCardProps {
   footer?: string[];
 }
 
-export function renderOgCard({ eyebrow, title, subtitle, accent = AMBER, footer = [] }: OgCardProps) {
+export function renderOgCard({ eyebrow, title, subtitle, accent = ACCENT, footer = [] }: OgCardProps) {
   const domain = SITE_URL.replace(/^https?:\/\//, "");
   return new ImageResponse(
     (
@@ -37,7 +37,7 @@ export function renderOgCard({ eyebrow, title, subtitle, accent = AMBER, footer 
         }}
       >
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", fontSize: 28, color: AMBER, letterSpacing: 2 }}>{eyebrow}</div>
+          <div style={{ display: "flex", fontSize: 28, color: ACCENT, letterSpacing: 2 }}>{eyebrow}</div>
           <div style={{ display: "flex", fontSize: title.length > 18 ? 84 : 112, fontWeight: 700, marginTop: 20, lineHeight: 1.05 }}>
             {title}
           </div>
@@ -56,6 +56,7 @@ export function renderOgCard({ eyebrow, title, subtitle, accent = AMBER, footer 
                     display: "flex",
                     fontSize: 24,
                     color: INK,
+                    background: "#f2e9d8",
                     border: `2px solid ${MUTED}`,
                     borderRadius: 8,
                     padding: "6px 14px",

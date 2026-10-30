@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, Lock } from "lucide-react";
+import styles from "./ProjectPage.module.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ProjectGallery } from "@/components/ProjectGallery";
+import { FoldInItem } from "@/components/FoldInItem";
 import { PERSONAL_INFO, PROJECTS } from "@/data/portfolio-data";
 import { projectJsonLd, serializeJsonLd } from "@/lib/structured-data";
+
+const displayFont = localFont({ src: "../../fonts/anton.ttf", display: "swap", weight: "400" });
 
 // Static export: only the slugs listed below exist, anything else is a 404.
 export const dynamicParams = false;
@@ -55,128 +60,102 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
   const project = findProject(slug);
   if (!project) notFound();
 
-  return (
-    <div className="min-h-screen bg-notebook-ruled text-ink overflow-x-hidden">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(projectJsonLd(project)) }} />
-      <Navbar />
+  const index = PROJECTS.indexOf(project);
+  const next = PROJECTS[(index + 1) % PROJECTS.length];
+  // Sections for the ruler navigation, in page order.
+  const sections = [
+    { id: "overview", label: "Overview" },
+    { id: "problem", label: "Problem" },
+    ...(project.decisions.length > 0 ? [{ id: "decisions", label: "Decisions" }] : []),
+    { id: "challenge", label: "Challenge" },
+  ];
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-16">
-        <Link
-          href="/#projects"
-          className="inline-flex items-center gap-2 bg-card border-2 border-ink px-4 py-2 rounded-full font-mono text-xs font-bold shadow-[2px_2px_0px_var(--shadow)] hover:bg-amber-300 dark:hover:bg-amber-400 dark:hover:text-neutral-950 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back
+  return (
+    <div className="min-h-screen text-ink overflow-x-hidden">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(projectJsonLd(project)) }} />
+      <Navbar sections={sections} />
+
+      <main className={styles.page}>
+        <Link href="/#projects" className={styles.back}>
+          <ArrowLeft size={14} aria-hidden="true" />
+          All projects
         </Link>
 
-        <article className="mt-6 bg-card border-2 border-ink rounded-2xl p-5 sm:p-10 shadow-[8px_8px_0px_var(--shadow)]">
-          <header className="pb-8 border-b border-line">
-            <div className="flex flex-wrap items-center gap-2">
-              <p className="font-mono text-xs text-muted font-bold">{project.year}</p>
-              {project.labels?.map((label) => (
-                <span
-                  key={label}
-                  className="px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-400 text-amber-900 dark:bg-amber-400/15 dark:border-amber-400/50 dark:text-amber-200 font-mono text-[11px] font-bold"
-                >
-                  {label}
-                </span>
-              ))}
-            </div>
-            <h1 className="font-pixel text-5xl sm:text-7xl tracking-wider text-ink leading-none mt-2 uppercase">
-              {project.name}
-            </h1>
-            <p className="mt-3 font-mono text-xs sm:text-sm text-muted font-bold">
-              {project.kind} · built by {PERSONAL_INFO.name}
-            </p>
-            <p className="text-lg sm:text-xl text-ink-soft mt-4 leading-relaxed">{project.summary}</p>
-            {project.note && (
-              <p className="mt-4 text-sm text-amber-950 bg-amber-50 border-l-4 border-amber-400 dark:text-amber-100 dark:bg-amber-400/10 px-4 py-2.5">
-                {project.note}
-              </p>
-            )}
+        <header id="overview" className={styles.header}>
+          <p className={styles.eyebrow}>
+            <span>{String(index + 1).padStart(2, "0")} / Case study · {project.year}</span>
+            {project.labels?.map((label) => <span key={label} className={styles.label}>{label}</span>)}
+          </p>
+          <h1 className={`${styles.title} ${displayFont.className}`}>{project.name}</h1>
+          <p className={styles.kind}>{project.kind} · built by {PERSONAL_INFO.name}</p>
+          <p className={styles.summary}>{project.summary}</p>
+          {project.note && <p className={styles.note}>{project.note}</p>}
 
-            <div className="flex flex-wrap gap-1.5 mt-5 font-mono text-xs">
-              {project.stack.map((tech) => (
-                <span key={tech} className="px-2.5 py-1 rounded-md bg-subtle border border-line font-semibold">
-                  {tech}
-                </span>
-              ))}
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3 mt-6">
+          <div className={styles.meta}>
+            <p className={styles.stack}>{project.stack.join(" / ")}</p>
+            <div className={styles.links}>
               {project.links.live && (
-                <a
-                  href={project.links.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 bg-[#194BFD] text-white font-mono text-xs font-bold px-4 py-2 border-2 border-ink shadow-[3px_3px_0px_var(--shadow)] rounded-sm"
-                >
-                  Live site
-                  <ArrowUpRight className="w-4 h-4" />
+                <a href={project.links.live} target="_blank" rel="noopener noreferrer" className={styles.primary}>
+                  Live site <ArrowUpRight size={15} aria-hidden="true" />
                 </a>
               )}
               {project.links.video && (
-                <a
-                  href={project.links.video}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 bg-card font-mono text-xs font-bold px-4 py-2 border-2 border-ink shadow-[3px_3px_0px_var(--shadow)] rounded-sm"
-                >
-                  Demo video
-                  <ArrowUpRight className="w-4 h-4" />
+                <a href={project.links.video} target="_blank" rel="noopener noreferrer" className={styles.secondary}>
+                  Demo video <ArrowUpRight size={15} aria-hidden="true" />
                 </a>
               )}
               {project.links.github && (
-                <a
-                  href={project.links.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 bg-card font-mono text-xs font-bold px-4 py-2 border-2 border-ink shadow-[3px_3px_0px_var(--shadow)] rounded-sm"
-                >
-                  Source code
-                  <ArrowUpRight className="w-4 h-4" />
+                <a href={project.links.github} target="_blank" rel="noopener noreferrer" className={project.links.live ? styles.secondary : styles.primary}>
+                  Source code <ArrowUpRight size={15} aria-hidden="true" />
                 </a>
               )}
-              {project.source === "private" && (
-                <span className="inline-flex items-center gap-1.5 text-xs text-ink-soft">
-                  <Lock className="w-3.5 h-3.5" />
-                  Source is private. Happy to walk through the code in an interview.
-                </span>
-              )}
             </div>
-          </header>
-
-          <ProjectGallery images={project.images} />
-
-          <section className="mt-10">
-            <h2 className="font-mono text-xs font-bold uppercase tracking-wider text-muted">The problem</h2>
-            <p className="mt-3 text-ink leading-relaxed">{project.problem}</p>
-          </section>
-
-          {project.decisions.length > 0 && (
-            <section className="mt-10">
-              <h2 className="font-mono text-xs font-bold uppercase tracking-wider text-muted">
-                Decisions and why
-              </h2>
-              <div className="mt-4 space-y-5">
-                {project.decisions.map((decision) => (
-                  <div key={decision.title} className="border-l-4 border-amber-300 dark:border-amber-500/60 pl-4">
-                    <h3 className="font-bold text-ink">{decision.title}</h3>
-                    <p className="mt-1 text-ink-soft leading-relaxed">{decision.why}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
+          </div>
+          {project.source === "private" && (
+            <p className={styles.private}>
+              <Lock size={14} aria-hidden="true" />
+              Source is private. Happy to walk through the code in an interview.
+            </p>
           )}
+        </header>
 
-          <section className="mt-10">
-            <h2 className="font-mono text-xs font-bold uppercase tracking-wider text-muted">
-              The hardest part
-            </h2>
-            <p className="mt-3 text-ink leading-relaxed">{project.challenge}</p>
+        <ProjectGallery images={project.images} />
+
+        <section id="problem" className={styles.section} aria-labelledby="problem-title">
+          <h2 id="problem-title" className={styles.sectionLabel}><span>01</span>The problem</h2>
+          <p className={styles.prose}>{project.problem}</p>
+        </section>
+
+        {project.decisions.length > 0 && (
+          <section id="decisions" className={styles.section} aria-labelledby="decisions-title">
+            <h2 id="decisions-title" className={styles.sectionLabel}><span>02</span>Decisions and why</h2>
+            <ol className={styles.decisions}>
+              {project.decisions.map((decision) => (
+                <FoldInItem key={decision.title} className={styles.decision}>
+                  <h3>{decision.title}</h3>
+                  <p>{decision.why}</p>
+                </FoldInItem>
+              ))}
+            </ol>
           </section>
+        )}
 
-        </article>
+        <section id="challenge" className={styles.section} aria-labelledby="challenge-title">
+          <h2 id="challenge-title" className={styles.sectionLabel}><span>{project.decisions.length > 0 ? "03" : "02"}</span>The hardest part</h2>
+          <p className={styles.prose}>{project.challenge}</p>
+        </section>
+
+        <p className={styles.talk}>
+          Want to talk about {project.name}? <Link href="/#contact">Get in touch</Link>
+        </p>
+
+        <Link href={`/projects/${next.slug}`} className={styles.next}>
+          <span>
+            <small>Next project</small>
+            <span className={`${styles.nextName} ${displayFont.className}`}>{next.name}</span>
+          </span>
+          <ArrowUpRight size={40} aria-hidden="true" />
+        </Link>
       </main>
 
       <Footer />

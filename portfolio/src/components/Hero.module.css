@@ -255,3 +255,93 @@
   .button { min-height: 46px; padding: 11px 14px; }
   .actions { gap: 10px; }
 }
+
+/* Readable at every width: the earlier rules went as small as 8px. */
+.focusDescription { font-size: clamp(14px, 1.05vw, 17px); }
+
+/* Scroll depth (HeroMotion writes the transforms). Full-size wrappers, so the
+   absolutely positioned children inside keep exactly the same layout. */
+.depthLayer { position: absolute; inset: 0; pointer-events: none; }
+.backdropLayer { transform-origin: 72% 28%; }
+.floatingDetails { perspective: 900px; }
+.intro { transform-origin: 50% 100%; }
+
+/* Particle portrait canvas (HeroMotion). Fixed to the viewport so the particles
+   can follow the portrait all the way into About. */
+.particles { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 5; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .particles { display: none; } }
+
+/* ── Hero choreography ─────────────────────────────────────────────────────
+   0.0s particles start building the face (HeroMotion)
+   0.8s the name rises letter by letter, in 3D
+   1.5s intro text and buttons
+   2.2s tool tokens slide out from behind the face into an orbit
+   Scroll then takes it all apart (HeroMotion). */
+
+/* The name: solid 3D letters (a stepped shadow gives them depth) that rise
+   out of the page one by one. The old clip reveal is replaced by this. */
+.backdrop { animation: backdropFloat 7s 2.4s ease-in-out infinite; perspective: 900px; }
+.letter {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  text-shadow: 1px 1px 0 #123229, 2px 2px 0 #11302a, 3px 3px 0 #102c25, 4px 4px 0 #0f2a23, 5px 5px 0 #0e2721, 6px 6px 0 #0d241e, 7px 7px 0 #0c221c, 8px 8px 0 #0b1f19;
+  animation: letterRise 1s cubic-bezier(.22, 1, .36, 1) calc(.8s + var(--i) * .08s) both;
+}
+@keyframes letterRise {
+  from { opacity: 0; transform: translateZ(-520px) rotateX(-80deg); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .letter { animation: none; } }
+
+.intro > * { animation-delay: 1.5s; }
+.intro .focusDescription { animation-delay: 1.65s; }
+.intro .actions { animation-delay: 1.8s; }
+
+/* Orbit mode (set by HeroMotion on wide screens): the tool icons become coins
+   circling the portrait. The container must not form its own stacking context,
+   so front coins can pass over the particle face and back coins behind it. */
+.stage[data-orbit="true"] .floatingDetails { z-index: auto; perspective: none; }
+.stage[data-orbit="true"] .floatIcon {
+  width: 58px; height: 58px; opacity: 1; border-radius: 50%;
+  background: var(--card); color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--ink) 30%, transparent);
+  box-shadow: inset 0 -4px 0 color-mix(in srgb, var(--ink) 12%, transparent), 0 10px 22px rgb(15 41 34 / 22%);
+  animation: tokenSway 5s ease-in-out infinite;
+}
+.stage[data-orbit="true"] .floatIcon img { width: 30px; height: 30px; opacity: 1; }
+.stage[data-orbit="true"] .floatIcon svg { width: 28px; height: 28px; }
+@keyframes tokenSway { 0%, 100% { transform: perspective(300px) rotateY(-32deg); } 50% { transform: perspective(300px) rotateY(32deg); } }
+
+/* Buttons lean towards the cursor (HeroMotion sets the transform). */
+.button[data-tilt] { transform-style: preserve-3d; will-change: transform; }
+
+/* ── Filling the hero (status, terminal, featured links) ─────────────────── */
+
+/* Top left, above the portrait: availability and Mathura time. */
+.status { position: absolute; top: 40px; left: 7%; z-index: 2; display: grid; gap: 6px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink); animation: heroEnter .8s cubic-bezier(.22, 1, .36, 1) 1.2s both; }
+.status p { margin: 0; display: flex; align-items: center; gap: 8px; }
+.statusDot { width: 8px; height: 8px; border-radius: 50%; background: #2f8f5b; box-shadow: 0 0 0 0 rgb(47 143 91 / 50%); animation: statusPulse 2.4s ease-out infinite; }
+@keyframes statusPulse { 0% { box-shadow: 0 0 0 0 rgb(47 143 91 / 45%); } 70%, 100% { box-shadow: 0 0 0 8px rgb(47 143 91 / 0%); } }
+
+/* Right side, under the name: a small terminal that types itself out. */
+.terminal { width: min(500px, 100%); margin: 0 0 24px auto; padding: 0 16px 14px; border-radius: 8px; background: #0f2922; color: #e8e1d2; font-family: var(--font-mono); font-size: 12px; line-height: 1.75; text-align: left; box-shadow: 0 14px 30px rgb(15 41 34 / 28%); }
+.terminalBar { display: flex; gap: 6px; padding: 10px 0 8px; }
+.terminalBar span { width: 9px; height: 9px; border-radius: 50%; background: #3c5a50; }
+.command, .output { margin: 0; min-height: 1.75em; white-space: pre-wrap; }
+.output { color: #a9bdb3; }
+.prompt { color: #e3a466; }
+.caret { display: inline-block; width: 7px; height: 1.05em; margin-left: 2px; vertical-align: -2px; background: #e8e1d2; animation: caretBlink 1s steps(1) infinite; }
+@keyframes caretBlink { 50% { opacity: 0; } }
+.intro .terminal { animation-delay: 2.4s; }
+
+/* Under the buttons: quick links into the strongest case studies. */
+.featured { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; font-family: var(--font-mono); font-size: 11px; }
+.featured span { color: var(--ink-soft); text-transform: uppercase; letter-spacing: .08em; margin-right: 4px; }
+.featured a { padding: 4px 11px; border: 1px solid color-mix(in srgb, var(--ink) 32%, transparent); border-radius: 999px; color: var(--ink); background: color-mix(in srgb, var(--card) 55%, transparent); transition: border-color .2s, background .2s; }
+.featured a:hover { border-color: var(--accent); background: var(--card); }
+.featured a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.intro .featured { animation-delay: 2s; }
+
+/* Narrow or short screens: the stacked layout has no room for the extras. */
+@media (max-width: 1099px), (max-height: 760px) { .terminal, .status { display: none; } }
+@media (prefers-reduced-motion: reduce) { .statusDot, .caret { animation: none; } }

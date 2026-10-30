@@ -81,7 +81,9 @@ export function ControlRoomScene() {
         current += (target - current) * (1 - Math.exp(-9 * dt));
         let phase = 0;
         for (let i = 0; i < phases.length - 1; i++) {
-          phase += Math.max(0, Math.min(1, (current - phases[i]) / Math.max(1, phases[i + 1] - phases[i])));
+          const t = Math.max(0, Math.min(1, (current - phases[i]) / Math.max(1, phases[i + 1] - phases[i])));
+          // Ease each leg so the camera settles at every section and travels between them.
+          phase += t * t * (3 - 2 * t);
         }
         camera.position.set(Math.sin(phase * .85) * 4.5 + pointer.x, -phase * 1.7 + pointer.y, innerWidth < 768 ? 22 : 16 - Math.sin(phase * .8) * 4);
         camera.lookAt(0, -phase * 1.15, -4);

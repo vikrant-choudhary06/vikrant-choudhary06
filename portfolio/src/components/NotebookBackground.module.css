@@ -4,3 +4,7 @@
 .signal { stroke-width: 1.8; }
 .background::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 40%, color-mix(in srgb, var(--paper) 18%, transparent), transparent 70%); }
 @media (max-width: 767px) { .blueprint { opacity: .065; mask-image: linear-gradient(to right, #000, transparent 17%, transparent 83%, #000); } }
+
+/* Quieter behind text: the 3D scene carries the motion, the blueprint is just texture. */
+.blueprint { opacity: .07; }
+@media (max-width: 767px) { .blueprint { opacity: .04; } }

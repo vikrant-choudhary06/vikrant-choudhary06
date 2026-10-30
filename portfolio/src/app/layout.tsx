@@ -3,8 +3,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { PERSONAL_INFO, PROJECTS, SITE_URL } from "@/data/portfolio-data";
 
-const vt323 = localFont({ src: "./fonts/vt323.woff2", variable: "--font-pixel", weight: "400", display: "swap" });
-const caveat = localFont({ src: "./fonts/caveat.woff2", variable: "--font-handwriting", weight: "400 700", display: "swap" });
 const plusJakarta = localFont({ src: "./fonts/plus-jakarta-sans.woff2", variable: "--font-sans", weight: "400 800", display: "swap" });
 const jetbrainsMono = localFont({ src: "./fonts/jetbrains-mono.woff2", variable: "--font-mono", weight: "400 700", display: "swap" });
 
@@ -68,7 +66,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${vt323.variable} ${caveat.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${plusJakarta.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink selection:bg-amber-300 selection:text-slate-950">
         {children}

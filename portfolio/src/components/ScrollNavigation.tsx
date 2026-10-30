@@ -5,13 +5,19 @@ import Link from "next/link";
 import { motion, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import styles from "./ScrollNavigation.module.css";
 
-const SECTIONS = [
+export interface NavigationSection {
+  id: string;
+  label: string;
+}
+
+// The home page sections. Other pages pass their own list.
+export const HOME_SECTIONS: NavigationSection[] = [
   { id: "hero", label: "Home" },
   { id: "about", label: "About" },
   { id: "projects", label: "Projects" },
   { id: "stack", label: "Stack" },
   { id: "contact", label: "Contact" },
-] as const;
+];
 const TICKS = Array.from({ length: 51 }, (_, index) => index * 2);
 const MotionLink = motion.create(Link);
 
@@ -22,12 +28,12 @@ function SectionLabel({ id, label, index, reached, active }: {
 
   return (
     <MotionLink
-      href={`/#${id}`}
+      href={`#${id}`}
       onClick={(event) => {
         const target = document.getElementById(id);
         if (!target) return;
         event.preventDefault();
-        history.replaceState(null, "", `/#${id}`);
+        history.replaceState(null, "", `#${id}`);
         window.scrollTo({ top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - 72), behavior: reducedMotion ? "instant" : "smooth" });
       }}
       className={styles.sectionLabel}
@@ -72,10 +78,12 @@ interface NavigationLayout {
   starts: number[];
 }
 
-export function ScrollNavigation() {
+export function ScrollNavigation({ sections = HOME_SECTIONS }: { sections?: NavigationSection[] }) {
+  const first = sections[0].id;
+  const last = sections[sections.length - 1].id;
   const [layout, setLayout] = useState<NavigationLayout>({ height: 900, maximum: 1, starts: [] });
-  const [active, setActive] = useState<string>("hero");
-  const activeRef = useRef("hero");
+  const [active, setActive] = useState<string>(first);
+  const activeRef = useRef(first);
   const { scrollY } = useScroll();
   const reducedMotion = useReducedMotion();
   const smoothScroll = useSpring(scrollY, { stiffness: 160, damping: 28, mass: .55 });
@@ -89,9 +97,9 @@ export function ScrollNavigation() {
 
   useMotionValueEvent(scrollY, "change", (value) => {
     const progress = Math.max(0, Math.min(1, value / Math.max(1, layout.maximum)));
-    let next = "hero";
-    layout.starts.forEach((top, index) => { if (top <= value + layout.height * .2) next = SECTIONS[index].id; });
-    if (progress > .995) next = "contact";
+    let next = first;
+    layout.starts.forEach((top, index) => { if (top <= value + layout.height * .2) next = sections[index].id; });
+    if (progress > .995) next = last;
     if (next !== activeRef.current) {
       activeRef.current = next;
       setActive(next);
@@ -115,14 +123,14 @@ export function ScrollNavigation() {
       const height = window.innerHeight;
       const maximum = Math.max(1, document.documentElement.scrollHeight - height);
       // Cache document offsets only when layout changes, never on scroll.
-      const starts = SECTIONS.map((section) => {
+      const starts = sections.map((section) => {
         const element = document.getElementById(section.id);
         return element ? element.getBoundingClientRect().top + window.scrollY : 0;
       });
       setLayout({ height, maximum, starts });
       smoothScroll.jump(scrollY.get());
-      let next = "hero";
-      starts.forEach((top, index) => { if (top <= window.scrollY + height * .2) next = SECTIONS[index].id; });
+      let next = first;
+      starts.forEach((top, index) => { if (top <= window.scrollY + height * .2) next = sections[index].id; });
       activeRef.current = next;
       setActive(next);
     };
@@ -140,7 +148,7 @@ export function ScrollNavigation() {
       window.removeEventListener("resize", schedule);
       desktop.removeEventListener("change", schedule);
     };
-  }, [scrollY, smoothScroll]);
+  }, [scrollY, smoothScroll, sections, first]);
 
   const moveTo = (progress: number) => {
     const maximum = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
@@ -151,11 +159,11 @@ export function ScrollNavigation() {
   return (
     <nav className={styles.overlay} aria-label="Page section navigation">
       <div className={styles.accessibleLinks}>
-        {SECTIONS.map((section) => <Link key={section.id} href={`/#${section.id}`}>Jump to {section.label}</Link>)}
+        {sections.map((section) => <Link key={section.id} href={`#${section.id}`}>Jump to {section.label}</Link>)}
       </div>
-      {layout.starts.length > 0 && SECTIONS.map((section, index) => (
+      {layout.starts.length > 0 && sections.map((section, index) => (
         <SectionLabel key={section.id} id={section.id} label={section.label}
-          index={index} reached={index <= SECTIONS.findIndex((item) => item.id === active)}
+          index={index} reached={index <= sections.findIndex((item) => item.id === active)}
           active={active === section.id} />
       ))}
       <div

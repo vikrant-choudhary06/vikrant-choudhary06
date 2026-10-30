@@ -6,7 +6,7 @@ export function SectionPolish() {
   useEffect(() => {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
     if (reduced.matches) return;
-    const elements = Array.from(document.querySelectorAll<HTMLElement>("#about h2, #projects header, #stack h2, #contact header"));
+    const elements = Array.from(document.querySelectorAll<HTMLElement>("#about h2, #projects header > p, #contact header"));
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {

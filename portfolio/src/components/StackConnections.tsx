@@ -1,27 +1,41 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
 import styles from "./StackConnections.module.css";
 
+// Top to bottom, the way a request travels through what I build.
+const LAYERS = [
+  { label: "Interface", detail: "React · Next.js" },
+  { label: "API", detail: "NestJS · Express" },
+  { label: "Database", detail: "PostgreSQL · Redis" },
+  { label: "Infra", detail: "Cloudflare · Docker" },
+];
+
+function Layer({ index, spread, label, detail }: { index: number; spread: MotionValue<number>; label: string; detail: string }) {
+  // The bottom layer stays put; each one above lifts further as the stack opens.
+  const level = LAYERS.length - 1 - index;
+  const z = useTransform(spread, (value) => level * value);
+  return (
+    <motion.div className={styles.layer} style={{ z }}>
+      <span className={styles.label}>{label}</span>
+      <span className={styles.detail}>{detail}</span>
+    </motion.div>
+  );
+}
+
+/** The stack as an exploded view: closed when it enters, opened by scrolling. */
 export function StackConnections() {
   const host = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: host, offset: ["start 85%", "end 30%"] });
-  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 25 });
-  const first = useTransform(progress, [0, .35], [.25, 1]);
-  const second = useTransform(progress, [.2, .6], [.25, 1]);
-  const third = useTransform(progress, [.45, .85], [.25, 1]);
-  const last = useTransform(progress, [.7, 1], [.25, 1]);
-  return <div ref={host} className={styles.connections} aria-hidden="true">
-    <svg viewBox="0 0 1000 110" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <motion.path d="M85 55H915" strokeDasharray="4 10" opacity=".16" />
-      <motion.path d="M85 55H915" style={{ pathLength: reduced ? 1 : progress }} />
-      {[{ x: 85, label: "INTERFACE", opacity: first }, { x: 365, label: "API", opacity: second }, { x: 635, label: "DATABASE", opacity: third }, { x: 915, label: "INFRA", opacity: last }].map((node) => <motion.g key={node.label} style={{ opacity: reduced ? 1 : node.opacity }}>
-        <circle cx={node.x} cy="55" r="23" className={styles.node} />
-        <circle cx={node.x} cy="55" r="5" fill="currentColor" stroke="none" />
-        <text x={node.x} y="105" textAnchor="middle" stroke="none" fill="currentColor">{node.label}</text>
-      </motion.g>)}
-    </svg>
-  </div>;
+  const { scrollYProgress } = useScroll({ target: host, offset: ["start 90%", "center 45%"] });
+  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 24 });
+  const spread = useTransform(progress, (value) => (reduced ? 1 : value) * 64 + 8);
+  return (
+    <div ref={host} className={styles.connections} aria-hidden="true">
+      <div className={styles.scene}>
+        {LAYERS.map((layer, index) => <Layer key={layer.label} index={index} spread={spread} {...layer} />)}
+      </div>
+    </div>
+  );
 }

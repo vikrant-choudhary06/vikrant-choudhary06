@@ -11,6 +11,7 @@ export function AboutSection() {
   return (
     <section id="about" className={styles.about} aria-labelledby="about-title">
       <div className={styles.inner}>
+        <p className={styles.eyebrow}>01 / Who I am <span /></p>
         <p className={`${styles.display} ${displayFont.className}`} aria-hidden="true">ABOUT ME</p>
         <div className={styles.content}>
           <div className={styles.story}>

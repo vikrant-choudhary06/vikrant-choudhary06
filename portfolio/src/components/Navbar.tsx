@@ -6,14 +6,19 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Home, User, Folder, Cpu, MessageSquare, Menu, X } from "lucide-react";
-import { ScrollNavigation } from "./ScrollNavigation";
+import { ScrollNavigation, type NavigationSection } from "./ScrollNavigation";
 import styles from "./Navbar.module.css";
 
-export function Navbar() {
+/**
+ * `sections`: show the ruler navigation for this page's own sections (the home
+ * page always uses its default list). `minimal`: just the logo, for pages like 404.
+ */
+export function Navbar({ sections, minimal = false }: { sections?: NavigationSection[]; minimal?: boolean } = {}) {
   const [activeTab, setActiveTab] = useState("home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const currentTab = pathname === "/" ? activeTab : pathname.startsWith("/projects") ? "projects" : "";
+  const showRuler = !minimal && (pathname === "/" || Boolean(sections?.length));
 
   useEffect(() => {
     if (pathname !== "/") return;
@@ -80,8 +85,8 @@ export function Navbar() {
 
   return (
     <>
-      {pathname === "/" && <ScrollNavigation />}
-      <header className={`fixed top-0 inset-x-0 z-50 h-14 bg-paper/90 backdrop-blur-md border-b border-line px-4 sm:px-8 flex items-center justify-between shadow-xs ${pathname === "/" ? styles.overlayHeader : ""}`}>
+      {showRuler && <ScrollNavigation sections={pathname === "/" ? undefined : sections} />}
+      <header className={`fixed top-0 inset-x-0 z-50 h-14 bg-paper/90 backdrop-blur-md border-b border-line px-4 sm:px-8 flex items-center justify-between shadow-xs ${showRuler ? styles.overlayHeader : minimal ? styles.minimalHeader : ""}`}>
         
         {/* LEFT BRANDING / LOGOMARK */}
         <div className="flex items-center shrink-0">
@@ -103,6 +108,7 @@ export function Navbar() {
           </Link>
         </div>
 
+        {!minimal && <>
         {/* DESKTOP NAVIGATION CONTAINER */}
         <nav className="hidden md:flex items-center gap-1 sm:gap-1.5" aria-label="Main Navigation">
           {navLinks.map((link) => {
@@ -116,8 +122,8 @@ export function Navbar() {
                 onClick={() => setActiveTab(link.id)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-mono text-xs transition-all ${
                   isActive
-                    ? "bg-[#FFD028] text-neutral-950 font-bold shadow-xs"
-                    : "text-ink-soft hover:text-ink hover:bg-subtle font-medium"
+                    ? "text-ink font-bold underline decoration-2 underline-offset-[6px] decoration-[var(--accent)]"
+                    : "text-ink-soft hover:text-ink font-medium"
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -135,11 +141,7 @@ export function Navbar() {
               setActiveTab("contact");
               setIsMobileMenuOpen(false);
             }}
-            className={`border-2 border-ink rounded-full px-3 sm:px-4 py-1.5 font-mono text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              currentTab === "contact"
-                ? "bg-ink text-paper shadow-none"
-                : "bg-card text-ink hover:bg-ink hover:text-paper shadow-[2px_2px_0px_var(--shadow)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]"
-            }`}
+            className="border border-[var(--accent)] bg-[var(--accent)] text-[var(--on-accent)] hover:bg-[var(--accent-hover)] px-3 sm:px-4 py-1.5 font-mono text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer"
           >
             <MessageSquare className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">LET&apos;S TALK</span>
@@ -159,6 +161,7 @@ export function Navbar() {
             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
+        </>}
 
       </header>
 
@@ -173,7 +176,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="fixed top-14 inset-x-0 z-40 bg-card/95 backdrop-blur-xl border-b-2 border-ink p-5 shadow-2xl md:hidden"
+            className="fixed top-14 inset-x-0 z-40 bg-card/95 backdrop-blur-xl border-b border-ink/30 p-5 shadow-xl md:hidden"
           >
             <div className="flex flex-col gap-2 font-mono">
               {navLinks.map((link) => {
@@ -188,10 +191,10 @@ export function Navbar() {
                       setActiveTab(link.id);
                       setIsMobileMenuOpen(false);
                     }}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all border ${
+                    className={`flex items-center gap-3 px-4 py-3 text-sm font-bold transition-colors border-b ${
                       isActive
-                        ? "bg-[#FFD028] text-neutral-950 border-ink shadow-[2px_2px_0px_var(--shadow)]"
-                        : "bg-card text-ink border-line hover:border-ink"
+                        ? "text-ink border-[var(--accent)]"
+                        : "text-ink-soft border-ink/15 hover:text-ink"
                     }`}
                   >
                     <Icon className="w-4 h-4 text-ink" />
@@ -206,13 +209,9 @@ export function Navbar() {
                   setActiveTab("contact");
                   setIsMobileMenuOpen(false);
                 }}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all border mt-2 ${
-                  currentTab === "contact"
-                    ? "bg-ink text-paper border-ink shadow-[2px_2px_0px_#FFD028]"
-                    : "bg-ink text-paper border-ink hover:opacity-90 shadow-[2px_2px_0px_var(--shadow)]"
-                }`}
+                className="flex items-center gap-3 px-4 py-3 text-sm font-bold transition-colors mt-3 bg-[var(--accent)] text-[var(--on-accent)] hover:bg-[var(--accent-hover)]"
               >
-                <MessageSquare className="w-4 h-4 text-amber-500 dark:text-amber-600" />
+                <MessageSquare className="w-4 h-4" />
                 <span>LET&apos;S TALK</span>
               </Link>
             </div>

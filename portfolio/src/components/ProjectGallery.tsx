@@ -1,9 +1,27 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { ProjectImage } from "@/types";
+
+// Opens like a laptop lid: the frame starts tilted back and stands upright as it
+// scrolls into view. Hinged at the bottom edge, so the screen "lifts" towards you.
+function LidFrame({ children }: { children: ReactNode }) {
+  const host = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: host, offset: ["start end", "start 35%"] });
+  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 24 });
+  const rotateX = useTransform(progress, (value) => (reduced ? 0 : (1 - value) * 25));
+  return (
+    <div ref={host} style={{ perspective: "1400px" }}>
+      <motion.div className="relative" style={{ rotateX, transformOrigin: "50% 100%" }}>
+        {children}
+      </motion.div>
+    </div>
+  );
+}
 
 // Screenshot slider: native scroll-snap does the swiping, the buttons and
 // dots just scroll the track. Works with touch, trackpad and arrow keys.
@@ -47,17 +65,17 @@ export function ProjectGallery({ images }: { images: ProjectImage[] }) {
 
   const hasMany = images.length > 1;
   const arrowClass =
-    "absolute top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-card/90 text-ink border-2 border-ink shadow-[2px_2px_0px_var(--shadow)] disabled:opacity-0 transition-opacity";
+    "absolute top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-card/90 text-ink border border-ink/40 hover:border-ink disabled:opacity-0 transition-opacity";
 
   return (
     <section className="mt-8" aria-roledescription="carousel" aria-label="Screenshots">
-      <div className="relative">
+      <LidFrame>
         <div
           ref={trackRef}
           onScroll={handleScroll}
           onKeyDown={handleKeyDown}
           tabIndex={hasMany ? 0 : undefined}
-          className="flex overflow-x-auto snap-x snap-mandatory rounded-xl border border-line bg-neutral-900 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-amber-400"
+          className="flex overflow-x-auto snap-x snap-mandatory rounded-lg border border-ink/20 bg-[#121211] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
         >
           {images.map((image, i) => (
             <figure
@@ -93,10 +111,10 @@ export function ProjectGallery({ images }: { images: ProjectImage[] }) {
             </button>
           </>
         )}
-      </div>
+      </LidFrame>
 
       <div className="mt-3 flex flex-col items-center gap-2">
-        <p className="font-handwriting text-lg text-ink-soft text-center" aria-live="polite">
+        <p className="font-mono text-xs text-ink-soft text-center" aria-live="polite">
           {images[active]?.caption}
         </p>
         {hasMany && (
@@ -108,7 +126,7 @@ export function ProjectGallery({ images }: { images: ProjectImage[] }) {
                 onClick={() => goTo(i)}
                 aria-label={`Show screenshot ${i + 1}`}
                 aria-current={i === active}
-                className={`h-2 rounded-full transition-all ${i === active ? "w-6 bg-amber-400" : "w-2 bg-line hover:bg-muted"}`}
+                className={`h-2 rounded-full transition-all ${i === active ? "w-6 bg-[var(--accent)]" : "w-2 bg-ink/25 hover:bg-ink/50"}`}
               />
             ))}
             <span className="ml-2 font-mono text-xs text-muted">

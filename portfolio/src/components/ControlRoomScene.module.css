@@ -5,3 +5,7 @@
 
 .scene { mask-image: linear-gradient(90deg, #000, #0009 18%, #0002 35%, #0001 65%, #0009 82%, #000); }
 @media (max-width: 767px) { .scene { opacity: .45; mask-image: linear-gradient(90deg, #0008, #0001 28%, #0001 72%, #0008); } }
+
+/* Keep the scene as atmosphere, not something competing with the content. */
+.scene { opacity: .5; }
+@media (max-width: 767px) { .scene { opacity: .3; } }

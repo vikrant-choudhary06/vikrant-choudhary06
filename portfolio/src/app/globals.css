@@ -14,9 +14,10 @@
   --accent: #a64b35;
   --accent-hover: #873c2a;
   --on-accent: #fff8ec;
-  --ink: #163c32;
-  --ink-soft: #214639;
-  --muted: #345345;
+  /* Text tones are tuned to pass WCAG AA (4.5:1) on the oatmeal paper. */
+  --ink: #0f2922;
+  --ink-soft: #183329;
+  --muted: #21352c;
   --line: #8c8168;
   --shadow: #163c32;
   --scrollbar: #345345;
@@ -31,8 +32,6 @@
   --color-ink-soft: var(--ink-soft);
   --color-muted: var(--muted);
   --color-line: var(--line);
-  --font-pixel: var(--font-pixel), "VT323", monospace;
-  --font-handwriting: var(--font-handwriting), "Caveat", cursive;
   --font-sans: var(--font-sans), "Plus Jakarta Sans", -apple-system, sans-serif;
   --font-mono: var(--font-mono), "JetBrains Mono", monospace;
 }
@@ -61,14 +60,6 @@ body {
 /* Shared page surface, including project pages. */
 .bg-notebook-ruled {
   background-color: var(--paper);
-}
-
-.font-pixel {
-  font-family: var(--font-pixel), "VT323", monospace;
-}
-
-.font-handwriting {
-  font-family: var(--font-handwriting), "Caveat", cursive;
 }
 
 ::-webkit-scrollbar {

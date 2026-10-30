@@ -8,6 +8,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { PROJECTS } from "@/data/portfolio-data";
 
 import styles from "./FeaturedProjects.module.css";
+import { FlapTitle } from "./FlapTitle";
 
 
 
@@ -34,8 +35,10 @@ export function SelectedProjectGallery({ displayClass, logos }: { displayClass: 
       if (bar.current) bar.current.style.width = `${(1 / PROJECTS.length + progress * (1 - 1 / PROJECTS.length)) * 100}%`;
       panels.forEach((panel) => {
         const centre = panel.offsetLeft + panel.clientWidth / 2 - element.scrollLeft;
-        const focus = Math.max(0, 1 - Math.abs(centre - element.clientWidth * .4) / element.clientWidth);
-        panel.style.setProperty("--panel-focus", String(focus));
+        // Signed distance from the focus point: -1 far left, 0 in focus, 1 far right.
+        const offset = Math.max(-1, Math.min(1, (centre - element.clientWidth * .4) / element.clientWidth));
+        panel.style.setProperty("--panel-focus", String(1 - Math.abs(offset)));
+        panel.style.setProperty("--panel-offset", String(offset));
       });
       setPosition((previous) => previous.index === index ? previous : { index, progress });
     };
@@ -93,7 +96,7 @@ export function SelectedProjectGallery({ displayClass, logos }: { displayClass: 
       <div className={styles.pinnedStage}>
       <header className={styles.header}>
         <p className={styles.eyebrow}>02 / Selected work</p>
-        <h2 id="projects-title" className={`${styles.title} ${displayClass}`}>IDEAS. BUILT.</h2>
+        <FlapTitle id="projects-title" className={`${styles.title} ${displayClass}`} text="IDEAS. BUILT." />
       </header>
       <div ref={track} className={styles.track} aria-label="Selected projects" tabIndex={0}
         onKeyDown={(event) => { if (pinned.current && (event.key === "ArrowRight" || event.key === "ArrowLeft")) { event.preventDefault(); move(event.key === "ArrowRight" ? 1 : -1); } }}
@@ -107,7 +110,8 @@ export function SelectedProjectGallery({ displayClass, logos }: { displayClass: 
           const logo = logos[project.slug];
           return (
             <Link key={project.slug} href={`/projects/${project.slug}`} className={styles.panel}>
-              <div className={`${styles.stage} ${!cover ? styles.logoStage : ""}`}>
+              <div className={`${styles.stage} ${!cover ? styles.logoStage : ""}`}
+                style={!cover && project.color ? { background: project.color } : undefined}>
                 {cover ? <Image src={cover.src} alt={cover.alt} fill sizes="(min-width: 768px) 70vw, 85vw" className={styles.cover} />
                   : logo ? <Image src={logo} alt={`${project.name} logo`} fill sizes="(min-width: 768px) 70vw, 85vw" className={styles.logo} />
                   : <span className={`${styles.placeholder} ${displayClass}`}>{project.name}</span>}

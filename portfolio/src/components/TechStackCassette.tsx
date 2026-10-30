@@ -5,6 +5,7 @@ import { ALSO_FAMILIAR, PROJECTS, STACK } from "@/data/portfolio-data";
 import type { StackItem } from "@/types";
 import styles from "./TechStackCassette.module.css";
 import { StackConnections } from "./StackConnections";
+import { FlapTitle } from "./FlapTitle";
 
 const displayFont = localFont({ src: "../app/fonts/anton.ttf", display: "swap", weight: "400" });
 function resolve(item: StackItem) {
@@ -34,7 +35,7 @@ export function TechStackCassette() {
     <section id="stack" className={styles.stack} aria-labelledby="stack-title">
       <div className={styles.inner}>
         <p className={styles.eyebrow}>03 / The toolkit <span /></p>
-        <h2 id="stack-title" className={`${styles.title} ${displayFont.className}`}>WHAT POWERS THE BUILD.</h2>
+        <FlapTitle id="stack-title" className={`${styles.title} ${displayFont.className}`} text="WHAT POWERS THE BUILD." />
         <p className={styles.subtitle}>The tools behind the interfaces, APIs and systems I build.</p>
         <StackConnections />
         <div className={styles.grid}>

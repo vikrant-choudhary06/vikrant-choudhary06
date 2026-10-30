@@ -6,7 +6,7 @@ import styles from "./ContactSection.module.css";
 import { ArrowRight, CheckCircle2, Mail, MapPin } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolio-data";
 import { ContactVerification } from "./ContactVerification";
-import { ContactTrace } from "./ContactTrace";
+import { ContactEnvelope } from "./ContactEnvelope";
 
 const displayFont = localFont({ src: "../app/fonts/anton.ttf", display: "swap", weight: "400" });
 
@@ -69,7 +69,6 @@ export function ContactSection() {
 
   return (
     <section id="contact" className={styles.contact} aria-labelledby="contact-title">
-      <ContactTrace />
       <header className={styles.header}>
         <p className={styles.eyebrow}>04 / Start a conversation</p>
         <h2 id="contact-title" className={`${styles.title} ${displayFont.className}`}>LET’S BUILD SOMETHING.</h2>
@@ -93,6 +92,7 @@ export function ContactSection() {
             <MapPin className="w-4 h-4 shrink-0" />
             {PERSONAL_INFO.location}
           </p>
+          <ContactEnvelope />
         </div>
 
         <div className={styles.formArea}>

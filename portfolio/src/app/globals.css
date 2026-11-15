@@ -114,3 +114,5 @@ a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible { outline-co
 .contact-error { color: #a32d27; }
 .contact-trap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 @media (max-width: 480px) { .contact-form-panel { padding: 23px; }.contact-fields { grid-template-columns: 1fr; gap: 0; }.contact-form-panel h2 { font-size: 33px; } }
+
+.detail-links { flex-wrap: wrap; }

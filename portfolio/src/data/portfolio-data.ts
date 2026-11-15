@@ -355,49 +355,110 @@ export const PROJECTS: Project[] = [
     images: [],
   },
   {
-    slug: "cutcrew",
-    name: "CutCrew",
-    kind: "Movie metadata and streaming backend",
-    summary:
-      "A movie and series streaming app that pulls IMDb details and playable links from dozens of sources and shows them in one place.",
-    year: "2026",
-    stack: ["Node.js", "Express", "TypeScript", "MongoDB", "Mongoose", "Python", "FastAPI", "React", "Vite", "Tailwind CSS"],
-    source: "public",
-    color: "#000000",
-    labels: ["Practice project", "Not maintained"],
-    note: "A practice project to learn scraping and backend design. The backend is my main work here; the frontend is basic. It isn't hosted anymore.",
-    links: {
-      github: "https://github.com/vikrant-choudhary06/CutCrew",
-    },
-    problem:
-      "Finding something to watch means checking IMDb for details and then hunting across a dozen sites for a link that actually plays. Every site has its own layout and its own naming, and half the links are dead. I wanted one app where you search a title, see proper IMDb data (rating, plot, cast, seasons) and press play, with the backend doing all the searching and matching.",
-    decisions: [
-      {
-        title: "My own IMDb API instead of a paid metadata service",
-        why: "I wrapped a set of Python IMDb scrapers in a small FastAPI service (search, title details, genre filters, episodes, trending) and deployed it separately. The main backend calls it like any other API, so there are no API keys or rate-limited free tiers, and the scraping code stays out of the Node server.",
-      },
-      {
-        title: "Database first, scrape only on a miss",
-        why: "Search, title pages and genre rows always check MongoDB first. Only when a title isn't there does the backend call the IMDb API, save the result and return it. The catalogue grows with use, repeat visits are instant, and a seeder script plus a nightly cron job fill it ahead of time.",
-      },
-      {
-        title: "Streaming sources as plug-in modules",
-        why: "Each source is a small TypeScript folder with the same four functions: search, details, episodes and stream. A build script bundles each one into plain CommonJS, and the backend loads whatever is in the build folder at runtime. Adding or fixing a source means changing one folder, not the server.",
-      },
-      {
-        title: "Two-step matching so the wrong movie never plays",
-        why: "Sources name titles loosely, and searching for 'Dune' returns several films. The backend checks the top results from a source in parallel and accepts one only if its IMDb id matches. If no source gives an id, it falls back to a normalised title match plus release year within one year. Sources are tried in turn until one passes.",
-      },
-      {
-        title: "Short-lived cache for stream links",
-        why: "Playable links expire, so storing them forever would serve dead links. Each movie and each episode keeps its resolved stream with a timestamp. For three hours it is served straight from the database, and after that it is fetched fresh from the source and saved again.",
-      },
+    "slug": "cutcrew",
+    "name": "CutCrew",
+    "kind": "Cross-platform streaming platform",
+    "summary": "A movie, series and anime platform for web, Android, TV and Windows, with resilient playback and a backend built around PostgreSQL, FFmpeg and Telegram-backed storage.",
+    "year": "2026",
+    "stack": [
+      "Node.js",
+      "Express",
+      "PostgreSQL",
+      "React",
+      "Vite",
+      "JavaScript",
+      "TypeScript",
+      "React Native",
+      "Expo",
+      "Tauri",
+      "Rust",
+      "Python",
+      "FastAPI",
+      "FFmpeg",
+      "HLS.js",
+      "Docker",
+      "Nginx"
     ],
-    challenge:
-      "Turning messy source pages into clean seasons and episodes. Every source lists episodes differently ('S02E05', 'Season 2 Episode 5', or just a list), so the backend reads the season and episode numbers out of each title, groups them into seasons and stores them on the series. It keeps a cached stream for each episode, so next and previous episode work from the player. Sources also go down or change their layout all the time, so every call is wrapped on its own: a broken source is logged and skipped, the next one is tried, and the title is still saved with its IMDb data even if no link is found.",
-    images: [],
-  },
-];
+    "source": "public",
+    "color": "#000000",
+    "labels": [
+      "Public source",
+      "Web · Android · TV · Windows"
+    ],
+    "note": "A public-source project with a web experience, a dedicated Android/TV app and a lightweight Tauri Windows shell. Web accounts sync libraries and progress; Android currently keeps its library on the device.",
+    "links": {
+      "github": "https://github.com/vikrant-choudhary06/CutCrew",
+      "live": "https://web.cutcrew.click",
+      "downloads": "https://github.com/vikrant-choudhary06/CutCrew/releases/latest"
+    },
+    "features": [
+      {
+        "title": "Discovery and personal libraries",
+        "description": "Featured artwork, Top 10 movies, popular series, genre browsing, search, related titles, My List and Continue Watching. Web accounts support separate profiles, email verification and password recovery."
+      },
+      {
+        "title": "A player that recovers",
+        "description": "Resume movies and episodes, select quality and audio, use available subtitles, and continue with a next-episode countdown. The web player supports keyboard shortcuts and double-tap seeking; failed streams trigger alternate sources and providers."
+      },
+      {
+        "title": "Anime and regional audio",
+        "description": "A separate AniList-powered anime catalogue and anime providers, including sources for Hindi, Tamil and Telugu dubs. Audio and subtitle availability depends on the source."
+      },
+      {
+        "title": "Apps beyond the browser",
+        "description": "An Expo/React Native Android app supports phones, tablets and Android TV, including remote controls and player gestures. The Windows app is a Tauri/WebView2 shell for the live website. Android supports self-hosted JavaScript updates and new-APK update prompts."
+      },
+      {
+        "title": "Stored copies and background imports",
+        "description": "Telegram-backed storage serves ready copies through a media gateway. An optional auto-archive worker queues watched provider titles, checks compatibility and limits, then downloads, prepares, splits, uploads and verifies them without blocking playback."
+      },
+      {
+        "title": "An operational admin panel",
+        "description": "Admins can inspect live activity, playback and download statistics, manage provider switches, edit catalogue entries and operate stored-media and archive queues. Owner accounts manage other administrators."
+      }
+    ],
+    "problem": "A title catalogue is only the beginning of a streaming app. Sources fail, links expire, files use codecs a browser cannot play, and people expect their episode progress to survive a refresh. CutCrew brings discovery, personal libraries and playback into one experience while keeping source resolution, media conversion and storage behind a shared backend.",
+    "decisions": [
+      {
+        "title": "PostgreSQL for catalogue, accounts and queues",
+        "why": "The current backend uses PostgreSQL rather than the older MongoDB/Mongoose implementation. Catalogue data, profiles, watchlists, progress and storage jobs have versioned SQL migrations. Migrations run inside a transaction with a database lock, and pooled connections have timeouts so stalled queries do not hold resources indefinitely."
+      },
+      {
+        "title": "Account-backed web libraries, local Android libraries",
+        "why": "On the web, cookie sessions and per-profile records keep saved titles and playback progress in PostgreSQL. Passwords use scrypt hashing, with verification and recovery routes. The Android app currently persists its library through AsyncStorage; I keep that distinction explicit instead of promising cross-platform sync that it does not implement."
+      },
+      {
+        "title": "Recover playback before giving up",
+        "why": "The player remembers the current position while switching sources. It can try another stream, refresh resolution, move away from a failed stored copy or request another provider. Repeated buffering can trigger a lighter converted stream. HLS.js handles adaptive playback, while diagnostics are sent without making playback wait for them."
+      },
+      {
+        "title": "Inspect media and convert only when needed",
+        "why": "FFmpeg-based services inspect media, remux or convert incompatible files, and support seek/audio changes by restarting work at the requested timestamp. Conversion concurrency and probe limits bound server load. This is on-demand processing, not a claim that every title is already CDN-transcoded."
+      },
+      {
+        "title": "Separate provider adapters and a constrained runner",
+        "why": "Movie and anime sources are grouped separately. Source adapters feed a common resolution pipeline, while selected JavaScript providers run through an allowlisted runner with timeouts and normalized responses. Admin switches can stop a provider from being queried or its cached links from being selected."
+      },
+      {
+        "title": "Keep IMDb and anime metadata separate",
+        "why": "A Python/FastAPI IMDb service supplies movie and series metadata. Anime uses AniList and its own provider-matching service, with cached matches, misses and episode results. The clients see a consistent catalogue without having to understand the upstream source layouts."
+      },
+      {
+        "title": "Store verified copies without blocking viewers",
+        "why": "A storage index tracks Telegram-backed copies and their readiness. The optional auto-archive worker checks for existing work, queues one title at a time and applies quality, size and daily limits before downloading. Preparation, splitting, upload and verification are separate steps; playback can fall back to provider sources when storage is unavailable."
+      },
+      {
+        "title": "Share a backend across distinct clients",
+        "why": "React/Vite powers the web experience; Expo/React Native provides a dedicated Android and TV UI; Tauri supplies the Windows shell. The Android app has its own player controls and update flow, while the Windows shell receives website changes through its live WebView."
+      },
+      {
+        "title": "Make the system observable and operable",
+        "why": "The admin panel exposes provider health, live activity, playback metrics, storage queues, download counts and catalogue editing. Owner/admin accounts use hashed passwords and cookie sessions. Docker Compose packages the frontend, backend, IMDb service and Telegram Bot API, with Nginx routing and readiness checks."
+      }
+    ],
+    "challenge": "Preserving a continuous viewing experience across unreliable sources, different media formats and stored copies. A source can resolve but still buffer, fail to seek or expose an unsupported audio track. The player carries its current position through fallback, while the backend inspects and prepares media, signs access to stored content and limits expensive conversions. Background imports must avoid duplicate work and survive retries without blocking playback. The repository includes focused tests for accounts, catalogue, anime, audio, storage, archive jobs, admin tools and app updates; source inspection alone does not establish production capacity or guarantee that every upstream stream works.",
+    "images": []
+  },];
 
 // Ordered by how much I've used each one, most first.
 export const STACK: StackGroup[] = [

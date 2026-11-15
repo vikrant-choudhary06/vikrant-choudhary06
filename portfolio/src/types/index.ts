@@ -23,7 +23,9 @@ export interface Project {
     github?: string;
     live?: string;
     video?: string;
+    downloads?: string;
   };
+  features?: { title: string; description: string }[];
   problem: string;
   decisions: { title: string; why: string }[];
   challenge: string;

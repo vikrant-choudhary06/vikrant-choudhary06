@@ -1,29 +1,39 @@
-# Portfolio
+# Vikrant Kumar · new-design
 
-Static Next.js portfolio with Cloudflare Pages Functions for contact email. Shared content lives in src/data/portfolio-data.ts. Fonts are bundled under src/app/fonts with their SIL Open Font Licenses; builds do not download fonts.
+A new, two-dimensional black-and-white portfolio built with Next.js, React, TypeScript and Tailwind CSS v4.
 
-## Development and checks
+## Run
 
-Run npm ci, npm run dev, npm run lint, npm test, and npm run build. Tests use Node 24's built-in SQLite support. The build creates out/. next dev does not run Pages Functions and never pretends to send email.
+```sh
+npm install
+npm run dev -- --webpack --port 3100
+```
 
-Production builds use Next.js's supported webpack bundler because Turbopack's CSS worker crashes in this Windows environment.
+## Check
 
-For local endpoint testing, copy wrangler.example.jsonc to wrangler.jsonc and replace the database ID with your D1 database ID. Apply the local schema with npx wrangler d1 migrations apply CONTACT_RATE_LIMITS --local, build, then run npx wrangler pages dev out. For production apply the same migration with --remote. Set the public widget key before building and use .dev.vars for runtime secrets.
+```sh
+npm run lint
+npm run build
+```
 
-## Cloudflare Pages deployment
+## Content
 
-Use portfolio as the build root, npm run build as the build command, and out as the output directory. Deploy through the Pages Git integration or Wrangler so functions/api/contact.ts is deployed too. A plain static host cannot send contact email.
+- Profile, links, projects and tools: `src/data/portfolio-data.ts`, copied from `main`.
+- Profile image: `public/hero-portrait-new.webp`, the older portrait without the armchair.
+- Sketch: intentionally an illustrated placeholder until the finished sketch is supplied.
+- GitHub activity: six calendar months of contributions, grouped into weekly bars, with PRs raised and merged in the same date range. Contributions use the public github-contributions-api; PR counts use GitHub's public search API. Server fetches refresh hourly and fail gracefully without fabricated metrics. No token is required; public API limits apply.
+- Project case studies: `/projects/[slug]`, using the original project content.
+- Local technology icons: Simple Icons and Devicon. `node scripts/download-icons.mjs` refreshes them.
 
-Before deploying the contact form:
+No previous 3D, horizontal scrolling, theme toggle or hover-mask effects are included in this branch.
 
-1. Create a Turnstile widget and allow the production hostname (and localhost for testing).
-2. Set NEXT_PUBLIC_TURNSTILE_SITE_KEY in the Pages build environment and rebuild. This is the public widget key.
-3. Set runtime secrets TURNSTILE_SECRET_KEY and RESEND_API_KEY. Optionally set RESEND_FROM_EMAIL to a sender on a verified Resend domain.
-4. Create a D1 database, execute migrations/0001_contact_rate_limits.sql against it, and bind it to Pages as CONTACT_RATE_LIMITS. Configure preview bindings separately when preview deployments need the form.
-5. Redeploy and submit a real message to verify delivery.
+## Contact form setup
 
-Use a gitignored .dev.vars for local runtime secrets. The endpoint allows five attempts per client IP over ten minutes using an atomic D1 counter and hashed IP keys. It verifies single-use Turnstile tokens, hostname and the contact action before sending. Expired rows are removed on subsequent requests. Missing protection configuration disables sending; visitors can email directly.
+Copy `.env.example` to `.env.local`. Set `RESEND_API_KEY` and `CONTACT_FROM_EMAIL`
+using a sender on your Resend-verified domain. `CONTACT_TO_EMAIL` defaults to the
+existing portfolio inbox. Restart the server after changing environment variables;
+set the same values in your deployment host. Never commit `.env.local`.
 
-Official references: [Pages D1 bindings](https://developers.cloudflare.com/pages/functions/bindings/) and [Turnstile verification](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/).
-
-Use lowercase project slug directories for logos. Lookup prefers SVG, then WebP, then PNG. Assets live in public/projects/<slug>/.
+The server validates input, sends plain-text email, and sets the visitor address
+as Reply-To. Honeypot and best-effort per-process throttling are included; enable
+hosting-platform rate limits for public production traffic.

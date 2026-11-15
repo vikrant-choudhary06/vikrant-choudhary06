@@ -1,5 +1,5 @@
 import { mkdir, writeFile } from 'node:fs/promises';
-const names = ['typescript', 'go', 'javascript', 'python', 'react', 'nextdotjs', 'vite', 'tailwindcss', 'electron', 'nestjs', 'express', 'fastify', 'hono', 'fastapi', 'postgresql', 'prisma', 'redis', 'mongodb', 'cloudflare', 'docker', 'supabase', 'git', 'github', 'wails', 'razorpay', 'googlegemini'];
+const names = ['typescript', 'go', 'javascript', 'python', 'react', 'nextdotjs', 'vite', 'tailwindcss', 'electron', 'nestjs', 'express', 'fastify', 'hono', 'fastapi', 'postgresql', 'prisma', 'redis', 'mongodb', 'cloudflare', 'docker', 'supabase', 'git', 'github', 'wails', 'razorpay', 'googlegemini', 'rust', 'nodedotjs', 'expo', 'tauri', 'ffmpeg', 'nginx', 'telegram'];
 await mkdir('public/stack', { recursive: true });
 await Promise.all(names.map(async name => {
   const response = await fetch(`https://cdn.simpleicons.org/${name}/111111`);

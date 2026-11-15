@@ -458,21 +458,22 @@ export const PROJECTS: Project[] = [
     ],
     "challenge": "Preserving a continuous viewing experience across unreliable sources, different media formats and stored copies. A source can resolve but still buffer, fail to seek or expose an unsupported audio track. The player carries its current position through fallback, while the backend inspects and prepares media, signs access to stored content and limits expensive conversions. Background imports must avoid duplicate work and survive retries without blocking playback. The repository includes focused tests for accounts, catalogue, anime, audio, storage, archive jobs, admin tools and app updates; source inspection alone does not establish production capacity or guarantee that every upstream stream works.",
     "images": []
-  },];
+  },
+];
 
 // Ordered by how much I've used each one, most first.
 export const STACK: StackGroup[] = [
   {
     title: "Languages",
-    items: ["TypeScript", "Go", "JavaScript", "SQL", "Python"],
+    items: ["TypeScript", "Go", "JavaScript", "SQL", "Python", "Rust"],
   },
   {
     title: "Frontend",
-    items: ["React", "Next.js", "Vite", "Tailwind CSS", "Electron", "Wails"],
+    items: ["React", "Next.js", "Vite", "Tailwind CSS", "Electron", "Wails", "React Native", "Expo", "Tauri", "HLS.js"],
   },
   {
     title: "Backend",
-    items: ["NestJS", "Express", "Fastify", "Hono", "FastAPI", "Razorpay", "Gemini API"],
+    items: ["Node.js", "NestJS", "Express", "Fastify", "Hono", "FastAPI", "Razorpay", "Gemini API"],
   },
   {
     title: "Data",
@@ -484,6 +485,9 @@ export const STACK: StackGroup[] = [
       "Cloudflare Workers",
       "Cloudflare D1",
       "Docker",
+      "FFmpeg",
+      "Nginx",
+      { name: "Telegram Bot API", projects: ["cutcrew"] },
       { name: "Supabase", projects: ["opensourcehub"] },
       { name: "Playwright", projects: ["rizzoto"] },
       "Git",
@@ -509,4 +513,4 @@ export const STACK: StackGroup[] = [
 ];
 
 // Things I know well enough to talk through, but haven't shipped a project with yet.
-export const ALSO_FAMILIAR: string[] = ["Django", "Flask", "React Native", "ScyllaDB", "Elasticsearch"];
+export const ALSO_FAMILIAR: string[] = ["Django", "Flask", "ScyllaDB", "Elasticsearch"];

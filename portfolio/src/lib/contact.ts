@@ -1,11 +1,10 @@
-import { Resend } from 'resend';
-import { PERSONAL_INFO } from '@/data/portfolio-data';
+import { PERSONAL_INFO } from '../data/portfolio-data';
 
-export const runtime = 'nodejs';
+export type ContactEnv = { RESEND_API_KEY?: string; CONTACT_FROM_EMAIL?: string; RESEND_FROM_EMAIL?: string; CONTACT_TO_EMAIL?: string };
 // Best-effort per-process throttling; production platform rate limits should also be enabled.
 const attempts = new Map<string, { count: number; expires: number }>();
 
-export async function POST(request: Request) {
+export async function handleContact(request: Request, env: ContactEnv) {
   const origin = request.headers.get('origin');
   if (origin && origin !== new URL(request.url).origin) return Response.json({ error: 'Request not allowed.' }, { status: 403 });
   if (!request.headers.get('content-type')?.includes('application/json')) return Response.json({ error: 'Invalid request.' }, { status: 415 });
@@ -24,7 +23,7 @@ export async function POST(request: Request) {
   if (name.length < 2 || name.length > 100 || /[\r\n]/.test(name) || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || message.length < 10 || message.length > 5000) {
     return Response.json({ error: 'Please enter a name, valid email, and a message of 10–5,000 characters.' }, { status: 400 });
   }
-  if (!process.env.RESEND_API_KEY || !process.env.CONTACT_FROM_EMAIL) return Response.json({ error: 'The contact form is temporarily unavailable. Please use the email link below.' }, { status: 503 });
+  if (!env.RESEND_API_KEY || !(env.CONTACT_FROM_EMAIL || env.RESEND_FROM_EMAIL)) return Response.json({ error: 'The contact form is temporarily unavailable. Please use the email link below.' }, { status: 503 });
   const now = Date.now();
   for (const [key, entry] of attempts) if (entry.expires <= now) attempts.delete(key);
   const key = email.toLowerCase();
@@ -33,15 +32,19 @@ export async function POST(request: Request) {
   entry.count++;
   attempts.set(key, entry);
   try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
-    const { error } = await resend.emails.send({
-      from: process.env.CONTACT_FROM_EMAIL,
-      to: process.env.CONTACT_TO_EMAIL || PERSONAL_INFO.email,
-      replyTo: email,
+    const delivery = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      signal: AbortSignal.timeout(15000),
+      body: JSON.stringify({
+      from: (env.CONTACT_FROM_EMAIL || env.RESEND_FROM_EMAIL),
+      to: env.CONTACT_TO_EMAIL || PERSONAL_INFO.email,
+      reply_to: email,
       subject: `Portfolio enquiry from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
+      }),
     });
-    if (error) return Response.json({ error: 'Your message could not be delivered. Please try again or use the email link.' }, { status: 502 });
+    if (!delivery.ok) return Response.json({ error: 'Your message could not be delivered. Please try again or use the email link.' }, { status: 502 });
     return Response.json({ ok: true });
   } catch { return Response.json({ error: 'Email service is unavailable. Please try again later or email me directly.' }, { status: 502 }); }
 }

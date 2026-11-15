@@ -21,6 +21,6 @@ export async function GitHubActivity() {
         <div className="chart-axis"><span>{format(data.from)}</span><span>{format(data.to)}</span></div>
       </div>
       <div className="stats"><div className="total-stat"><strong>{number(data.total)}</strong><span>contributions</span></div><div className="pr-stats"><div><GitPullRequest size={14} /><strong>{number(data.raised)}</strong><span>PRs raised</span></div><div><GitMerge size={14} /><strong>{number(data.merged)}</strong><span>PRs merged</span></div></div></div>
-    </div><p className="activity-note">Public GitHub activity · refreshed hourly · <a href="https://github.com/grubersjoe/github-contributions-api" target="_blank" rel="noreferrer">contribution data source ↗</a></p>
+    </div><p className="activity-note">Public GitHub activity · updated on deployment · <a href="https://github.com/grubersjoe/github-contributions-api" target="_blank" rel="noreferrer">contribution data source ↗</a></p>
   </section>;
 }

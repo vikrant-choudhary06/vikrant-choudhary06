@@ -3,7 +3,7 @@ export type Contribution = { date: string; count: number; level: number };
 export type Activity = { days: Contribution[]; total: number | null; raised: number | null; merged: number | null; from: string; to: string };
 
 async function read(url: string): Promise<unknown> {
-  const response = await fetch(url, { headers: { Accept: 'application/json', 'User-Agent': 'Vikrant-Portfolio' }, next: { revalidate: 3600 }, signal: AbortSignal.timeout(8000) });
+  const response = await fetch(url, { headers: { Accept: 'application/json', 'User-Agent': 'Vikrant-Portfolio' }, signal: AbortSignal.timeout(8000) });
   if (!response.ok) throw new Error('GitHub activity unavailable');
   return response.json();
 }
